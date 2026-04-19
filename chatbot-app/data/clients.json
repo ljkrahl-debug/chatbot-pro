@@ -1,0 +1,9 @@
+chatbot-app/
+├── data/
+│   └── clients.json
+├── public/
+│   ├── index.html
+│   ├── admin.html
+│   └── widget.js
+├── server.js
+└── package.json
