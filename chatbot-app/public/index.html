@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ChatBot Pro – KI-Chatbot für Ihre Website</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: #fff; color: #1a1a1a; line-height: 1.6; }
+  a { color: inherit; text-decoration: none; }
+
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 2rem; border-bottom: 1px solid #f0f0f0; position: sticky; top: 0; background: #fff; z-index: 100; }
+  .nav-logo { font-family: 'DM Serif Display', serif; font-size: 20px; color: #1D9E75; }
+  .nav-links { display: flex; gap: 2rem; font-size: 14px; color: #555; }
+  .nav-cta { background: #1D9E75; color: #fff; padding: 8px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; }
+  .nav-cta:hover { background: #0F6E56; }
+
+  .hero { text-align: center; padding: 5rem 2rem 4rem; max-width: 720px; margin: 0 auto; }
+  .hero-badge { display: inline-block; background: #E1F5EE; color: #0F6E56; font-size: 13px; font-weight: 500; padding: 5px 16px; border-radius: 20px; margin-bottom: 1.5rem; }
+  .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(36px, 6vw, 56px); font-weight: 400; line-height: 1.15; margin-bottom: 1.25rem; }
+  .hero h1 span { color: #1D9E75; }
+  .hero p { font-size: 18px; color: #555; margin-bottom: 2rem; max-width: 520px; margin-left: auto; margin-right: auto; }
+  .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary { background: #1D9E75; color: #fff; padding: 14px 28px; border-radius: 10px; font-size: 16px; font-weight: 500; border: none; cursor: pointer; }
+  .btn-primary:hover { background: #0F6E56; }
+  .btn-secondary { background: #fff; color: #1a1a1a; padding: 14px 28px; border-radius: 10px; font-size: 16px; font-weight: 500; border: 1px solid #ddd; cursor: pointer; }
+  .btn-secondary:hover { border-color: #1D9E75; color: #1D9E75; }
+  .hero-sub { font-size: 13px; color: #999; margin-top: 1rem; }
+
+  .logos { text-align: center; padding: 2.5rem 2rem; border-top: 1px solid #f0f0f0; border-bottom: 1px solid #f0f0f0; }
+  .logos p { font-size: 13px; color: #aaa; margin-bottom: 1.25rem; text-transform: uppercase; letter-spacing: 0.08em; }
+  .logo-row { display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; }
+  .logo-item { font-family: 'DM Serif Display', serif; font-size: 18px; color: #ccc; }
+
+  .features { padding: 5rem 2rem; max-width: 900px; margin: 0 auto; }
+  .features h2 { font-family: 'DM Serif Display', serif; font-size: 36px; font-weight: 400; text-align: center; margin-bottom: 3rem; }
+  .feat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+  .feat-card { background: #f9f9f9; border-radius: 14px; padding: 1.75rem; }
+  .feat-icon { font-size: 28px; margin-bottom: 1rem; }
+  .feat-card h3 { font-size: 16px; font-weight: 500; margin-bottom: 0.5rem; }
+  .feat-card p { font-size: 14px; color: #666; line-height: 1.6; }
+
+  .how { padding: 5rem 2rem; background: #f9faf9; }
+  .how-inner { max-width: 700px; margin: 0 auto; }
+  .how h2 { font-family: 'DM Serif Display', serif; font-size: 36px; font-weight: 400; text-align: center; margin-bottom: 3rem; }
+  .step-list { display: flex; flex-direction: column; gap: 0; }
+  .step-item { display: flex; gap: 1.25rem; padding: 1.5rem 0; border-top: 1px solid #eee; }
+  .step-item:first-child { border-top: none; }
+  .step-num { width: 36px; height: 36px; border-radius: 50%; background: #E1F5EE; color: #0F6E56; font-size: 15px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-body h3 { font-size: 16px; font-weight: 500; margin-bottom: 4px; }
+  .step-body p { font-size: 14px; color: #666; }
+
+  .pricing { padding: 5rem 2rem; max-width: 900px; margin: 0 auto; }
+  .pricing h2 { font-family: 'DM Serif Display', serif; font-size: 36px; font-weight: 400; text-align: center; margin-bottom: 3rem; }
+  .plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }
+  .plan-card { border: 1px solid #e8e8e8; border-radius: 16px; padding: 2rem 1.75rem; position: relative; background: #fff; }
+  .plan-card.featured { border: 2px solid #1D9E75; }
+  .plan-tag { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: #1D9E75; color: #fff; font-size: 12px; font-weight: 500; padding: 4px 14px; border-radius: 20px; white-space: nowrap; }
+  .plan-name { font-size: 14px; color: #888; margin-bottom: 0.5rem; }
+  .plan-price { font-size: 32px; font-weight: 500; margin-bottom: 4px; }
+  .plan-price span { font-size: 15px; font-weight: 400; color: #888; }
+  .plan-setup { font-size: 13px; color: #aaa; margin-bottom: 1.25rem; }
+  .plan-features { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 1.5rem; }
+  .plan-features li { font-size: 14px; color: #555; display: flex; align-items: center; gap: 8px; }
+  .plan-features li::before { content: "✓"; color: #1D9E75; font-weight: 500; }
+  .plan-btn { width: 100%; padding: 11px; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; border: 1px solid #1D9E75; color: #1D9E75; background: #fff; }
+  .plan-btn:hover { background: #E1F5EE; }
+  .plan-card.featured .plan-btn { background: #1D9E75; color: #fff; }
+  .plan-card.featured .plan-btn:hover { background: #0F6E56; }
+
+  .cta-section { background: #0F6E56; color: #fff; text-align: center; padding: 5rem 2rem; }
+  .cta-section h2 { font-family: 'DM Serif Display', serif; font-size: 38px; font-weight: 400; margin-bottom: 1rem; }
+  .cta-section p { font-size: 17px; opacity: 0.85; margin-bottom: 2rem; }
+  .cta-section .btn-white { background: #fff; color: #0F6E56; padding: 14px 32px; border-radius: 10px; font-size: 16px; font-weight: 500; border: none; cursor: pointer; }
+  .cta-section .btn-white:hover { background: #E1F5EE; }
+
+  footer { padding: 2rem; text-align: center; font-size: 13px; color: #aaa; border-top: 1px solid #f0f0f0; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">ChatBot Pro</div>
+  <div class="nav-links">
+    <a href="#features">Funktionen</a>
+    <a href="#how">Ablauf</a>
+    <a href="#pricing">Preise</a>
+  </div>
+  <a href="mailto:hallo@chatbotpro.de" class="nav-cta">Angebot anfragen</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">KI-Chatbot als Service</div>
+  <h1>Mehr Kunden betreuen.<br>Weniger <span>Aufwand.</span></h1>
+  <p>Wir bauen Ihnen einen intelligenten KI-Assistenten für Ihre Website – in 48 Stunden, vollständig angepasst an Ihr Unternehmen.</p>
+  <div class="hero-btns">
+    <a href="mailto:hallo@chatbotpro.de" class="btn-primary">Kostenloses Angebot</a>
+    <a href="/admin" class="btn-secondary">Admin-Login</a>
+  </div>
+  <div class="hero-sub">Kein Risiko · Keine Vertragsbindung · In 48h live</div>
+</div>
+
+<div class="logos">
+  <p>Funktioniert auf allen Plattformen</p>
+  <div class="logo-row">
+    <div class="logo-item">WordPress</div>
+    <div class="logo-item">Shopify</div>
+    <div class="logo-item">Webflow</div>
+    <div class="logo-item">Wix</div>
+    <div class="logo-item">HTML</div>
+  </div>
+</div>
+
+<div class="features" id="features">
+  <h2>Was ist enthalten</h2>
+  <div class="feat-grid">
+    <div class="feat-card"><div class="feat-icon">🤖</div><h3>Echte KI</h3><p>Antwortet rund um die Uhr intelligent auf Kundenfragen – auf Deutsch, professionell und kontextbezogen.</p></div>
+    <div class="feat-card"><div class="feat-icon">⚙️</div><h3>Admin-Dashboard</h3><p>Ihr Kunde pflegt FAQs und Texte selbst – ganz ohne technische Kenntnisse, direkt im Browser.</p></div>
+    <div class="feat-card"><div class="feat-icon">🎨</div><h3>Ihr Branding</h3><p>Farbe, Name und Stil passen perfekt zu Ihrer Marke. Aussieht wie ein Teil Ihrer Website.</p></div>
+    <div class="feat-card"><div class="feat-icon">📋</div><h3>1-Zeilen-Integration</h3><p>Einbindung in jede Website mit einem einzigen Code-Schnipsel. Kein Entwickler nötig.</p></div>
+    <div class="feat-card"><div class="feat-icon">📊</div><h3>Live-Statistiken</h3><p>Sehen Sie wie viele Gespräche geführt werden und welche Fragen häufig gestellt werden.</p></div>
+    <div class="feat-card"><div class="feat-icon">🔒</div><h3>DSGVO-konform</h3><p>Hosting in Deutschland, keine Datenweitergabe an Dritte, vollständig datenschutzkonform.</p></div>
+  </div>
+</div>
+
+<div class="how" id="how">
+  <div class="how-inner">
+    <h2>So läuft es ab</h2>
+    <div class="step-list">
+      <div class="step-item"><div class="step-num">1</div><div class="step-body"><h3>Gespräch & Briefing (30 Min.)</h3><p>Wir verstehen Ihr Business, Ihre Zielgruppe und Ihre häufigsten Kundenanfragen.</p></div></div>
+      <div class="step-item"><div class="step-num">2</div><div class="step-body"><h3>Einrichtung in 48 Stunden</h3><p>Wir konfigurieren und testen Ihren Chatbot vollständig – mit Ihrem Branding und Ihren Texten.</p></div></div>
+      <div class="step-item"><div class="step-num">3</div><div class="step-body"><h3>Einbindung in Ihre Website</h3><p>Eine Zeile Code einfügen – fertig. Läuft auf WordPress, Shopify, Webflow und überall sonst.</p></div></div>
+      <div class="step-item"><div class="step-num">4</div><div class="step-body"><h3>Sie verwalten, wir warten</h3><p>FAQ-Einträge pflegen Sie selbst. Wir sorgen für Verfügbarkeit, Updates und Support.</p></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="pricing" id="pricing">
+  <h2>Preise</h2>
+  <div class="plan-grid">
+    <div class="plan-card">
+      <div class="plan-name">Starter</div>
+      <div class="plan-price">79 €<span>/Monat</span></div>
+      <div class="plan-setup">+ 499 € Einrichtung</div>
+      <ul class="plan-features">
+        <li>1 Website</li>
+        <li>Bis 500 Nachrichten/Monat</li>
+        <li>Admin-Dashboard</li>
+        <li>E-Mail-Support</li>
+      </ul>
+      <button class="plan-btn" onclick="location.href='mailto:hallo@chatbotpro.de?subject=Starter Paket'">Jetzt anfragen</button>
+    </div>
+    <div class="plan-card featured">
+      <div class="plan-tag">Beliebt</div>
+      <div class="plan-name">Business</div>
+      <div class="plan-price">149 €<span>/Monat</span></div>
+      <div class="plan-setup">+ 799 € Einrichtung</div>
+      <ul class="plan-features">
+        <li>3 Websites</li>
+        <li>Unbegrenzte Nachrichten</li>
+        <li>Eigenes Branding & Design</li>
+        <li>Prioritäts-Support</li>
+        <li>Monatsreport</li>
+      </ul>
+      <button class="plan-btn" onclick="location.href='mailto:hallo@chatbotpro.de?subject=Business Paket'">Jetzt anfragen</button>
+    </div>
+    <div class="plan-card">
+      <div class="plan-name">Agentur</div>
+      <div class="plan-price">299 €<span>/Monat</span></div>
+      <div class="plan-setup">+ 1.499 € Einrichtung</div>
+      <ul class="plan-features">
+        <li>Unbegrenzte Websites</li>
+        <li>White-Label (Ihr Logo)</li>
+        <li>API-Zugang</li>
+        <li>Persönlicher Ansprechpartner</li>
+      </ul>
+      <button class="plan-btn" onclick="location.href='mailto:hallo@chatbotpro.de?subject=Agentur Paket'">Jetzt anfragen</button>
+    </div>
+  </div>
+</div>
+
+<div class="cta-section">
+  <h2>Bereit für Ihren KI-Assistenten?</h2>
+  <p>Kostenloses Erstgespräch – unverbindlich und ohne Vertrag.</p>
+  <button class="btn-white" onclick="location.href='mailto:hallo@chatbotpro.de'">Jetzt Gespräch vereinbaren</button>
+</div>
+
+<footer>
+  © 2026 ChatBot Pro · <a href="mailto:hallo@chatbotpro.de">hallo@chatbotpro.de</a> · Impressum · Datenschutz
+</footer>
+
+</body>
+</html>
