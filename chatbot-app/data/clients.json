@@ -1,9 +1,19 @@
-chatbot-app/
-├── data/
-│   └── clients.json
-├── public/
-│   ├── index.html
-│   ├── admin.html
-│   └── widget.js
-├── server.js
-└── package.json
+{
+  "frida-kitchen": {
+    "id": "frida-kitchen",
+    "name": "Frida Kitchen",
+    "industry": "Restaurant",
+    "color": "#1D9E75",
+    "botName": "Frida Assistent",
+    "welcome": "Hallo! Willkommen bei Frida Kitchen. Wie kann ich Ihnen helfen?",
+    "systemPrompt": "Du bist ein freundlicher Assistent des Restaurants Frida Kitchen. Beantworte Fragen zu Öffnungszeiten, Reservierungen und der Speisekarte auf Deutsch.",
+    "email": "info@fridakitchen.de",
+    "hours": "Mo–So 12–22 Uhr",
+    "faqs": [
+      { "q": "Kann ich einen Tisch reservieren?", "a": "Ja! Schreiben Sie uns eine E-Mail oder rufen Sie uns an." },
+      { "q": "Haben Sie vegetarische Gerichte?", "a": "Ja, wir haben eine große Auswahl an vegetarischen Speisen." }
+    ],
+    "stats": { "chats": 0, "messages": 0 },
+    "password": "Nike0307"
+  }
+}
