@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ChatBot Pro – Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: #f5f5f3; color: #1a1a1a; font-size: 14px; }
+  input, textarea, select, button { font-family: inherit; font-size: 14px; }
+
+  /* LOGIN */
+  .login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+  .login-card { background: #fff; border-radius: 16px; padding: 2.5rem; width: 100%; max-width: 380px; border: 1px solid #eee; }
+  .login-logo { font-size: 22px; font-weight: 500; color: #1D9E75; margin-bottom: 0.5rem; }
+  .login-sub { color: #888; font-size: 13px; margin-bottom: 2rem; }
+  .field { margin-bottom: 1rem; }
+  .field label { display: block; font-size: 12px; color: #888; margin-bottom: 5px; }
+  .field input { width: 100%; padding: 10px 12px; border: 1px solid #e0e0e0; border-radius: 8px; }
+  .field input:focus { outline: none; border-color: #1D9E75; }
+  .login-btn { width: 100%; background: #1D9E75; color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 500; cursor: pointer; }
+  .login-btn:hover { background: #0F6E56; }
+  .login-hint { font-size: 12px; color: #aaa; margin-top: 1rem; text-align: center; }
+  .err { color: #E24B4A; font-size: 13px; margin-top: 0.5rem; }
+
+  /* LAYOUT */
+  .app { display: none; min-height: 100vh; }
+  .sidebar { width: 220px; background: #fff; border-right: 1px solid #eee; padding: 1.5rem 1rem; position: fixed; top: 0; left: 0; height: 100vh; display: flex; flex-direction: column; }
+  .sidebar-logo { font-size: 16px; font-weight: 500; color: #1D9E75; padding: 0 0.5rem; margin-bottom: 2rem; }
+  .sidebar-logo span { color: #aaa; font-weight: 400; font-size: 13px; display: block; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; color: #666; cursor: pointer; margin-bottom: 2px; }
+  .nav-item:hover { background: #f5f5f3; color: #1a1a1a; }
+  .nav-item.active { background: #E1F5EE; color: #0F6E56; font-weight: 500; }
+  .nav-icon { font-size: 16px; width: 20px; text-align: center; }
+  .sidebar-bottom { margin-top: auto; }
+  .logout-btn { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; color: #aaa; cursor: pointer; font-size: 14px; background: none; border: none; width: 100%; }
+  .logout-btn:hover { color: #E24B4A; background: #fff5f5; }
+
+  .main { margin-left: 220px; padding: 2rem 2.5rem; }
+  .page-title { font-size: 22px; font-weight: 500; margin-bottom: 1.75rem; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* STATS */
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .stat-card { background: #fff; border-radius: 12px; padding: 1.25rem; border: 1px solid #eee; }
+  .stat-num { font-size: 28px; font-weight: 500; }
+  .stat-lbl { font-size: 12px; color: #aaa; margin-top: 2px; }
+
+  /* FORMS */
+  .card { background: #fff; border-radius: 12px; padding: 1.5rem; border: 1px solid #eee; margin-bottom: 1.25rem; }
+  .card-title { font-size: 15px; font-weight: 500; margin-bottom: 1.25rem; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .f-input { width: 100%; padding: 9px 12px; border: 1px solid #e0e0e0; border-radius: 8px; background: #fafafa; }
+  .f-input:focus { outline: none; border-color: #1D9E75; background: #fff; }
+  textarea.f-input { resize: vertical; min-height: 90px; line-height: 1.6; }
+  .save-btn { background: #1D9E75; color: #fff; border: none; padding: 10px 22px; border-radius: 8px; font-weight: 500; cursor: pointer; }
+  .save-btn:hover { background: #0F6E56; }
+  .toast { display: none; background: #1D9E75; color: #fff; padding: 8px 18px; border-radius: 8px; font-size: 13px; margin-left: 12px; }
+  .toast.show { display: inline-block; }
+
+  /* FAQ */
+  .faq-item { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-top: 1px solid #f0f0f0; }
+  .faq-item:first-child { border-top: none; }
+  .faq-content { flex: 1; }
+  .faq-q { font-weight: 500; font-size: 14px; margin-bottom: 3px; }
+  .faq-a { font-size: 13px; color: #666; }
+  .del-btn { background: none; border: none; color: #ccc; cursor: pointer; font-size: 18px; padding: 0; }
+  .del-btn:hover { color: #E24B4A; }
+  .add-faq-box { background: #f9f9f9; border: 1px dashed #ddd; border-radius: 10px; padding: 1rem; margin-top: 1rem; }
+  .add-faq-box .f-input { margin-bottom: 8px; background: #fff; }
+  .add-btn { background: none; border: 1px solid #1D9E75; color: #1D9E75; padding: 7px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; }
+  .add-btn:hover { background: #E1F5EE; }
+
+  /* DESIGN */
+  .color-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .color-chip { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; }
+  .color-chip.selected { border-color: #1a1a1a; }
+
+  /* EMBED */
+  .code-box { background: #1a1a1a; color: #a8f0c8; font-family: monospace; font-size: 13px; padding: 1.25rem; border-radius: 10px; line-height: 1.8; position: relative; word-break: break-all; }
+  .copy-btn { position: absolute; top: 12px; right: 12px; background: #333; border: none; color: #fff; padding: 5px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+  .copy-btn:hover { background: #1D9E75; }
+
+  @media (max-width: 700px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; padding: 1.25rem; }
+    .grid2 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">ChatBot Pro</div>
+    <div class="login-sub">Admin-Bereich – bitte einloggen</div>
+    <div class="field"><label>Kunden-ID</label><input id="l-id" placeholder="z.B. musterfirma" /></div>
+    <div class="field"><label>Passwort</label><input id="l-pw" type="password" placeholder="Ihr Passwort" /></div>
+    <button class="login-btn" onclick="doLogin()">Einloggen</button>
+    <div class="err" id="login-err"></div>
+    <div class="login-hint">Demo: ID = <strong>demo</strong> · Passwort = <strong>demo123</strong></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="app">
+  <div class="sidebar">
+    <div class="sidebar-logo">ChatBot Pro <span id="sb-client-name">Kunde</span></div>
+    <div class="nav-item active" onclick="showPanel('dashboard')"><span class="nav-icon">📊</span>Dashboard</div>
+    <div class="nav-item" onclick="showPanel('einstellungen')"><span class="nav-icon">⚙️</span>Einstellungen</div>
+    <div class="nav-item" onclick="showPanel('faq')"><span class="nav-icon">💬</span>FAQ & Wissen</div>
+    <div class="nav-item" onclick="showPanel('design')"><span class="nav-icon">🎨</span>Design</div>
+    <div class="nav-item" onclick="showPanel('embed')"><span class="nav-icon">📋</span>Einbetten</div>
+    <div class="sidebar-bottom">
+      <button class="logout-btn" onclick="doLogout()"><span>🚪</span>Abmelden</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- DASHBOARD -->
+    <div class="panel active" id="panel-dashboard">
+      <div class="page-title">Dashboard</div>
+      <div class="stat-grid">
+        <div class="stat-card"><div class="stat-num" id="st-chats">–</div><div class="stat-lbl">Gespräche gesamt</div></div>
+        <div class="stat-card"><div class="stat-num" id="st-msgs">–</div><div class="stat-lbl">Nachrichten gesamt</div></div>
+        <div class="stat-card"><div class="stat-num" id="st-faqs">–</div><div class="stat-lbl">FAQ-Einträge</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Chatbot testen</div>
+        <p style="color:#666;font-size:13px;margin-bottom:1rem;">Klicken Sie unten, um Ihren Chatbot direkt zu testen.</p>
+        <button class="save-btn" onclick="openTest()">Chatbot testen ↗</button>
+      </div>
+    </div>
+
+    <!-- EINSTELLUNGEN -->
+    <div class="panel" id="panel-einstellungen">
+      <div class="page-title">Einstellungen</div>
+      <div class="card">
+        <div class="card-title">Firmendaten</div>
+        <div class="grid2">
+          <div class="field"><label>Firmenname</label><input class="f-input" id="cfg-name" /></div>
+          <div class="field"><label>Branche</label><input class="f-input" id="cfg-industry" /></div>
+          <div class="field"><label>E-Mail (Weiterleitung)</label><input class="f-input" id="cfg-email" /></div>
+          <div class="field"><label>Öffnungszeiten</label><input class="f-input" id="cfg-hours" /></div>
+        </div>
+        <div class="field"><label>Willkommensnachricht</label><input class="f-input" id="cfg-welcome" /></div>
+        <div class="field"><label>Bot-Persönlichkeit</label><textarea class="f-input" id="cfg-system"></textarea></div>
+        <button class="save-btn" onclick="saveSettings()">Speichern</button>
+        <span class="toast" id="t-settings">Gespeichert!</span>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="panel" id="panel-faq">
+      <div class="page-title">FAQ & Wissen</div>
+      <div class="card">
+        <div class="card-title">Häufige Fragen</div>
+        <div id="faq-list"></div>
+        <div class="add-faq-box">
+          <input class="f-input" id="new-q" placeholder="Neue Frage..." />
+          <textarea class="f-input" id="new-a" placeholder="Antwort..." style="min-height:60px"></textarea>
+          <button class="add-btn" onclick="addFaq()">+ Hinzufügen</button>
+        </div>
+        <div style="margin-top:1rem">
+          <button class="save-btn" onclick="saveFaq()">FAQ speichern</button>
+          <span class="toast" id="t-faq">Gespeichert!</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESIGN -->
+    <div class="panel" id="panel-design">
+      <div class="page-title">Design</div>
+      <div class="card">
+        <div class="card-title">Chatbot-Aussehen</div>
+        <div class="grid2">
+          <div class="field"><label>Bot-Name im Chat</label><input class="f-input" id="cfg-botname" /></div>
+          <div class="field"><label>Avatar-Initialen</label><input class="f-input" id="cfg-initials" maxlength="2" style="max-width:80px" /></div>
+        </div>
+        <div class="field">
+          <label>Akzentfarbe</label>
+          <div class="color-row">
+            <div class="color-chip selected" style="background:#1D9E75" onclick="pickColor('#1D9E75',this)"></div>
+            <div class="color-chip" style="background:#378ADD" onclick="pickColor('#378ADD',this)"></div>
+            <div class="color-chip" style="background:#7F77DD" onclick="pickColor('#7F77DD',this)"></div>
+            <div class="color-chip" style="background:#D85A30" onclick="pickColor('#D85A30',this)"></div>
+            <div class="color-chip" style="background:#D4537E" onclick="pickColor('#D4537E',this)"></div>
+            <div class="color-chip" style="background:#BA7517" onclick="pickColor('#BA7517',this)"></div>
+            <input type="color" id="custom-color" style="width:32px;height:32px;border:none;border-radius:50%;cursor:pointer;padding:0" onchange="pickColor(this.value,this)" />
+          </div>
+        </div>
+        <button class="save-btn" onclick="saveDesign()">Design speichern</button>
+        <span class="toast" id="t-design">Gespeichert!</span>
+      </div>
+    </div>
+
+    <!-- EMBED -->
+    <div class="panel" id="panel-embed">
+      <div class="page-title">Einbetten</div>
+      <div class="card">
+        <div class="card-title">Code für Ihre Website</div>
+        <p style="color:#666;font-size:13px;margin-bottom:1rem;">Fügen Sie diesen Code einmalig vor dem schließenden <code>&lt;/body&gt;</code>-Tag Ihrer Website ein:</p>
+        <div class="code-box" id="embed-code-box">
+          <button class="copy-btn" onclick="copyEmbed()">Kopieren</button>
+          <span id="embed-code"></span>
+        </div>
+        <p style="color:#aaa;font-size:12px;margin-top:0.75rem;">Der Chatbot erscheint danach automatisch als Button unten rechts auf Ihrer Website.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let clientId = '';
+let clientData = {};
+let selectedColor = '#1D9E75';
+
+async function doLogin() {
+  const id = document.getElementById('l-id').value.trim();
+  const pw = document.getElementById('l-pw').value.trim();
+  try {
+    const res = await fetch('/api/admin/login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ clientId: id, password: pw }) });
+    if (!res.ok) { document.getElementById('login-err').textContent = 'Ungültige Zugangsdaten'; return; }
+    const data = await res.json();
+    clientId = id;
+    clientData = data.client;
+    loadApp();
+  } catch(e) { document.getElementById('login-err').textContent = 'Verbindungsfehler'; }
+}
+
+function loadApp() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  document.getElementById('sb-client-name').textContent = clientData.name || clientId;
+  document.getElementById('st-chats').textContent = clientData.stats?.chats ?? 0;
+  document.getElementById('st-msgs').textContent = clientData.stats?.messages ?? 0;
+  document.getElementById('st-faqs').textContent = clientData.faqs?.length ?? 0;
+  document.getElementById('cfg-name').value = clientData.name || '';
+  document.getElementById('cfg-industry').value = clientData.industry || '';
+  document.getElementById('cfg-email').value = clientData.email || '';
+  document.getElementById('cfg-hours').value = clientData.hours || '';
+  document.getElementById('cfg-welcome').value = clientData.welcome || '';
+  document.getElementById('cfg-system').value = clientData.systemPrompt || '';
+  document.getElementById('cfg-botname').value = clientData.botName || '';
+  document.getElementById('cfg-initials').value = clientData.initials || clientData.name?.slice(0,2).toUpperCase() || 'CB';
+  selectedColor = clientData.color || '#1D9E75';
+  renderFaqs();
+  updateEmbed();
+}
+
+function showPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+function renderFaqs() {
+  const list = document.getElementById('faq-list');
+  list.innerHTML = '';
+  (clientData.faqs || []).forEach((f, i) => {
+    list.innerHTML += `<div class="faq-item"><div class="faq-content"><div class="faq-q">${f.q}</div><div class="faq-a">${f.a}</div></div><button class="del-btn" onclick="delFaq(${i})">×</button></div>`;
+  });
+  document.getElementById('st-faqs').textContent = (clientData.faqs || []).length;
+}
+
+function addFaq() {
+  const q = document.getElementById('new-q').value.trim();
+  const a = document.getElementById('new-a').value.trim();
+  if (!q || !a) return;
+  clientData.faqs = clientData.faqs || [];
+  clientData.faqs.push({ q, a });
+  document.getElementById('new-q').value = '';
+  document.getElementById('new-a').value = '';
+  renderFaqs();
+}
+
+function delFaq(i) { clientData.faqs.splice(i, 1); renderFaqs(); }
+
+function pickColor(color, el) {
+  selectedColor = color;
+  document.querySelectorAll('.color-chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function showToast(id) {
+  const t = document.getElementById(id);
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+async function saveData() {
+  await fetch('/api/admin/' + clientId, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(clientData) });
+}
+
+async function saveSettings() {
+  clientData.name = document.getElementById('cfg-name').value;
+  clientData.industry = document.getElementById('cfg-industry').value;
+  clientData.email = document.getElementById('cfg-email').value;
+  clientData.hours = document.getElementById('cfg-hours').value;
+  clientData.welcome = document.getElementById('cfg-welcome').value;
+  clientData.systemPrompt = document.getElementById('cfg-system').value;
+  await saveData(); showToast('t-settings');
+}
+
+async function saveFaq() { await saveData(); showToast('t-faq'); }
+
+async function saveDesign() {
+  clientData.color = selectedColor;
+  clientData.botName = document.getElementById('cfg-botname').value;
+  clientData.initials = document.getElementById('cfg-initials').value;
+  await saveData(); showToast('t-design'); updateEmbed();
+}
+
+function updateEmbed() {
+  const base = window.location.origin;
+  const code = `&lt;script src="${base}/widget.js"\n  data-id="${clientId}"\n  data-color="${selectedColor}"&gt;&lt;/script&gt;`;
+  document.getElementById('embed-code').innerHTML = code;
+}
+
+function copyEmbed() {
+  const base = window.location.origin;
+  const text = `<script src="${base}/widget.js" data-id="${clientId}" data-color="${selectedColor}"><\/script>`;
+  navigator.clipboard.writeText(text);
+  const btn = document.querySelector('.copy-btn');
+  btn.textContent = 'Kopiert!';
+  setTimeout(() => btn.textContent = 'Kopieren', 2000);
+}
+
+function openTest() { window.open(`/?chatbot=${clientId}`, '_blank'); }
+function doLogout() { location.reload(); }
+
+document.getElementById('l-pw').addEventListener('keydown', e => { if(e.key === 'Enter') doLogin(); });
+</script>
+</body>
+</html>
