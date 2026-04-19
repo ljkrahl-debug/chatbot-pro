@@ -3,337 +3,373 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ChatBot Pro – Admin</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+<title>Chatbot24 – Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'DM Sans', sans-serif; background: #f5f5f3; color: #1a1a1a; font-size: 14px; }
-  input, textarea, select, button { font-family: inherit; font-size: 14px; }
-
-  /* LOGIN */
-  .login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
-  .login-card { background: #fff; border-radius: 16px; padding: 2.5rem; width: 100%; max-width: 380px; border: 1px solid #eee; }
-  .login-logo { font-size: 22px; font-weight: 500; color: #1D9E75; margin-bottom: 0.5rem; }
+  body { font-family: 'Inter', sans-serif; background: #f4f6f9; color: #1a1a2e; font-size: 14px; }
+  input, textarea, select, button { font-family: inherit; }
+  .login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #0f6e56; padding: 2rem; }
+  .login-card { background: #fff; border-radius: 20px; padding: 2.5rem; width: 100%; max-width: 400px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+  .login-logo { font-size: 24px; font-weight: 700; color: #1D9E75; margin-bottom: 0.25rem; }
   .login-sub { color: #888; font-size: 13px; margin-bottom: 2rem; }
   .field { margin-bottom: 1rem; }
-  .field label { display: block; font-size: 12px; color: #888; margin-bottom: 5px; }
-  .field input { width: 100%; padding: 10px 12px; border: 1px solid #e0e0e0; border-radius: 8px; }
+  .field label { display: block; font-size: 12px; font-weight: 500; color: #555; margin-bottom: 6px; }
+  .field input { width: 100%; padding: 11px 14px; border: 1.5px solid #e8e8e8; border-radius: 10px; font-size: 14px; }
   .field input:focus { outline: none; border-color: #1D9E75; }
-  .login-btn { width: 100%; background: #1D9E75; color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 500; cursor: pointer; }
+  .login-btn { width: 100%; background: #1D9E75; color: #fff; border: none; padding: 13px; border-radius: 10px; font-weight: 600; font-size: 15px; cursor: pointer; }
   .login-btn:hover { background: #0F6E56; }
-  .login-hint { font-size: 12px; color: #aaa; margin-top: 1rem; text-align: center; }
-  .err { color: #E24B4A; font-size: 13px; margin-top: 0.5rem; }
-
-  /* LAYOUT */
+  .login-hint { font-size: 12px; color: #bbb; margin-top: 1rem; text-align: center; }
+  .err { color: #e24b4a; font-size: 13px; margin-top: 0.5rem; text-align: center; }
   .app { display: none; min-height: 100vh; }
-  .sidebar { width: 220px; background: #fff; border-right: 1px solid #eee; padding: 1.5rem 1rem; position: fixed; top: 0; left: 0; height: 100vh; display: flex; flex-direction: column; }
-  .sidebar-logo { font-size: 16px; font-weight: 500; color: #1D9E75; padding: 0 0.5rem; margin-bottom: 2rem; }
-  .sidebar-logo span { color: #aaa; font-weight: 400; font-size: 13px; display: block; }
-  .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; color: #666; cursor: pointer; margin-bottom: 2px; }
-  .nav-item:hover { background: #f5f5f3; color: #1a1a1a; }
-  .nav-item.active { background: #E1F5EE; color: #0F6E56; font-weight: 500; }
+  .sidebar { width: 240px; background: #fff; border-right: 1px solid #eef0f4; padding: 1.5rem 1rem; position: fixed; top: 0; left: 0; height: 100vh; display: flex; flex-direction: column; }
+  .sidebar-logo { font-size: 18px; font-weight: 700; color: #1D9E75; padding: 0 0.75rem; margin-bottom: 0.25rem; }
+  .sidebar-client { font-size: 12px; color: #aaa; padding: 0 0.75rem; margin-bottom: 2rem; }
+  .nav-section { font-size: 10px; font-weight: 600; color: #bbb; text-transform: uppercase; letter-spacing: 0.08em; padding: 0 0.75rem; margin-bottom: 0.5rem; margin-top: 1rem; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; color: #666; cursor: pointer; margin-bottom: 2px; font-size: 14px; font-weight: 500; border: none; background: none; width: 100%; text-align: left; }
+  .nav-item:hover { background: #f4f6f9; color: #1a1a2e; }
+  .nav-item.active { background: #e1f5ee; color: #0F6E56; }
   .nav-icon { font-size: 16px; width: 20px; text-align: center; }
   .sidebar-bottom { margin-top: auto; }
-  .logout-btn { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; color: #aaa; cursor: pointer; font-size: 14px; background: none; border: none; width: 100%; }
-  .logout-btn:hover { color: #E24B4A; background: #fff5f5; }
-
-  .main { margin-left: 220px; padding: 2rem 2.5rem; }
-  .page-title { font-size: 22px; font-weight: 500; margin-bottom: 1.75rem; }
+  .logout-btn { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; color: #aaa; cursor: pointer; font-size: 14px; background: none; border: none; width: 100%; }
+  .logout-btn:hover { color: #e24b4a; background: #fff5f5; }
+  .main { margin-left: 240px; padding: 2rem 2.5rem; }
+  .page-title { font-size: 22px; font-weight: 700; color: #1a1a2e; margin-bottom: 0.25rem; }
+  .page-sub { font-size: 13px; color: #aaa; margin-bottom: 1.75rem; }
   .panel { display: none; }
   .panel.active { display: block; }
-
-  /* STATS */
-  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-  .stat-card { background: #fff; border-radius: 12px; padding: 1.25rem; border: 1px solid #eee; }
-  .stat-num { font-size: 28px; font-weight: 500; }
-  .stat-lbl { font-size: 12px; color: #aaa; margin-top: 2px; }
-
-  /* FORMS */
-  .card { background: #fff; border-radius: 12px; padding: 1.5rem; border: 1px solid #eee; margin-bottom: 1.25rem; }
-  .card-title { font-size: 15px; font-weight: 500; margin-bottom: 1.25rem; }
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .stat-card { background: #fff; border-radius: 14px; padding: 1.25rem 1.5rem; border: 1px solid #eef0f4; }
+  .stat-card.green { border-left: 4px solid #1D9E75; }
+  .stat-card.blue { border-left: 4px solid #378ADD; }
+  .stat-card.amber { border-left: 4px solid #BA7517; }
+  .stat-icon { font-size: 22px; margin-bottom: 0.75rem; }
+  .stat-num { font-size: 28px; font-weight: 700; }
+  .stat-lbl { font-size: 12px; color: #aaa; margin-top: 3px; font-weight: 500; }
+  .card { background: #fff; border-radius: 14px; padding: 1.5rem; border: 1px solid #eef0f4; margin-bottom: 1.25rem; }
+  .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+  .card-title { font-size: 15px; font-weight: 600; }
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  .f-input { width: 100%; padding: 9px 12px; border: 1px solid #e0e0e0; border-radius: 8px; background: #fafafa; }
+  .f-label { display: block; font-size: 12px; font-weight: 500; color: #555; margin-bottom: 5px; }
+  .f-input { width: 100%; padding: 10px 13px; border: 1.5px solid #e8e8e8; border-radius: 10px; font-size: 14px; background: #fafafa; color: #1a1a2e; }
   .f-input:focus { outline: none; border-color: #1D9E75; background: #fff; }
   textarea.f-input { resize: vertical; min-height: 90px; line-height: 1.6; }
-  .save-btn { background: #1D9E75; color: #fff; border: none; padding: 10px 22px; border-radius: 8px; font-weight: 500; cursor: pointer; }
+  .f-group { margin-bottom: 1rem; }
+  .save-btn { background: #1D9E75; color: #fff; border: none; padding: 10px 22px; border-radius: 10px; font-weight: 600; font-size: 14px; cursor: pointer; }
   .save-btn:hover { background: #0F6E56; }
-  .toast { display: none; background: #1D9E75; color: #fff; padding: 8px 18px; border-radius: 8px; font-size: 13px; margin-left: 12px; }
+  .toast { display: none; background: #1D9E75; color: #fff; padding: 6px 16px; border-radius: 8px; font-size: 13px; margin-left: 10px; }
   .toast.show { display: inline-block; }
-
-  /* FAQ */
-  .faq-item { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-top: 1px solid #f0f0f0; }
+  .faq-item { display: flex; gap: 12px; align-items: flex-start; padding: 14px 0; border-top: 1px solid #f0f0f0; }
   .faq-item:first-child { border-top: none; }
+  .faq-dot { width: 8px; height: 8px; border-radius: 50%; background: #1D9E75; margin-top: 6px; flex-shrink: 0; }
   .faq-content { flex: 1; }
-  .faq-q { font-weight: 500; font-size: 14px; margin-bottom: 3px; }
+  .faq-q { font-weight: 600; font-size: 14px; margin-bottom: 3px; }
   .faq-a { font-size: 13px; color: #666; }
-  .del-btn { background: none; border: none; color: #ccc; cursor: pointer; font-size: 18px; padding: 0; }
-  .del-btn:hover { color: #E24B4A; }
-  .add-faq-box { background: #f9f9f9; border: 1px dashed #ddd; border-radius: 10px; padding: 1rem; margin-top: 1rem; }
-  .add-faq-box .f-input { margin-bottom: 8px; background: #fff; }
-  .add-btn { background: none; border: 1px solid #1D9E75; color: #1D9E75; padding: 7px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; }
-  .add-btn:hover { background: #E1F5EE; }
-
-  /* DESIGN */
-  .color-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-  .color-chip { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; }
-  .color-chip.selected { border-color: #1a1a1a; }
-
-  /* EMBED */
-  .code-box { background: #1a1a1a; color: #a8f0c8; font-family: monospace; font-size: 13px; padding: 1.25rem; border-radius: 10px; line-height: 1.8; position: relative; word-break: break-all; }
-  .copy-btn { position: absolute; top: 12px; right: 12px; background: #333; border: none; color: #fff; padding: 5px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+  .del-btn { background: none; border: none; color: #ddd; cursor: pointer; font-size: 18px; padding: 0; }
+  .del-btn:hover { color: #e24b4a; }
+  .add-faq-box { background: #f9fafb; border: 1.5px dashed #e0e0e0; border-radius: 12px; padding: 1rem; margin-top: 1rem; }
+  .add-btn { background: none; border: 1.5px solid #1D9E75; color: #1D9E75; padding: 7px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; margin-top: 8px; }
+  .add-btn:hover { background: #e1f5ee; }
+  .color-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 6px; }
+  .color-chip { width: 34px; height: 34px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; }
+  .color-chip.selected { border-color: #1a1a2e; }
+  .code-box { background: #1a1a2e; color: #a8f0c8; font-family: monospace; font-size: 13px; padding: 1.25rem; border-radius: 12px; line-height: 1.8; position: relative; word-break: break-all; }
+  .copy-btn { position: absolute; top: 12px; right: 12px; background: #2d2d4e; border: none; color: #fff; padding: 5px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; }
   .copy-btn:hover { background: #1D9E75; }
-
-  @media (max-width: 700px) {
-    .sidebar { display: none; }
-    .main { margin-left: 0; padding: 1.25rem; }
-    .grid2 { grid-template-columns: 1fr; }
-  }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; background: #e1f5ee; color: #0F6E56; }
+  .chat-box { border: 1.5px solid #eef0f4; border-radius: 14px; overflow: hidden; }
+  .chat-header-bar { background: #1D9E75; padding: 12px 16px; display: flex; align-items: center; gap: 10px; }
+  .chat-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.7); }
+  .chat-header-name { font-size: 14px; font-weight: 600; color: #fff; }
+  .chat-msgs { padding: 16px; min-height: 280px; max-height: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #f9fafb; }
+  .chat-msg { max-width: 80%; padding: 10px 14px; border-radius: 14px; font-size: 14px; line-height: 1.5; }
+  .chat-msg.bot { background: #fff; color: #1a1a2e; border-bottom-left-radius: 4px; align-self: flex-start; border: 1px solid #eef0f4; }
+  .chat-msg.user { background: #1D9E75; color: #fff; border-bottom-right-radius: 4px; align-self: flex-end; }
+  .chat-msg.typing { color: #aaa; font-style: italic; background: #fff; border: 1px solid #eef0f4; }
+  .chat-input-row { display: flex; gap: 8px; padding: 12px; border-top: 1px solid #eef0f4; background: #fff; }
+  .chat-input-row input { flex: 1; padding: 9px 13px; border-radius: 20px; border: 1.5px solid #e8e8e8; font-size: 14px; }
+  .chat-input-row input:focus { outline: none; border-color: #1D9E75; }
+  .chat-send { background: #1D9E75; border: none; border-radius: 50%; width: 38px; height: 38px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .chat-send svg { width: 16px; height: 16px; fill: #fff; }
+  .chat-send:disabled { opacity: 0.5; cursor: not-allowed; }
+  .chat-reset { background: none; border: 1.5px solid #e8e8e8; color: #aaa; padding: 6px 14px; border-radius: 8px; font-size: 12px; cursor: pointer; }
+  .quick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .quick-btn { padding: 12px; border-radius: 10px; border: none; font-size: 14px; font-weight: 500; cursor: pointer; color: #fff; text-align: left; }
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
 <div class="login-wrap" id="login-screen">
   <div class="login-card">
-    <div class="login-logo">ChatBot Pro</div>
+    <div class="login-logo">Chatbot24</div>
     <div class="login-sub">Admin-Bereich – bitte einloggen</div>
-    <div class="field"><label>Kunden-ID</label><input id="l-id" placeholder="z.B. musterfirma" /></div>
+    <div class="field"><label>Kunden-ID</label><input id="l-id" placeholder="z.B. frida-kitchen" /></div>
     <div class="field"><label>Passwort</label><input id="l-pw" type="password" placeholder="Ihr Passwort" /></div>
-    <button class="login-btn" onclick="doLogin()">Einloggen</button>
+    <button class="login-btn" onclick="doLogin()">Einloggen →</button>
     <div class="err" id="login-err"></div>
-    <div class="login-hint">Demo: ID = <strong>demo</strong> · Passwort = <strong>demo123</strong></div>
+    <div class="login-hint">Zugangsdaten erhalten Sie von Chatbot24</div>
   </div>
 </div>
 
-<!-- APP -->
 <div class="app" id="app">
   <div class="sidebar">
-    <div class="sidebar-logo">ChatBot Pro <span id="sb-client-name">Kunde</span></div>
-    <div class="nav-item active" onclick="showPanel('dashboard')"><span class="nav-icon">📊</span>Dashboard</div>
-    <div class="nav-item" onclick="showPanel('einstellungen')"><span class="nav-icon">⚙️</span>Einstellungen</div>
-    <div class="nav-item" onclick="showPanel('faq')"><span class="nav-icon">💬</span>FAQ & Wissen</div>
-    <div class="nav-item" onclick="showPanel('design')"><span class="nav-icon">🎨</span>Design</div>
-    <div class="nav-item" onclick="showPanel('embed')"><span class="nav-icon">📋</span>Einbetten</div>
+    <div class="sidebar-logo">Chatbot24</div>
+    <div class="sidebar-client" id="sb-name">–</div>
+    <div class="nav-section">Übersicht</div>
+    <button class="nav-item active" onclick="showPanel('dashboard',this)"><span class="nav-icon">📊</span>Dashboard</button>
+    <button class="nav-item" onclick="showPanel('test',this)"><span class="nav-icon">💬</span>Chatbot testen</button>
+    <div class="nav-section">Konfiguration</div>
+    <button class="nav-item" onclick="showPanel('einstellungen',this)"><span class="nav-icon">⚙️</span>Einstellungen</button>
+    <button class="nav-item" onclick="showPanel('faq',this)"><span class="nav-icon">❓</span>FAQ & Wissen</button>
+    <button class="nav-item" onclick="showPanel('design',this)"><span class="nav-icon">🎨</span>Design</button>
+    <button class="nav-item" onclick="showPanel('embed',this)"><span class="nav-icon">📋</span>Einbetten</button>
     <div class="sidebar-bottom">
-      <button class="logout-btn" onclick="doLogout()"><span>🚪</span>Abmelden</button>
+      <button class="logout-btn" onclick="doLogout()">🚪 Abmelden</button>
     </div>
   </div>
 
   <div class="main">
-    <!-- DASHBOARD -->
+
     <div class="panel active" id="panel-dashboard">
-      <div class="page-title">Dashboard</div>
+      <div class="page-title">Willkommen zurück 👋</div>
+      <div class="page-sub" id="dash-sub">–</div>
       <div class="stat-grid">
-        <div class="stat-card"><div class="stat-num" id="st-chats">–</div><div class="stat-lbl">Gespräche gesamt</div></div>
-        <div class="stat-card"><div class="stat-num" id="st-msgs">–</div><div class="stat-lbl">Nachrichten gesamt</div></div>
-        <div class="stat-card"><div class="stat-num" id="st-faqs">–</div><div class="stat-lbl">FAQ-Einträge</div></div>
+        <div class="stat-card green"><div class="stat-icon">💬</div><div class="stat-num" id="st-chats">0</div><div class="stat-lbl">Gespräche gesamt</div></div>
+        <div class="stat-card blue"><div class="stat-icon">📨</div><div class="stat-num" id="st-msgs">0</div><div class="stat-lbl">Nachrichten gesamt</div></div>
+        <div class="stat-card amber"><div class="stat-icon">❓</div><div class="stat-num" id="st-faqs">0</div><div class="stat-lbl">FAQ-Einträge</div></div>
       </div>
       <div class="card">
-        <div class="card-title">Chatbot testen</div>
-        <p style="color:#666;font-size:13px;margin-bottom:1rem;">Klicken Sie unten, um Ihren Chatbot direkt zu testen.</p>
-        <button class="save-btn" onclick="openTest()">Chatbot testen ↗</button>
+        <div class="card-title" style="margin-bottom:1rem">Schnellstart</div>
+        <div class="quick-grid">
+          <button class="quick-btn" style="background:#1D9E75" onclick="showPanel('test',null)">💬 Chatbot testen</button>
+          <button class="quick-btn" style="background:#378ADD" onclick="showPanel('faq',null)">❓ FAQ bearbeiten</button>
+          <button class="quick-btn" style="background:#BA7517" onclick="showPanel('embed',null)">📋 Einbettungs-Code</button>
+          <button class="quick-btn" style="background:#7F77DD" onclick="showPanel('design',null)">🎨 Design anpassen</button>
+        </div>
       </div>
     </div>
 
-    <!-- EINSTELLUNGEN -->
+    <div class="panel" id="panel-test">
+      <div class="page-title">Chatbot testen</div>
+      <div class="page-sub">Teste deinen Chatbot – genau so wie deine Kunden ihn sehen</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Live-Test</div><button class="chat-reset" onclick="resetChat()">Neu starten</button></div>
+        <div class="chat-box">
+          <div class="chat-header-bar"><div class="chat-dot"></div><div class="chat-header-name" id="test-botname">Assistent</div></div>
+          <div class="chat-msgs" id="test-msgs"></div>
+          <div class="chat-input-row">
+            <input id="test-input" placeholder="Nachricht eingeben..." />
+            <button class="chat-send" id="test-send" onclick="sendTestMsg()"><svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="panel" id="panel-einstellungen">
       <div class="page-title">Einstellungen</div>
+      <div class="page-sub">Passe deinen Chatbot an dein Unternehmen an</div>
       <div class="card">
-        <div class="card-title">Firmendaten</div>
+        <div class="card-title" style="margin-bottom:1.25rem">Firmendaten</div>
         <div class="grid2">
-          <div class="field"><label>Firmenname</label><input class="f-input" id="cfg-name" /></div>
-          <div class="field"><label>Branche</label><input class="f-input" id="cfg-industry" /></div>
-          <div class="field"><label>E-Mail (Weiterleitung)</label><input class="f-input" id="cfg-email" /></div>
-          <div class="field"><label>Öffnungszeiten</label><input class="f-input" id="cfg-hours" /></div>
+          <div class="f-group"><label class="f-label">Firmenname</label><input class="f-input" id="cfg-name" /></div>
+          <div class="f-group"><label class="f-label">Branche</label><input class="f-input" id="cfg-industry" /></div>
+          <div class="f-group"><label class="f-label">E-Mail</label><input class="f-input" id="cfg-email" /></div>
+          <div class="f-group"><label class="f-label">Öffnungszeiten</label><input class="f-input" id="cfg-hours" /></div>
         </div>
-        <div class="field"><label>Willkommensnachricht</label><input class="f-input" id="cfg-welcome" /></div>
-        <div class="field"><label>Bot-Persönlichkeit</label><textarea class="f-input" id="cfg-system"></textarea></div>
+        <div class="f-group"><label class="f-label">Willkommensnachricht</label><input class="f-input" id="cfg-welcome" /></div>
+        <div class="f-group"><label class="f-label">Bot-Persönlichkeit</label><textarea class="f-input" id="cfg-system"></textarea></div>
         <button class="save-btn" onclick="saveSettings()">Speichern</button>
-        <span class="toast" id="t-settings">Gespeichert!</span>
+        <span class="toast" id="t-settings">✓ Gespeichert!</span>
       </div>
     </div>
 
-    <!-- FAQ -->
     <div class="panel" id="panel-faq">
       <div class="page-title">FAQ & Wissen</div>
+      <div class="page-sub">Diese Antworten kennt dein Chatbot auswendig</div>
       <div class="card">
-        <div class="card-title">Häufige Fragen</div>
+        <div class="card-header"><div class="card-title">Häufige Fragen</div><span class="badge" id="faq-count">0 Einträge</span></div>
         <div id="faq-list"></div>
         <div class="add-faq-box">
-          <input class="f-input" id="new-q" placeholder="Neue Frage..." />
-          <textarea class="f-input" id="new-a" placeholder="Antwort..." style="min-height:60px"></textarea>
+          <div class="f-group"><label class="f-label">Neue Frage</label><input class="f-input" id="new-q" placeholder="z.B. Haben Sie vegetarische Gerichte?" /></div>
+          <div class="f-group"><label class="f-label">Antwort</label><textarea class="f-input" id="new-a" placeholder="z.B. Ja, wir haben eine große Auswahl..." style="min-height:60px"></textarea></div>
           <button class="add-btn" onclick="addFaq()">+ Hinzufügen</button>
         </div>
-        <div style="margin-top:1rem">
-          <button class="save-btn" onclick="saveFaq()">FAQ speichern</button>
-          <span class="toast" id="t-faq">Gespeichert!</span>
-        </div>
+        <div style="margin-top:1rem"><button class="save-btn" onclick="saveFaq()">FAQ speichern</button><span class="toast" id="t-faq">✓ Gespeichert!</span></div>
       </div>
     </div>
 
-    <!-- DESIGN -->
     <div class="panel" id="panel-design">
       <div class="page-title">Design</div>
+      <div class="page-sub">Passe das Aussehen deines Chatbots an</div>
       <div class="card">
-        <div class="card-title">Chatbot-Aussehen</div>
+        <div class="card-title" style="margin-bottom:1.25rem">Chatbot-Aussehen</div>
         <div class="grid2">
-          <div class="field"><label>Bot-Name im Chat</label><input class="f-input" id="cfg-botname" /></div>
-          <div class="field"><label>Avatar-Initialen</label><input class="f-input" id="cfg-initials" maxlength="2" style="max-width:80px" /></div>
+          <div class="f-group"><label class="f-label">Bot-Name im Chat</label><input class="f-input" id="cfg-botname" /></div>
+          <div class="f-group"><label class="f-label">Avatar-Initialen</label><input class="f-input" id="cfg-initials" maxlength="2" style="max-width:80px" /></div>
         </div>
-        <div class="field">
-          <label>Akzentfarbe</label>
+        <div class="f-group">
+          <label class="f-label">Akzentfarbe</label>
           <div class="color-row">
             <div class="color-chip selected" style="background:#1D9E75" onclick="pickColor('#1D9E75',this)"></div>
             <div class="color-chip" style="background:#378ADD" onclick="pickColor('#378ADD',this)"></div>
             <div class="color-chip" style="background:#7F77DD" onclick="pickColor('#7F77DD',this)"></div>
             <div class="color-chip" style="background:#D85A30" onclick="pickColor('#D85A30',this)"></div>
             <div class="color-chip" style="background:#D4537E" onclick="pickColor('#D4537E',this)"></div>
-            <div class="color-chip" style="background:#BA7517" onclick="pickColor('#BA7517',this)"></div>
-            <input type="color" id="custom-color" style="width:32px;height:32px;border:none;border-radius:50%;cursor:pointer;padding:0" onchange="pickColor(this.value,this)" />
+            <div class="color-chip" style="background:#1a1a2e" onclick="pickColor('#1a1a2e',this)"></div>
+            <input type="color" id="custom-color" style="width:34px;height:34px;border:none;border-radius:50%;cursor:pointer;padding:0" onchange="pickColor(this.value,this)" />
           </div>
         </div>
         <button class="save-btn" onclick="saveDesign()">Design speichern</button>
-        <span class="toast" id="t-design">Gespeichert!</span>
+        <span class="toast" id="t-design">✓ Gespeichert!</span>
       </div>
     </div>
 
-    <!-- EMBED -->
     <div class="panel" id="panel-embed">
       <div class="page-title">Einbetten</div>
+      <div class="page-sub">Füge diesen Code in deine Website ein</div>
       <div class="card">
-        <div class="card-title">Code für Ihre Website</div>
-        <p style="color:#666;font-size:13px;margin-bottom:1rem;">Fügen Sie diesen Code einmalig vor dem schließenden <code>&lt;/body&gt;</code>-Tag Ihrer Website ein:</p>
-        <div class="code-box" id="embed-code-box">
-          <button class="copy-btn" onclick="copyEmbed()">Kopieren</button>
-          <span id="embed-code"></span>
-        </div>
-        <p style="color:#aaa;font-size:12px;margin-top:0.75rem;">Der Chatbot erscheint danach automatisch als Button unten rechts auf Ihrer Website.</p>
+        <div class="card-title" style="margin-bottom:0.75rem">Code für Ihre Website</div>
+        <p style="color:#888;font-size:13px;margin-bottom:1rem">Einmalig vor dem schließenden <code style="background:#f0f0f0;padding:2px 6px;border-radius:4px">&lt;/body&gt;</code>-Tag einfügen:</p>
+        <div class="code-box"><button class="copy-btn" onclick="copyEmbed()">Kopieren</button><span id="embed-code"></span></div>
+        <p style="color:#bbb;font-size:12px;margin-top:0.75rem">Der Chatbot erscheint als Button unten rechts auf Ihrer Website.</p>
       </div>
     </div>
+
   </div>
 </div>
 
 <script>
-let clientId = '';
-let clientData = {};
-let selectedColor = '#1D9E75';
+let clientId='', clientData={}, selectedColor='#1D9E75', testHistory=[];
 
 async function doLogin() {
-  const id = document.getElementById('l-id').value.trim();
-  const pw = document.getElementById('l-pw').value.trim();
+  const id=document.getElementById('l-id').value.trim(), pw=document.getElementById('l-pw').value.trim();
   try {
-    const res = await fetch('/api/admin/login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ clientId: id, password: pw }) });
-    if (!res.ok) { document.getElementById('login-err').textContent = 'Ungültige Zugangsdaten'; return; }
-    const data = await res.json();
-    clientId = id;
-    clientData = data.client;
-    loadApp();
-  } catch(e) { document.getElementById('login-err').textContent = 'Verbindungsfehler'; }
+    const res=await fetch('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({clientId:id,password:pw})});
+    if(!res.ok){document.getElementById('login-err').textContent='Ungültige Zugangsdaten';return;}
+    const data=await res.json(); clientId=id; clientData=data.client; loadApp();
+  } catch(e){document.getElementById('login-err').textContent='Verbindungsfehler';}
 }
 
 function loadApp() {
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'flex';
-  document.getElementById('sb-client-name').textContent = clientData.name || clientId;
-  document.getElementById('st-chats').textContent = clientData.stats?.chats ?? 0;
-  document.getElementById('st-msgs').textContent = clientData.stats?.messages ?? 0;
-  document.getElementById('st-faqs').textContent = clientData.faqs?.length ?? 0;
-  document.getElementById('cfg-name').value = clientData.name || '';
-  document.getElementById('cfg-industry').value = clientData.industry || '';
-  document.getElementById('cfg-email').value = clientData.email || '';
-  document.getElementById('cfg-hours').value = clientData.hours || '';
-  document.getElementById('cfg-welcome').value = clientData.welcome || '';
-  document.getElementById('cfg-system').value = clientData.systemPrompt || '';
-  document.getElementById('cfg-botname').value = clientData.botName || '';
-  document.getElementById('cfg-initials').value = clientData.initials || clientData.name?.slice(0,2).toUpperCase() || 'CB';
-  selectedColor = clientData.color || '#1D9E75';
-  renderFaqs();
-  updateEmbed();
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').style.display='flex';
+  document.getElementById('sb-name').textContent=clientData.name||clientId;
+  document.getElementById('dash-sub').textContent=(clientData.name||'')+(clientData.industry?' · '+clientData.industry:'');
+  document.getElementById('st-chats').textContent=clientData.stats?.chats??0;
+  document.getElementById('st-msgs').textContent=clientData.stats?.messages??0;
+  document.getElementById('st-faqs').textContent=clientData.faqs?.length??0;
+  document.getElementById('cfg-name').value=clientData.name||'';
+  document.getElementById('cfg-industry').value=clientData.industry||'';
+  document.getElementById('cfg-email').value=clientData.email||'';
+  document.getElementById('cfg-hours').value=clientData.hours||'';
+  document.getElementById('cfg-welcome').value=clientData.welcome||'';
+  document.getElementById('cfg-system').value=clientData.systemPrompt||'';
+  document.getElementById('cfg-botname').value=clientData.botName||'';
+  document.getElementById('cfg-initials').value=clientData.initials||(clientData.name||'CB').slice(0,2).toUpperCase();
+  document.getElementById('test-botname').textContent=clientData.botName||'Assistent';
+  selectedColor=clientData.color||'#1D9E75';
+  renderFaqs(); updateEmbed(); resetChat();
 }
 
-function showPanel(name) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('panel-' + name).classList.add('active');
-  event.currentTarget.classList.add('active');
+function showPanel(name,btn) {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  if(btn)btn.classList.add('active');
 }
 
 function renderFaqs() {
-  const list = document.getElementById('faq-list');
-  list.innerHTML = '';
-  (clientData.faqs || []).forEach((f, i) => {
-    list.innerHTML += `<div class="faq-item"><div class="faq-content"><div class="faq-q">${f.q}</div><div class="faq-a">${f.a}</div></div><button class="del-btn" onclick="delFaq(${i})">×</button></div>`;
-  });
-  document.getElementById('st-faqs').textContent = (clientData.faqs || []).length;
+  const list=document.getElementById('faq-list'), faqs=clientData.faqs||[];
+  list.innerHTML=faqs.length?'':'<div style="color:#bbb;padding:1rem;text-align:center">Noch keine FAQ-Einträge</div>';
+  faqs.forEach((f,i)=>{list.innerHTML+=`<div class="faq-item"><div class="faq-dot"></div><div class="faq-content"><div class="faq-q">${f.q}</div><div class="faq-a">${f.a}</div></div><button class="del-btn" onclick="delFaq(${i})">×</button></div>`;});
+  document.getElementById('faq-count').textContent=faqs.length+' Einträge';
+  document.getElementById('st-faqs').textContent=faqs.length;
 }
 
 function addFaq() {
-  const q = document.getElementById('new-q').value.trim();
-  const a = document.getElementById('new-a').value.trim();
-  if (!q || !a) return;
-  clientData.faqs = clientData.faqs || [];
-  clientData.faqs.push({ q, a });
-  document.getElementById('new-q').value = '';
-  document.getElementById('new-a').value = '';
+  const q=document.getElementById('new-q').value.trim(), a=document.getElementById('new-a').value.trim();
+  if(!q||!a)return;
+  clientData.faqs=clientData.faqs||[];
+  clientData.faqs.push({q,a});
+  document.getElementById('new-q').value='';
+  document.getElementById('new-a').value='';
   renderFaqs();
 }
 
-function delFaq(i) { clientData.faqs.splice(i, 1); renderFaqs(); }
+function delFaq(i){clientData.faqs.splice(i,1);renderFaqs();}
 
-function pickColor(color, el) {
-  selectedColor = color;
-  document.querySelectorAll('.color-chip').forEach(c => c.classList.remove('selected'));
+function pickColor(color,el){
+  selectedColor=color;
+  document.querySelectorAll('.color-chip').forEach(c=>c.classList.remove('selected'));
   el.classList.add('selected');
 }
 
-function showToast(id) {
-  const t = document.getElementById(id);
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+function showToast(id){const t=document.getElementById(id);t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+async function saveData(){await fetch('/api/admin/'+clientId,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(clientData)});}
+
+async function saveSettings(){
+  clientData.name=document.getElementById('cfg-name').value;
+  clientData.industry=document.getElementById('cfg-industry').value;
+  clientData.email=document.getElementById('cfg-email').value;
+  clientData.hours=document.getElementById('cfg-hours').value;
+  clientData.welcome=document.getElementById('cfg-welcome').value;
+  clientData.systemPrompt=document.getElementById('cfg-system').value;
+  await saveData();showToast('t-settings');
 }
 
-async function saveData() {
-  await fetch('/api/admin/' + clientId, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(clientData) });
+async function saveFaq(){await saveData();showToast('t-faq');}
+
+async function saveDesign(){
+  clientData.color=selectedColor;
+  clientData.botName=document.getElementById('cfg-botname').value;
+  clientData.initials=document.getElementById('cfg-initials').value;
+  document.getElementById('test-botname').textContent=clientData.botName||'Assistent';
+  await saveData();showToast('t-design');updateEmbed();
 }
 
-async function saveSettings() {
-  clientData.name = document.getElementById('cfg-name').value;
-  clientData.industry = document.getElementById('cfg-industry').value;
-  clientData.email = document.getElementById('cfg-email').value;
-  clientData.hours = document.getElementById('cfg-hours').value;
-  clientData.welcome = document.getElementById('cfg-welcome').value;
-  clientData.systemPrompt = document.getElementById('cfg-system').value;
-  await saveData(); showToast('t-settings');
+function updateEmbed(){
+  const base=window.location.origin;
+  document.getElementById('embed-code').innerHTML=`<span style="color:#88aaff">&lt;script</span> <span style="color:#ffd700">src</span>=<span style="color:#a8f0c8">"${base}/widget.js"</span><br>&nbsp;&nbsp;<span style="color:#ffd700">data-id</span>=<span style="color:#a8f0c8">"${clientId}"</span><br>&nbsp;&nbsp;<span style="color:#ffd700">data-color</span>=<span style="color:#a8f0c8">"${selectedColor}"</span><br><span style="color:#88aaff">&gt;&lt;/script&gt;</span>`;
 }
 
-async function saveFaq() { await saveData(); showToast('t-faq'); }
-
-async function saveDesign() {
-  clientData.color = selectedColor;
-  clientData.botName = document.getElementById('cfg-botname').value;
-  clientData.initials = document.getElementById('cfg-initials').value;
-  await saveData(); showToast('t-design'); updateEmbed();
+function copyEmbed(){
+  const base=window.location.origin;
+  navigator.clipboard.writeText(`<script src="${base}/widget.js" data-id="${clientId}" data-color="${selectedColor}"><\/script>`);
+  const btn=document.querySelector('.copy-btn');
+  btn.textContent='✓ Kopiert!';setTimeout(()=>btn.textContent='Kopieren',2000);
 }
 
-function updateEmbed() {
-  const base = window.location.origin;
-  const code = `&lt;script src="${base}/widget.js"\n  data-id="${clientId}"\n  data-color="${selectedColor}"&gt;&lt;/script&gt;`;
-  document.getElementById('embed-code').innerHTML = code;
+function addTestMsg(text,type){
+  const msgs=document.getElementById('test-msgs'), div=document.createElement('div');
+  div.className='chat-msg '+type; div.textContent=text;
+  msgs.appendChild(div); msgs.scrollTop=msgs.scrollHeight; return div;
 }
 
-function copyEmbed() {
-  const base = window.location.origin;
-  const text = `<script src="${base}/widget.js" data-id="${clientId}" data-color="${selectedColor}"><\/script>`;
-  navigator.clipboard.writeText(text);
-  const btn = document.querySelector('.copy-btn');
-  btn.textContent = 'Kopiert!';
-  setTimeout(() => btn.textContent = 'Kopieren', 2000);
+function resetChat(){
+  testHistory=[];
+  document.getElementById('test-msgs').innerHTML='';
+  addTestMsg(clientData.welcome||'Hallo! Wie kann ich Ihnen helfen?','bot');
 }
 
-function openTest() { window.open(`/?chatbot=${clientId}`, '_blank'); }
-function doLogout() { location.reload(); }
+async function sendTestMsg(){
+  const input=document.getElementById('test-input'), send=document.getElementById('test-send');
+  const text=input.value.trim(); if(!text)return;
+  addTestMsg(text,'user'); testHistory.push({role:'user',content:text});
+  input.value=''; send.disabled=true;
+  const typing=addTestMsg('tippt…','bot typing');
+  try {
+    const res=await fetch('/api/chat/'+clientId,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:testHistory})});
+    const data=await res.json(); const reply=data.reply||'Fehler.';
+    testHistory.push({role:'assistant',content:reply});
+    typing.className='chat-msg bot'; typing.textContent=reply;
+  } catch(e){typing.className='chat-msg bot';typing.textContent='Verbindungsfehler.';}
+  send.disabled=false;
+}
 
-document.getElementById('l-pw').addEventListener('keydown', e => { if(e.key === 'Enter') doLogin(); });
+document.getElementById('l-pw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+setTimeout(()=>{document.getElementById('test-input')?.addEventListener('keydown',e=>{if(e.key==='Enter')sendTestMsg();});},1000);
+function doLogout(){location.reload();}
 </script>
 </body>
 </html>
