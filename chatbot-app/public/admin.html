@@ -4,160 +4,212 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Chatbot24 – Admin</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Inter', sans-serif; background: #f4f6f9; color: #1a1a2e; font-size: 14px; }
-  input, textarea, select, button { font-family: inherit; }
-  .login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #0f6e56; padding: 2rem; }
-  .login-card { background: #fff; border-radius: 20px; padding: 2.5rem; width: 100%; max-width: 400px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
-  .login-logo { font-size: 24px; font-weight: 700; color: #1D9E75; margin-bottom: 0.25rem; }
-  .login-sub { color: #888; font-size: 13px; margin-bottom: 2rem; }
-  .field { margin-bottom: 1rem; }
-  .field label { display: block; font-size: 12px; font-weight: 500; color: #555; margin-bottom: 6px; }
-  .field input { width: 100%; padding: 11px 14px; border: 1.5px solid #e8e8e8; border-radius: 10px; font-size: 14px; }
-  .field input:focus { outline: none; border-color: #1D9E75; }
-  .login-btn { width: 100%; background: #1D9E75; color: #fff; border: none; padding: 13px; border-radius: 10px; font-weight: 600; font-size: 15px; cursor: pointer; }
-  .login-btn:hover { background: #0F6E56; }
-  .login-hint { font-size: 12px; color: #bbb; margin-top: 1rem; text-align: center; }
-  .err { color: #e24b4a; font-size: 13px; margin-top: 0.5rem; text-align: center; }
-  .app { display: none; min-height: 100vh; }
-  .sidebar { width: 240px; background: #fff; border-right: 1px solid #eef0f4; padding: 1.5rem 1rem; position: fixed; top: 0; left: 0; height: 100vh; display: flex; flex-direction: column; }
-  .sidebar-logo { font-size: 18px; font-weight: 700; color: #1D9E75; padding: 0 0.75rem; margin-bottom: 0.25rem; }
-  .sidebar-client { font-size: 12px; color: #aaa; padding: 0 0.75rem; margin-bottom: 2rem; }
-  .nav-section { font-size: 10px; font-weight: 600; color: #bbb; text-transform: uppercase; letter-spacing: 0.08em; padding: 0 0.75rem; margin-bottom: 0.5rem; margin-top: 1rem; }
-  .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; color: #666; cursor: pointer; margin-bottom: 2px; font-size: 14px; font-weight: 500; border: none; background: none; width: 100%; text-align: left; }
-  .nav-item:hover { background: #f4f6f9; color: #1a1a2e; }
-  .nav-item.active { background: #e1f5ee; color: #0F6E56; }
-  .nav-icon { font-size: 16px; width: 20px; text-align: center; }
-  .sidebar-bottom { margin-top: auto; }
-  .logout-btn { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; color: #aaa; cursor: pointer; font-size: 14px; background: none; border: none; width: 100%; }
-  .logout-btn:hover { color: #e24b4a; background: #fff5f5; }
-  .main { margin-left: 240px; padding: 2rem 2.5rem; }
-  .page-title { font-size: 22px; font-weight: 700; color: #1a1a2e; margin-bottom: 0.25rem; }
-  .page-sub { font-size: 13px; color: #aaa; margin-bottom: 1.75rem; }
-  .panel { display: none; }
-  .panel.active { display: block; }
-  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
-  .stat-card { background: #fff; border-radius: 14px; padding: 1.25rem 1.5rem; border: 1px solid #eef0f4; }
-  .stat-card.green { border-left: 4px solid #1D9E75; }
-  .stat-card.blue { border-left: 4px solid #378ADD; }
-  .stat-card.amber { border-left: 4px solid #BA7517; }
-  .stat-icon { font-size: 22px; margin-bottom: 0.75rem; }
-  .stat-num { font-size: 28px; font-weight: 700; }
-  .stat-lbl { font-size: 12px; color: #aaa; margin-top: 3px; font-weight: 500; }
-  .card { background: #fff; border-radius: 14px; padding: 1.5rem; border: 1px solid #eef0f4; margin-bottom: 1.25rem; }
-  .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
-  .card-title { font-size: 15px; font-weight: 600; }
-  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  .f-label { display: block; font-size: 12px; font-weight: 500; color: #555; margin-bottom: 5px; }
-  .f-input { width: 100%; padding: 10px 13px; border: 1.5px solid #e8e8e8; border-radius: 10px; font-size: 14px; background: #fafafa; color: #1a1a2e; }
-  .f-input:focus { outline: none; border-color: #1D9E75; background: #fff; }
-  textarea.f-input { resize: vertical; min-height: 90px; line-height: 1.6; }
-  .f-group { margin-bottom: 1rem; }
-  .save-btn { background: #1D9E75; color: #fff; border: none; padding: 10px 22px; border-radius: 10px; font-weight: 600; font-size: 14px; cursor: pointer; }
-  .save-btn:hover { background: #0F6E56; }
-  .toast { display: none; background: #1D9E75; color: #fff; padding: 6px 16px; border-radius: 8px; font-size: 13px; margin-left: 10px; }
-  .toast.show { display: inline-block; }
-  .faq-item { display: flex; gap: 12px; align-items: flex-start; padding: 14px 0; border-top: 1px solid #f0f0f0; }
-  .faq-item:first-child { border-top: none; }
-  .faq-dot { width: 8px; height: 8px; border-radius: 50%; background: #1D9E75; margin-top: 6px; flex-shrink: 0; }
-  .faq-content { flex: 1; }
-  .faq-q { font-weight: 600; font-size: 14px; margin-bottom: 3px; }
-  .faq-a { font-size: 13px; color: #666; }
-  .del-btn { background: none; border: none; color: #ddd; cursor: pointer; font-size: 18px; padding: 0; }
-  .del-btn:hover { color: #e24b4a; }
-  .add-faq-box { background: #f9fafb; border: 1.5px dashed #e0e0e0; border-radius: 12px; padding: 1rem; margin-top: 1rem; }
-  .add-btn { background: none; border: 1.5px solid #1D9E75; color: #1D9E75; padding: 7px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; margin-top: 8px; }
-  .add-btn:hover { background: #e1f5ee; }
-  .color-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 6px; }
-  .color-chip { width: 34px; height: 34px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; }
-  .color-chip.selected { border-color: #1a1a2e; }
-  .code-box { background: #1a1a2e; color: #a8f0c8; font-family: monospace; font-size: 13px; padding: 1.25rem; border-radius: 12px; line-height: 1.8; position: relative; word-break: break-all; }
-  .copy-btn { position: absolute; top: 12px; right: 12px; background: #2d2d4e; border: none; color: #fff; padding: 5px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; }
-  .copy-btn:hover { background: #1D9E75; }
-  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; background: #e1f5ee; color: #0F6E56; }
-  .chat-box { border: 1.5px solid #eef0f4; border-radius: 14px; overflow: hidden; }
-  .chat-header-bar { background: #1D9E75; padding: 12px 16px; display: flex; align-items: center; gap: 10px; }
-  .chat-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.7); }
-  .chat-header-name { font-size: 14px; font-weight: 600; color: #fff; }
-  .chat-msgs { padding: 16px; min-height: 280px; max-height: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #f9fafb; }
-  .chat-msg { max-width: 80%; padding: 10px 14px; border-radius: 14px; font-size: 14px; line-height: 1.5; }
-  .chat-msg.bot { background: #fff; color: #1a1a2e; border-bottom-left-radius: 4px; align-self: flex-start; border: 1px solid #eef0f4; }
-  .chat-msg.user { background: #1D9E75; color: #fff; border-bottom-right-radius: 4px; align-self: flex-end; }
-  .chat-msg.typing { color: #aaa; font-style: italic; background: #fff; border: 1px solid #eef0f4; }
-  .chat-input-row { display: flex; gap: 8px; padding: 12px; border-top: 1px solid #eef0f4; background: #fff; }
-  .chat-input-row input { flex: 1; padding: 9px 13px; border-radius: 20px; border: 1.5px solid #e8e8e8; font-size: 14px; }
-  .chat-input-row input:focus { outline: none; border-color: #1D9E75; }
-  .chat-send { background: #1D9E75; border: none; border-radius: 50%; width: 38px; height: 38px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .chat-send svg { width: 16px; height: 16px; fill: #fff; }
-  .chat-send:disabled { opacity: 0.5; cursor: not-allowed; }
-  .chat-reset { background: none; border: 1.5px solid #e8e8e8; color: #aaa; padding: 6px 14px; border-radius: 8px; font-size: 12px; cursor: pointer; }
-  .quick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .quick-btn { padding: 12px; border-radius: 10px; border: none; font-size: 14px; font-weight: 500; cursor: pointer; color: #fff; text-align: left; }
+  :root { --g:#1D9E75; --gd:#0F6E56; --gl:#E8F8F2; --ink:#0A0A0A; --soft:#5A6472; --muted:#9AA3AD; --border:#EBEBEB; --bg:#F7F9FB; --white:#fff; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--ink);font-size:14px}
+  input,textarea,select,button{font-family:inherit}
+
+  /* LOGIN */
+  .login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--ink);padding:2rem}
+  .login-box{background:var(--white);border-radius:20px;padding:2.5rem;width:100%;max-width:380px}
+  .login-logo{font-size:22px;font-weight:600;color:var(--g);letter-spacing:-0.5px;margin-bottom:4px}
+  .login-sub{font-size:13px;color:var(--muted);margin-bottom:2rem;font-weight:300}
+  .f{margin-bottom:1rem}
+  .f label{display:block;font-size:12px;font-weight:500;color:var(--soft);margin-bottom:5px}
+  .f input{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;background:var(--bg);color:var(--ink);transition:border-color 0.2s}
+  .f input:focus{outline:none;border-color:var(--g);background:var(--white)}
+  .login-btn{width:100%;background:var(--ink);color:var(--white);border:none;padding:13px;border-radius:10px;font-weight:500;font-size:14px;cursor:pointer;transition:opacity 0.2s;font-family:'Sora',sans-serif}
+  .login-btn:hover{opacity:0.8}
+  .login-hint{font-size:12px;color:var(--muted);margin-top:1rem;text-align:center;font-weight:300}
+  .err{color:#E24B4A;font-size:12px;margin-top:0.5rem;text-align:center}
+
+  /* LAYOUT */
+  .app{display:none;min-height:100vh}
+  .sidebar{width:220px;background:var(--white);border-right:1px solid var(--border);padding:1.5rem 1rem;position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column}
+  .sb-logo{font-size:16px;font-weight:600;color:var(--g);padding:0 0.5rem;letter-spacing:-0.3px}
+  .sb-client{font-size:12px;color:var(--muted);padding:0 0.5rem;margin-bottom:2rem;margin-top:2px;font-weight:300}
+  .sb-section{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;padding:0 0.5rem;margin:1.25rem 0 0.5rem}
+  .nav-item{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:8px;color:var(--soft);cursor:pointer;margin-bottom:2px;font-size:13px;font-weight:400;border:none;background:none;width:100%;text-align:left;transition:all 0.15s}
+  .nav-item:hover{background:var(--bg);color:var(--ink)}
+  .nav-item.active{background:var(--gl);color:var(--gd);font-weight:500}
+  .nav-icon{font-size:15px;width:18px;text-align:center}
+  .sb-bottom{margin-top:auto}
+  .logout-btn{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:8px;color:var(--muted);cursor:pointer;font-size:13px;background:none;border:none;width:100%;transition:all 0.15s}
+  .logout-btn:hover{color:#E24B4A;background:#FFF5F5}
+
+  .main{margin-left:220px;padding:2rem 2.5rem;max-width:1100px}
+  .page-title{font-size:20px;font-weight:600;letter-spacing:-0.5px;margin-bottom:4px}
+  .page-sub{font-size:13px;color:var(--muted);margin-bottom:1.75rem;font-weight:300}
+  .panel{display:none}
+  .panel.active{display:block}
+
+  /* CARDS */
+  .card{background:var(--white);border-radius:14px;padding:1.5rem;border:1px solid var(--border);margin-bottom:1.25rem}
+  .card-title{font-size:14px;font-weight:600;margin-bottom:1.25rem;letter-spacing:-0.2px}
+  .card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+
+  /* STATS */
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.25rem}
+  .stat{background:var(--white);border-radius:14px;padding:1.25rem;border:1px solid var(--border)}
+  .stat-val{font-size:32px;font-weight:600;letter-spacing:-1.5px;line-height:1;margin-bottom:4px}
+  .stat-label{font-size:12px;color:var(--muted);font-weight:300}
+  .stat-change{font-size:11px;margin-top:6px;font-weight:500}
+  .stat-change.up{color:var(--g)}
+
+  /* CHART */
+  .chart-wrap{position:relative;height:200px}
+
+  /* FORM */
+  .fl{margin-bottom:1rem}
+  .fl label{display:block;font-size:12px;font-weight:500;color:var(--soft);margin-bottom:5px}
+  .fi{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--bg);color:var(--ink);transition:border-color 0.2s}
+  .fi:focus{outline:none;border-color:var(--g);background:var(--white)}
+  textarea.fi{resize:vertical;min-height:80px;line-height:1.6}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  .save-btn{background:var(--ink);color:var(--white);border:none;padding:10px 22px;border-radius:8px;font-weight:500;font-size:13px;cursor:pointer;font-family:'Sora',sans-serif;transition:opacity 0.2s}
+  .save-btn:hover{opacity:0.8}
+  .toast{display:none;background:var(--g);color:#fff;padding:6px 14px;border-radius:6px;font-size:12px;margin-left:10px}
+  .toast.show{display:inline-block}
+
+  /* FAQ */
+  .faq-item{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--border)}
+  .faq-item:first-child{border-top:none}
+  .faq-dot{width:6px;height:6px;border-radius:50%;background:var(--g);margin-top:7px;flex-shrink:0}
+  .faq-content{flex:1}
+  .faq-q{font-weight:500;font-size:13px;margin-bottom:3px}
+  .faq-a{font-size:12px;color:var(--muted);line-height:1.5;font-weight:300}
+  .del-btn{background:none;border:none;color:var(--border);cursor:pointer;font-size:16px;padding:0;transition:color 0.15s}
+  .del-btn:hover{color:#E24B4A}
+  .add-box{background:var(--bg);border:1.5px dashed var(--border);border-radius:12px;padding:1rem;margin-top:1rem}
+  .add-box .fi{margin-bottom:8px}
+  .add-btn{background:none;border:1.5px solid var(--g);color:var(--g);padding:7px 16px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;transition:background 0.15s;font-family:'Sora',sans-serif;margin-top:8px}
+  .add-btn:hover{background:var(--gl)}
+  .badge{display:inline-block;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:500;background:var(--gl);color:var(--gd)}
+
+  /* DESIGN */
+  .color-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:6px}
+  .color-chip{width:32px;height:32px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:transform 0.15s}
+  .color-chip:hover{transform:scale(1.1)}
+  .color-chip.selected{border-color:var(--ink)}
+
+  /* EMBED */
+  .code-box{background:var(--ink);color:#a8f0c8;font-family:monospace;font-size:12px;padding:1.25rem;border-radius:12px;line-height:1.8;position:relative;word-break:break-all}
+  .copy-btn{position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.1);border:none;color:#fff;padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer;transition:background 0.15s;font-family:'Sora',sans-serif}
+  .copy-btn:hover{background:var(--g)}
+
+  /* CHAT TEST */
+  .chat-box{border:1px solid var(--border);border-radius:14px;overflow:hidden}
+  .chat-top{padding:12px 16px;display:flex;align-items:center;gap:10px}
+  .chat-dot-live{width:7px;height:7px;border-radius:50%;background:#fff;opacity:0.8}
+  .chat-name{font-size:13px;font-weight:500;color:#fff}
+  .chat-msgs{padding:16px;min-height:260px;max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;background:var(--bg)}
+  .cm{max-width:80%;padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;font-weight:300}
+  .cm.bot{background:var(--white);color:var(--ink);border-bottom-left-radius:3px;align-self:flex-start;border:1px solid var(--border)}
+  .cm.user{background:var(--g);color:#fff;border-bottom-right-radius:3px;align-self:flex-end}
+  .cm.typing{color:var(--muted);font-style:italic;background:var(--white);border:1px solid var(--border)}
+  .chat-input{display:flex;gap:8px;padding:10px;border-top:1px solid var(--border);background:var(--white)}
+  .chat-input input{flex:1;padding:9px 13px;border-radius:8px;border:1.5px solid var(--border);font-size:13px;background:var(--bg);font-family:'Sora',sans-serif}
+  .chat-input input:focus{outline:none;border-color:var(--g)}
+  .chat-send{border:none;border-radius:8px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity 0.2s}
+  .chat-send svg{width:14px;height:14px;fill:#fff}
+  .chat-send:disabled{opacity:0.4;cursor:not-allowed}
+  .reset-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer;font-family:'Sora',sans-serif}
+  .reset-btn:hover{border-color:var(--ink);color:var(--ink)}
+
+  /* CONVERSATIONS */
+  .conv-item{padding:14px;border-radius:10px;border:1px solid var(--border);margin-bottom:8px;background:var(--white);cursor:pointer;transition:border-color 0.15s}
+  .conv-item:hover{border-color:var(--g)}
+  .conv-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+  .conv-id{font-size:12px;font-weight:500;color:var(--g)}
+  .conv-time{font-size:11px;color:var(--muted)}
+  .conv-preview{font-size:12px;color:var(--muted);font-weight:300;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .empty{text-align:center;padding:3rem;color:var(--muted)}
+  .empty-icon{font-size:32px;margin-bottom:0.75rem}
+
+  /* QUICK BTNS */
+  .quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .quick-btn{padding:14px;border-radius:10px;border:1px solid var(--border);font-size:13px;font-weight:500;cursor:pointer;color:var(--ink);background:var(--white);text-align:left;transition:all 0.15s;font-family:'Sora',sans-serif}
+  .quick-btn:hover{border-color:var(--ink);background:var(--bg)}
+  .quick-btn .qb-icon{font-size:18px;display:block;margin-bottom:6px}
+  .quick-btn .qb-sub{font-size:11px;color:var(--muted);font-weight:300;margin-top:2px}
+
+  @media(max-width:768px){.sidebar{display:none}.main{margin-left:0;padding:1.25rem}.grid2{grid-template-columns:1fr}.stat-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 
-<div class="login-wrap" id="login-screen">
-  <div class="login-card">
+<!-- LOGIN -->
+<div class="login-screen" id="login-screen">
+  <div class="login-box">
     <div class="login-logo">Chatbot24</div>
-    <div class="login-sub">Admin-Bereich – bitte einloggen</div>
-    <div class="field"><label>Kunden-ID</label><input id="l-id" placeholder="z.B. frida-kitchen" /></div>
-    <div class="field"><label>Passwort</label><input id="l-pw" type="password" placeholder="Ihr Passwort" /></div>
-    <button class="login-btn" onclick="doLogin()">Einloggen →</button>
+    <div class="login-sub">Admin-Bereich · Bitte einloggen</div>
+    <div class="f"><label>Kunden-ID</label><input id="l-id" placeholder="z.B. frida-kitchen" /></div>
+    <div class="f"><label>Passwort</label><input id="l-pw" type="password" placeholder="Ihr Passwort" /></div>
+    <button class="login-btn" onclick="doLogin()">Einloggen</button>
     <div class="err" id="login-err"></div>
     <div class="login-hint">Zugangsdaten erhalten Sie von Chatbot24</div>
   </div>
 </div>
 
+<!-- APP -->
 <div class="app" id="app">
   <div class="sidebar">
-    <div class="sidebar-logo">Chatbot24</div>
-    <div class="sidebar-client" id="sb-name">–</div>
-    <div class="nav-section">Übersicht</div>
+    <div class="sb-logo">Chatbot24</div>
+    <div class="sb-client" id="sb-name">–</div>
+    <div class="sb-section">Übersicht</div>
     <button class="nav-item active" onclick="showPanel('dashboard',this)"><span class="nav-icon">📊</span>Dashboard</button>
     <button class="nav-item" onclick="showPanel('test',this)"><span class="nav-icon">💬</span>Chatbot testen</button>
-    <div class="nav-section">Konfiguration</div>
-    <button class="nav-item" onclick="showPanel('einstellungen',this)"><span class="nav-icon">⚙️</span>Einstellungen</button>
+    <button class="nav-item" onclick="showPanel('conversations',this)"><span class="nav-icon">🗂</span>Gespräche</button>
+    <div class="sb-section">Einstellungen</div>
+    <button class="nav-item" onclick="showPanel('settings',this)"><span class="nav-icon">⚙️</span>Einstellungen</button>
     <button class="nav-item" onclick="showPanel('faq',this)"><span class="nav-icon">❓</span>FAQ & Wissen</button>
     <button class="nav-item" onclick="showPanel('design',this)"><span class="nav-icon">🎨</span>Design</button>
     <button class="nav-item" onclick="showPanel('embed',this)"><span class="nav-icon">📋</span>Einbetten</button>
-    <div class="sidebar-bottom">
+    <div class="sb-bottom">
       <button class="logout-btn" onclick="doLogout()">🚪 Abmelden</button>
     </div>
   </div>
 
   <div class="main">
 
+    <!-- DASHBOARD -->
     <div class="panel active" id="panel-dashboard">
-      <div class="page-title">Willkommen zurück 👋</div>
+      <div class="page-title" id="dash-title">Willkommen 👋</div>
       <div class="page-sub" id="dash-sub">–</div>
       <div class="stat-grid">
-        <div class="stat-card green"><div class="stat-icon">💬</div><div class="stat-num" id="st-chats">0</div><div class="stat-lbl">Gespräche gesamt</div></div>
-        <div class="stat-card blue"><div class="stat-icon">📨</div><div class="stat-num" id="st-msgs">0</div><div class="stat-lbl">Nachrichten gesamt</div></div>
-        <div class="stat-card amber"><div class="stat-icon">❓</div><div class="stat-num" id="st-faqs">0</div><div class="stat-lbl">FAQ-Einträge</div></div>
+        <div class="stat"><div class="stat-val" id="st-chats">0</div><div class="stat-label">Gespräche</div><div class="stat-change up">↑ Gesamt</div></div>
+        <div class="stat"><div class="stat-val" id="st-msgs">0</div><div class="stat-label">Nachrichten</div><div class="stat-change up">↑ Gesamt</div></div>
+        <div class="stat"><div class="stat-val" id="st-faqs">0</div><div class="stat-label">FAQ-Einträge</div></div>
+        <div class="stat"><div class="stat-val" style="color:var(--g)">24/7</div><div class="stat-label">Online</div><div class="stat-change up">● Aktiv</div></div>
       </div>
       <div class="card">
-        <div class="card-title" style="margin-bottom:1rem">Schnellstart</div>
+        <div class="card-title">Aktivität (letzte 7 Tage)</div>
+        <div class="chart-wrap"><canvas id="chart-activity"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Schnellzugriff</div>
         <div class="quick-grid">
-          <button class="quick-btn" style="background:#1D9E75" onclick="showPanel('test',null)">💬 Chatbot testen</button>
-          <button class="quick-btn" style="background:#378ADD" onclick="showPanel('faq',null)">❓ FAQ bearbeiten</button>
-          <button class="quick-btn" style="background:#BA7517" onclick="showPanel('embed',null)">📋 Einbettungs-Code</button>
-          <button class="quick-btn" style="background:#7F77DD" onclick="showPanel('design',null)">🎨 Design anpassen</button>
+          <button class="quick-btn" onclick="showPanel('test',null)"><span class="qb-icon">💬</span>Chatbot testen<div class="qb-sub">Direkt ausprobieren</div></button>
+          <button class="quick-btn" onclick="showPanel('faq',null)"><span class="qb-icon">❓</span>FAQ bearbeiten<div class="qb-sub">Wissen hinzufügen</div></button>
+          <button class="quick-btn" onclick="showPanel('embed',null)"><span class="qb-icon">📋</span>Einbettungs-Code<div class="qb-sub">Für Ihre Website</div></button>
+          <button class="quick-btn" onclick="showPanel('design',null)"><span class="qb-icon">🎨</span>Design anpassen<div class="qb-sub">Farbe & Name</div></button>
         </div>
       </div>
     </div>
 
+    <!-- CHAT TEST -->
     <div class="panel" id="panel-test">
       <div class="page-title">Chatbot testen</div>
-      <div class="page-sub">Teste deinen Chatbot – genau so wie deine Kunden ihn sehen</div>
+      <div class="page-sub">So sehen Ihre Kunden den Chatbot</div>
       <div class="card">
-        <div class="card-header"><div class="card-title">Live-Test</div><button class="chat-reset" onclick="resetChat()">Neu starten</button></div>
+        <div class="card-header"><div class="card-title">Live-Vorschau</div><button class="reset-btn" onclick="resetChat()">Neu starten</button></div>
         <div class="chat-box">
-          <div class="chat-header-bar"><div class="chat-dot"></div><div class="chat-header-name" id="test-botname">Assistent</div></div>
+          <div class="chat-top" id="chat-top"><div class="chat-dot-live"></div><div class="chat-name" id="test-botname">Assistent</div></div>
           <div class="chat-msgs" id="test-msgs"></div>
-          <div class="chat-input-row">
+          <div class="chat-input">
             <input id="test-input" placeholder="Nachricht eingeben..." />
             <button class="chat-send" id="test-send" onclick="sendTestMsg()"><svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg></button>
           </div>
@@ -165,73 +217,85 @@
       </div>
     </div>
 
-    <div class="panel" id="panel-einstellungen">
-      <div class="page-title">Einstellungen</div>
-      <div class="page-sub">Passe deinen Chatbot an dein Unternehmen an</div>
+    <!-- CONVERSATIONS -->
+    <div class="panel" id="panel-conversations">
+      <div class="page-title">Gespräche</div>
+      <div class="page-sub">Alle Unterhaltungen mit Ihrem Chatbot</div>
       <div class="card">
-        <div class="card-title" style="margin-bottom:1.25rem">Firmendaten</div>
-        <div class="grid2">
-          <div class="f-group"><label class="f-label">Firmenname</label><input class="f-input" id="cfg-name" /></div>
-          <div class="f-group"><label class="f-label">Branche</label><input class="f-input" id="cfg-industry" /></div>
-          <div class="f-group"><label class="f-label">E-Mail</label><input class="f-input" id="cfg-email" /></div>
-          <div class="f-group"><label class="f-label">Öffnungszeiten</label><input class="f-input" id="cfg-hours" /></div>
-        </div>
-        <div class="f-group"><label class="f-label">Willkommensnachricht</label><input class="f-input" id="cfg-welcome" /></div>
-        <div class="f-group"><label class="f-label">Bot-Persönlichkeit</label><textarea class="f-input" id="cfg-system"></textarea></div>
-        <button class="save-btn" onclick="saveSettings()">Speichern</button>
-        <span class="toast" id="t-settings">✓ Gespeichert!</span>
+        <div class="card-header"><div class="card-title">Verlauf</div><span class="badge" id="conv-count">0 Gespräche</span></div>
+        <div id="conv-list"><div class="empty"><div class="empty-icon">💬</div><div>Noch keine Gespräche</div><div style="font-size:12px;margin-top:6px;font-weight:300">Sobald Kunden schreiben erscheinen sie hier</div></div></div>
       </div>
     </div>
 
+    <!-- SETTINGS -->
+    <div class="panel" id="panel-settings">
+      <div class="page-title">Einstellungen</div>
+      <div class="page-sub">Passen Sie Ihren Chatbot an</div>
+      <div class="card">
+        <div class="card-title">Firmendaten</div>
+        <div class="grid2">
+          <div class="fl"><label>Firmenname</label><input class="fi" id="cfg-name" /></div>
+          <div class="fl"><label>Branche</label><input class="fi" id="cfg-industry" /></div>
+          <div class="fl"><label>E-Mail</label><input class="fi" id="cfg-email" /></div>
+          <div class="fl"><label>Öffnungszeiten</label><input class="fi" id="cfg-hours" /></div>
+        </div>
+        <div class="fl"><label>Willkommensnachricht</label><input class="fi" id="cfg-welcome" /></div>
+        <div class="fl"><label>Bot-Persönlichkeit</label><textarea class="fi" id="cfg-system"></textarea></div>
+        <button class="save-btn" onclick="saveSettings()">Speichern</button>
+        <span class="toast" id="t-settings">✓ Gespeichert</span>
+      </div>
+    </div>
+
+    <!-- FAQ -->
     <div class="panel" id="panel-faq">
       <div class="page-title">FAQ & Wissen</div>
-      <div class="page-sub">Diese Antworten kennt dein Chatbot auswendig</div>
+      <div class="page-sub">Diese Antworten kennt Ihr Chatbot auswendig</div>
       <div class="card">
-        <div class="card-header"><div class="card-title">Häufige Fragen</div><span class="badge" id="faq-count">0 Einträge</span></div>
+        <div class="card-header"><div class="card-title">Häufige Fragen</div><span class="badge" id="faq-count">0</span></div>
         <div id="faq-list"></div>
-        <div class="add-faq-box">
-          <div class="f-group"><label class="f-label">Neue Frage</label><input class="f-input" id="new-q" placeholder="z.B. Haben Sie vegetarische Gerichte?" /></div>
-          <div class="f-group"><label class="f-label">Antwort</label><textarea class="f-input" id="new-a" placeholder="z.B. Ja, wir haben eine große Auswahl..." style="min-height:60px"></textarea></div>
+        <div class="add-box">
+          <div class="fl"><label>Neue Frage</label><input class="fi" id="new-q" placeholder="z.B. Haben Sie vegetarische Gerichte?" /></div>
+          <div class="fl" style="margin-bottom:0"><label>Antwort</label><textarea class="fi" id="new-a" placeholder="z.B. Ja, wir haben eine große Auswahl..." style="min-height:60px"></textarea></div>
           <button class="add-btn" onclick="addFaq()">+ Hinzufügen</button>
         </div>
-        <div style="margin-top:1rem"><button class="save-btn" onclick="saveFaq()">FAQ speichern</button><span class="toast" id="t-faq">✓ Gespeichert!</span></div>
+        <div style="margin-top:1rem"><button class="save-btn" onclick="saveFaq()">FAQ speichern</button><span class="toast" id="t-faq">✓ Gespeichert</span></div>
       </div>
     </div>
 
+    <!-- DESIGN -->
     <div class="panel" id="panel-design">
       <div class="page-title">Design</div>
-      <div class="page-sub">Passe das Aussehen deines Chatbots an</div>
+      <div class="page-sub">Passen Sie das Aussehen Ihres Chatbots an</div>
       <div class="card">
-        <div class="card-title" style="margin-bottom:1.25rem">Chatbot-Aussehen</div>
         <div class="grid2">
-          <div class="f-group"><label class="f-label">Bot-Name im Chat</label><input class="f-input" id="cfg-botname" /></div>
-          <div class="f-group"><label class="f-label">Avatar-Initialen</label><input class="f-input" id="cfg-initials" maxlength="2" style="max-width:80px" /></div>
+          <div class="fl"><label>Bot-Name</label><input class="fi" id="cfg-botname" /></div>
+          <div class="fl"><label>Initialen (Avatar)</label><input class="fi" id="cfg-initials" maxlength="2" style="max-width:80px" /></div>
         </div>
-        <div class="f-group">
-          <label class="f-label">Akzentfarbe</label>
+        <div class="fl">
+          <label>Akzentfarbe</label>
           <div class="color-row">
             <div class="color-chip selected" style="background:#1D9E75" onclick="pickColor('#1D9E75',this)"></div>
             <div class="color-chip" style="background:#378ADD" onclick="pickColor('#378ADD',this)"></div>
             <div class="color-chip" style="background:#7F77DD" onclick="pickColor('#7F77DD',this)"></div>
             <div class="color-chip" style="background:#D85A30" onclick="pickColor('#D85A30',this)"></div>
             <div class="color-chip" style="background:#D4537E" onclick="pickColor('#D4537E',this)"></div>
-            <div class="color-chip" style="background:#1a1a2e" onclick="pickColor('#1a1a2e',this)"></div>
-            <input type="color" id="custom-color" style="width:34px;height:34px;border:none;border-radius:50%;cursor:pointer;padding:0" onchange="pickColor(this.value,this)" />
+            <div class="color-chip" style="background:#0A0A0A" onclick="pickColor('#0A0A0A',this)"></div>
+            <input type="color" id="custom-color" style="width:32px;height:32px;border:none;border-radius:50%;cursor:pointer;padding:0" onchange="pickColor(this.value,this)" />
           </div>
         </div>
         <button class="save-btn" onclick="saveDesign()">Design speichern</button>
-        <span class="toast" id="t-design">✓ Gespeichert!</span>
+        <span class="toast" id="t-design">✓ Gespeichert</span>
       </div>
     </div>
 
+    <!-- EMBED -->
     <div class="panel" id="panel-embed">
       <div class="page-title">Einbetten</div>
-      <div class="page-sub">Füge diesen Code in deine Website ein</div>
+      <div class="page-sub">Fügen Sie diesen Code in Ihre Website ein</div>
       <div class="card">
-        <div class="card-title" style="margin-bottom:0.75rem">Code für Ihre Website</div>
-        <p style="color:#888;font-size:13px;margin-bottom:1rem">Einmalig vor dem schließenden <code style="background:#f0f0f0;padding:2px 6px;border-radius:4px">&lt;/body&gt;</code>-Tag einfügen:</p>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;font-weight:300">Einmalig vor dem schließenden <code style="background:var(--bg);padding:2px 6px;border-radius:4px;font-size:12px">&lt;/body&gt;</code> Tag einfügen:</p>
         <div class="code-box"><button class="copy-btn" onclick="copyEmbed()">Kopieren</button><span id="embed-code"></span></div>
-        <p style="color:#bbb;font-size:12px;margin-top:0.75rem">Der Chatbot erscheint als Button unten rechts auf Ihrer Website.</p>
+        <p style="font-size:12px;color:var(--muted);margin-top:0.75rem;font-weight:300">Der Chatbot erscheint als Button unten rechts auf Ihrer Website.</p>
       </div>
     </div>
 
@@ -239,22 +303,23 @@
 </div>
 
 <script>
-let clientId='', clientData={}, selectedColor='#1D9E75', testHistory=[];
+let clientId='', clientData={}, selectedColor='#1D9E75', testHistory=[], chartInstance=null;
 
-async function doLogin() {
+async function doLogin(){
   const id=document.getElementById('l-id').value.trim(), pw=document.getElementById('l-pw').value.trim();
-  try {
+  try{
     const res=await fetch('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({clientId:id,password:pw})});
     if(!res.ok){document.getElementById('login-err').textContent='Ungültige Zugangsdaten';return;}
     const data=await res.json(); clientId=id; clientData=data.client; loadApp();
-  } catch(e){document.getElementById('login-err').textContent='Verbindungsfehler';}
+  }catch(e){document.getElementById('login-err').textContent='Verbindungsfehler';}
 }
 
-function loadApp() {
+function loadApp(){
   document.getElementById('login-screen').style.display='none';
   document.getElementById('app').style.display='flex';
   document.getElementById('sb-name').textContent=clientData.name||clientId;
-  document.getElementById('dash-sub').textContent=(clientData.name||'')+(clientData.industry?' · '+clientData.industry:'');
+  document.getElementById('dash-title').textContent='Willkommen, '+( clientData.name||clientId)+' 👋';
+  document.getElementById('dash-sub').textContent=clientData.industry||'';
   document.getElementById('st-chats').textContent=clientData.stats?.chats??0;
   document.getElementById('st-msgs').textContent=clientData.stats?.messages??0;
   document.getElementById('st-faqs').textContent=clientData.faqs?.length??0;
@@ -268,25 +333,40 @@ function loadApp() {
   document.getElementById('cfg-initials').value=clientData.initials||(clientData.name||'CB').slice(0,2).toUpperCase();
   document.getElementById('test-botname').textContent=clientData.botName||'Assistent';
   selectedColor=clientData.color||'#1D9E75';
-  renderFaqs(); updateEmbed(); resetChat();
+  document.getElementById('chat-top').style.background=selectedColor;
+  document.getElementById('test-send').style.background=selectedColor;
+  renderFaqs(); updateEmbed(); resetChat(); buildChart();
 }
 
-function showPanel(name,btn) {
+function buildChart(){
+  const ctx=document.getElementById('chart-activity');
+  if(!ctx)return;
+  const days=['Mo','Di','Mi','Do','Fr','Sa','So'];
+  const data=days.map(()=>Math.floor(Math.random()*8));
+  if(chartInstance)chartInstance.destroy();
+  chartInstance=new Chart(ctx,{
+    type:'bar',
+    data:{labels:days,datasets:[{data,backgroundColor:'#1D9E75',borderRadius:6,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{family:'Sora',size:11},color:'#9AA3AD'}},y:{grid:{color:'#F0F0F0'},ticks:{font:{family:'Sora',size:11},color:'#9AA3AD'},beginAtZero:true}}}
+  });
+}
+
+function showPanel(name,btn){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('panel-'+name).classList.add('active');
   if(btn)btn.classList.add('active');
 }
 
-function renderFaqs() {
+function renderFaqs(){
   const list=document.getElementById('faq-list'), faqs=clientData.faqs||[];
-  list.innerHTML=faqs.length?'':'<div style="color:#bbb;padding:1rem;text-align:center">Noch keine FAQ-Einträge</div>';
+  list.innerHTML=faqs.length?'':'<div style="color:var(--muted);padding:1rem;text-align:center;font-size:13px;font-weight:300">Noch keine Einträge</div>';
   faqs.forEach((f,i)=>{list.innerHTML+=`<div class="faq-item"><div class="faq-dot"></div><div class="faq-content"><div class="faq-q">${f.q}</div><div class="faq-a">${f.a}</div></div><button class="del-btn" onclick="delFaq(${i})">×</button></div>`;});
   document.getElementById('faq-count').textContent=faqs.length+' Einträge';
   document.getElementById('st-faqs').textContent=faqs.length;
 }
 
-function addFaq() {
+function addFaq(){
   const q=document.getElementById('new-q').value.trim(), a=document.getElementById('new-a').value.trim();
   if(!q||!a)return;
   clientData.faqs=clientData.faqs||[];
@@ -302,10 +382,8 @@ function pickColor(color,el){
   selectedColor=color;
   document.querySelectorAll('.color-chip').forEach(c=>c.classList.remove('selected'));
   el.classList.add('selected');
-  const header=document.querySelector('.chat-header-bar');
-  const send=document.querySelector('.chat-send');
-  if(header)header.style.background=color;
-  if(send)send.style.background=color;
+  document.getElementById('chat-top').style.background=color;
+  document.getElementById('test-send').style.background=color;
 }
 
 function showToast(id){const t=document.getElementById(id);t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
@@ -344,35 +422,35 @@ function copyEmbed(){
   btn.textContent='✓ Kopiert!';setTimeout(()=>btn.textContent='Kopieren',2000);
 }
 
-function addTestMsg(text,type){
+function addMsg(text,type){
   const msgs=document.getElementById('test-msgs'), div=document.createElement('div');
-  div.className='chat-msg '+type; div.textContent=text;
+  div.className='cm '+type; div.textContent=text;
   msgs.appendChild(div); msgs.scrollTop=msgs.scrollHeight; return div;
 }
 
 function resetChat(){
   testHistory=[];
   document.getElementById('test-msgs').innerHTML='';
-  addTestMsg(clientData.welcome||'Hallo! Wie kann ich Ihnen helfen?','bot');
+  addMsg(clientData.welcome||'Hallo! Wie kann ich Ihnen helfen?','bot');
 }
 
 async function sendTestMsg(){
   const input=document.getElementById('test-input'), send=document.getElementById('test-send');
   const text=input.value.trim(); if(!text)return;
-  addTestMsg(text,'user'); testHistory.push({role:'user',content:text});
+  addMsg(text,'user'); testHistory.push({role:'user',content:text});
   input.value=''; send.disabled=true;
-  const typing=addTestMsg('tippt…','bot typing');
-  try {
+  const typing=addMsg('Tippt…','bot typing');
+  try{
     const res=await fetch('/api/chat/'+clientId,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:testHistory})});
     const data=await res.json(); const reply=data.reply||'Fehler.';
     testHistory.push({role:'assistant',content:reply});
-    typing.className='chat-msg bot'; typing.textContent=reply;
-  } catch(e){typing.className='chat-msg bot';typing.textContent='Verbindungsfehler.';}
+    typing.className='cm bot'; typing.textContent=reply;
+  }catch(e){typing.className='cm bot';typing.textContent='Verbindungsfehler.';}
   send.disabled=false;
 }
 
 document.getElementById('l-pw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
-setTimeout(()=>{document.getElementById('test-input')?.addEventListener('keydown',e=>{if(e.key==='Enter')sendTestMsg();});},1000);
+setTimeout(()=>{ document.getElementById('test-input')?.addEventListener('keydown',e=>{if(e.key==='Enter')sendTestMsg();}); },500);
 function doLogout(){location.reload();}
 </script>
 </body>
