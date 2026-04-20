@@ -82,13 +82,14 @@
   .status-badge.offline{background:#FFF0F0;color:#E24B4A}
 
   /* LOGO UPLOAD */
-  .logo-upload{border:2px dashed var(--border);border-radius:12px;padding:2rem;text-align:center;cursor:pointer;transition:border-color 0.2s;position:relative}
-  .logo-upload:hover{border-color:var(--g)}
-  .logo-upload input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-  .logo-preview{width:80px;height:80px;border-radius:12px;object-fit:contain;margin:0 auto 0.75rem;display:none;border:1px solid var(--border)}
-  .logo-upload-icon{font-size:32px;margin-bottom:0.5rem}
-  .logo-upload-text{font-size:13px;color:var(--muted);font-weight:300}
-  .logo-upload-hint{font-size:11px;color:var(--muted);margin-top:4px;font-weight:300}
+  .lang-option{display:flex;align-items:center;gap:8px;padding:8px 14px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:13px;transition:border-color 0.15s}
+  .lang-option:hover{border-color:var(--g)}
+  .lang-option input{accent-color:var(--g)}
+  .welcome-page-item{border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:8px;background:var(--bg)}
+  .welcome-page-item .fi{margin-bottom:8px}
+  .welcome-page-item .fi:last-child{margin-bottom:0}
+  .wp-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .wp-label{font-size:12px;font-weight:500;color:var(--soft)}
 
   /* FAQ AI SUGGESTIONS */
   .ai-suggest-btn{background:none;border:1.5px solid var(--g);color:var(--g);padding:8px 16px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:'Sora',sans-serif;transition:all 0.15s;display:flex;align-items:center;gap:6px}
@@ -299,14 +300,26 @@
       <div class="page-sub">Passen Sie das Aussehen Ihres Chatbots an</div>
 
       <div class="card">
-        <div class="card-title">Logo hochladen</div>
-        <div class="logo-upload" id="logo-upload-area">
-          <input type="file" accept="image/*" id="logo-input" onchange="handleLogo(event)" />
-          <img id="logo-preview" class="logo-preview" src="" alt="Logo" />
-          <div class="logo-upload-icon" id="logo-icon">🖼️</div>
-          <div class="logo-upload-text" id="logo-text">Logo hier ablegen oder klicken</div>
-          <div class="logo-upload-hint">PNG, JPG oder SVG · Max. 2MB</div>
+        <div class="card-title">🌍 Mehrsprachigkeit</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;font-weight:300">In welchen Sprachen soll Ihr Chatbot antworten?</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
+          <label class="lang-option"><input type="checkbox" id="lang-de" checked /><span>🇩🇪 Deutsch</span></label>
+          <label class="lang-option"><input type="checkbox" id="lang-en" /><span>🇬🇧 Englisch</span></label>
+          <label class="lang-option"><input type="checkbox" id="lang-tr" /><span>🇹🇷 Türkisch</span></label>
+          <label class="lang-option"><input type="checkbox" id="lang-fr" /><span>🇫🇷 Französisch</span></label>
+          <label class="lang-option"><input type="checkbox" id="lang-es" /><span>🇪🇸 Spanisch</span></label>
         </div>
+        <p style="font-size:12px;color:var(--muted);font-weight:300">Der Bot erkennt die Sprache des Kunden automatisch und antwortet in der gleichen Sprache.</p>
+        <button class="save-btn" style="margin-top:1rem" onclick="saveLanguages()">Sprachen speichern</button>
+        <span class="toast" id="t-lang">✓ Gespeichert</span>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">📝 Seiten-Willkommensnachrichten</div><button class="add-btn" onclick="addWelcomePage()">+ Seite hinzufügen</button></div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;font-weight:300">Verschiedene Begrüßungen je nach Seite – z.B. andere Nachricht auf der Kontaktseite als auf der Startseite.</p>
+        <div id="welcome-pages"></div>
+        <button class="save-btn" style="margin-top:1rem" onclick="saveWelcomePages()">Speichern</button>
+        <span class="toast" id="t-welcome">✓ Gespeichert</span>
       </div>
 
       <div class="card">
@@ -475,19 +488,29 @@ function addSuggestion(q,a){
   saveData();
 }
 
-function handleLogo(event){
-  const file=event.target.files[0];
-  if(!file)return;
-  const reader=new FileReader();
-  reader.onload=e=>{
-    const preview=document.getElementById('logo-preview');
-    preview.src=e.target.result;
-    preview.style.display='block';
-    document.getElementById('logo-icon').style.display='none';
-    document.getElementById('logo-text').textContent='Logo erfolgreich hochgeladen ✓';
-  };
-  reader.readAsDataURL(file);
+function saveLanguages(){
+  const langs=[];
+  if(document.getElementById('lang-de')?.checked)langs.push('de');
+  if(document.getElementById('lang-en')?.checked)langs.push('en');
+  if(document.getElementById('lang-tr')?.checked)langs.push('tr');
+  if(document.getElementById('lang-fr')?.checked)langs.push('fr');
+  if(document.getElementById('lang-es')?.checked)langs.push('es');
+  clientData.languages=langs;
+  saveData();showToast('t-lang');
 }
+
+let welcomePages=[];
+function renderWelcomePages(){
+  const container=document.getElementById('welcome-pages');
+  if(!container)return;
+  container.innerHTML=welcomePages.length?'':'<div style="color:var(--muted);font-size:13px;font-weight:300;padding:0.5rem 0">Noch keine Seiten – klicke auf + um eine hinzuzufügen</div>';
+  welcomePages.forEach((wp,i)=>{
+    container.innerHTML+=`<div class="welcome-page-item"><div class="wp-header"><span class="wp-label">Seite ${i+1}</span><button class="del-btn" onclick="removeWelcomePage(${i})">×</button></div><input class="fi" placeholder="URL-Pfad z.B. /kontakt oder /produkte" value="${wp.path||''}" onchange="welcomePages[${i}].path=this.value" /><input class="fi" placeholder="Willkommensnachricht für diese Seite" value="${wp.message||''}" onchange="welcomePages[${i}].message=this.value" /></div>`;
+  });
+}
+function addWelcomePage(){welcomePages.push({path:'',message:''});renderWelcomePages();}
+function removeWelcomePage(i){welcomePages.splice(i,1);renderWelcomePages();}
+function saveWelcomePages(){clientData.welcomePages=welcomePages;saveData();showToast('t-welcome');}
 
 function pickColor(color,el){
   selectedColor=color;
