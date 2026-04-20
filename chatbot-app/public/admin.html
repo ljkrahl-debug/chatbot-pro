@@ -398,7 +398,14 @@ function buildChart(){
   const ctx=document.getElementById('chart-activity');
   if(!ctx)return;
   const days=['Mo','Di','Mi','Do','Fr','Sa','So'];
-  const vals=days.map(()=>Math.floor(Math.random()*10));
+  // Get last 7 days real data
+  const daily = clientData.stats?.daily || {};
+  const vals = days.map((_,i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - (6 - i));
+    const key = d.toISOString().split('T')[0];
+    return daily[key] || 0;
+  });
   if(chartInstance)chartInstance.destroy();
   chartInstance=new Chart(ctx,{
     type:'bar',
