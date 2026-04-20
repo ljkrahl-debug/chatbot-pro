@@ -302,6 +302,10 @@ function pickColor(color,el){
   selectedColor=color;
   document.querySelectorAll('.color-chip').forEach(c=>c.classList.remove('selected'));
   el.classList.add('selected');
+  const header=document.querySelector('.chat-header-bar');
+  const send=document.querySelector('.chat-send');
+  if(header)header.style.background=color;
+  if(send)send.style.background=color;
 }
 
 function showToast(id){const t=document.getElementById(id);t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
