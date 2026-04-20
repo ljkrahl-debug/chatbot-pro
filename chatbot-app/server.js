@@ -111,6 +111,12 @@ app.put('/api/admin/:clientId', (req, res) => {
   res.json({ success: true });
 });
 
+// ── DEBUG ─────────────────────────────────────────────────
+app.get("/api/debug", (req, res) => {
+  const key = process.env.ANTHROPIC_API_KEY;
+  res.json({ keyExists: !!key, keyStart: key ? key.substring(0, 10) + "..." : "MISSING" });
+});
+
 // ── WIDGET SCRIPT ─────────────────────────────────────────
 app.get('/widget.js', (req, res) => {
   res.setHeader('Content-Type', 'application/javascript');
