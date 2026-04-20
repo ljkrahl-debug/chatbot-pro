@@ -7,12 +7,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-  :root { --g:#1D9E75; --gd:#0F6E56; --gl:#E8F8F2; --ink:#0A0A0A; --soft:#5A6472; --muted:#9AA3AD; --border:#EBEBEB; --bg:#F7F9FB; --white:#fff; }
+  :root{--g:#1D9E75;--gd:#0F6E56;--gl:#E8F8F2;--ink:#0A0A0A;--soft:#5A6472;--muted:#9AA3AD;--border:#EBEBEB;--bg:#F7F9FB;--white:#fff}
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--ink);font-size:14px}
   input,textarea,select,button{font-family:inherit}
 
-  /* LOGIN */
   .login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--ink);padding:2rem}
   .login-box{background:var(--white);border-radius:20px;padding:2.5rem;width:100%;max-width:380px}
   .login-logo{font-size:22px;font-weight:600;color:var(--g);letter-spacing:-0.5px;margin-bottom:4px}
@@ -26,7 +25,6 @@
   .login-hint{font-size:12px;color:var(--muted);margin-top:1rem;text-align:center;font-weight:300}
   .err{color:#E24B4A;font-size:12px;margin-top:0.5rem;text-align:center}
 
-  /* LAYOUT */
   .app{display:none;min-height:100vh}
   .sidebar{width:220px;background:var(--white);border-right:1px solid var(--border);padding:1.5rem 1rem;position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column}
   .sb-logo{font-size:16px;font-weight:600;color:var(--g);padding:0 0.5rem;letter-spacing:-0.3px}
@@ -46,23 +44,18 @@
   .panel{display:none}
   .panel.active{display:block}
 
-  /* CARDS */
   .card{background:var(--white);border-radius:14px;padding:1.5rem;border:1px solid var(--border);margin-bottom:1.25rem}
   .card-title{font-size:14px;font-weight:600;margin-bottom:1.25rem;letter-spacing:-0.2px}
   .card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
 
-  /* STATS */
   .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.25rem}
   .stat{background:var(--white);border-radius:14px;padding:1.25rem;border:1px solid var(--border)}
   .stat-val{font-size:32px;font-weight:600;letter-spacing:-1.5px;line-height:1;margin-bottom:4px}
   .stat-label{font-size:12px;color:var(--muted);font-weight:300}
-  .stat-change{font-size:11px;margin-top:6px;font-weight:500}
-  .stat-change.up{color:var(--g)}
+  .stat-change{font-size:11px;margin-top:6px;font-weight:500;color:var(--g)}
 
-  /* CHART */
   .chart-wrap{position:relative;height:200px}
 
-  /* FORM */
   .fl{margin-bottom:1rem}
   .fl label{display:block;font-size:12px;font-weight:500;color:var(--soft);margin-bottom:5px}
   .fi{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--bg);color:var(--ink);transition:border-color 0.2s}
@@ -74,7 +67,42 @@
   .toast{display:none;background:var(--g);color:#fff;padding:6px 14px;border-radius:6px;font-size:12px;margin-left:10px}
   .toast.show{display:inline-block}
 
-  /* FAQ */
+  /* TOGGLE */
+  .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;background:var(--white);border-radius:12px;border:1px solid var(--border);margin-bottom:1.25rem}
+  .toggle-info h3{font-size:14px;font-weight:500;margin-bottom:2px}
+  .toggle-info p{font-size:12px;color:var(--muted);font-weight:300}
+  .toggle{position:relative;width:44px;height:24px;flex-shrink:0}
+  .toggle input{opacity:0;width:0;height:0}
+  .toggle-slider{position:absolute;inset:0;background:#E0E0E0;border-radius:24px;cursor:pointer;transition:background 0.2s}
+  .toggle-slider:before{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:3px;left:3px;transition:transform 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.15)}
+  .toggle input:checked+.toggle-slider{background:var(--g)}
+  .toggle input:checked+.toggle-slider:before{transform:translateX(20px)}
+  .status-badge{padding:4px 10px;border-radius:100px;font-size:11px;font-weight:500}
+  .status-badge.online{background:var(--gl);color:var(--gd)}
+  .status-badge.offline{background:#FFF0F0;color:#E24B4A}
+
+  /* LOGO UPLOAD */
+  .logo-upload{border:2px dashed var(--border);border-radius:12px;padding:2rem;text-align:center;cursor:pointer;transition:border-color 0.2s;position:relative}
+  .logo-upload:hover{border-color:var(--g)}
+  .logo-upload input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+  .logo-preview{width:80px;height:80px;border-radius:12px;object-fit:contain;margin:0 auto 0.75rem;display:none;border:1px solid var(--border)}
+  .logo-upload-icon{font-size:32px;margin-bottom:0.5rem}
+  .logo-upload-text{font-size:13px;color:var(--muted);font-weight:300}
+  .logo-upload-hint{font-size:11px;color:var(--muted);margin-top:4px;font-weight:300}
+
+  /* FAQ AI SUGGESTIONS */
+  .ai-suggest-btn{background:none;border:1.5px solid var(--g);color:var(--g);padding:8px 16px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:'Sora',sans-serif;transition:all 0.15s;display:flex;align-items:center;gap:6px}
+  .ai-suggest-btn:hover{background:var(--gl)}
+  .ai-suggest-btn.loading{opacity:0.6;cursor:not-allowed}
+  .suggestions-box{background:var(--gl);border-radius:12px;padding:1rem;margin-top:1rem;display:none}
+  .suggestions-box.show{display:block}
+  .suggestion-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--white);border-radius:8px;margin-bottom:8px;border:1px solid var(--border);cursor:pointer;transition:border-color 0.15s}
+  .suggestion-item:last-child{margin-bottom:0}
+  .suggestion-item:hover{border-color:var(--g)}
+  .suggestion-q{font-size:13px;font-weight:500;color:var(--ink)}
+  .suggestion-a{font-size:11px;color:var(--muted);margin-top:2px;font-weight:300}
+  .add-suggestion-btn{background:var(--g);border:none;color:#fff;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:500;cursor:pointer;white-space:nowrap;font-family:'Sora',sans-serif}
+
   .faq-item{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--border)}
   .faq-item:first-child{border-top:none}
   .faq-dot{width:6px;height:6px;border-radius:50%;background:var(--g);margin-top:7px;flex-shrink:0}
@@ -85,25 +113,22 @@
   .del-btn:hover{color:#E24B4A}
   .add-box{background:var(--bg);border:1.5px dashed var(--border);border-radius:12px;padding:1rem;margin-top:1rem}
   .add-box .fi{margin-bottom:8px}
-  .add-btn{background:none;border:1.5px solid var(--g);color:var(--g);padding:7px 16px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;transition:background 0.15s;font-family:'Sora',sans-serif;margin-top:8px}
+  .add-btn{background:none;border:1.5px solid var(--g);color:var(--g);padding:7px 16px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:'Sora',sans-serif;margin-top:8px}
   .add-btn:hover{background:var(--gl)}
   .badge{display:inline-block;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:500;background:var(--gl);color:var(--gd)}
 
-  /* DESIGN */
   .color-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:6px}
   .color-chip{width:32px;height:32px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:transform 0.15s}
   .color-chip:hover{transform:scale(1.1)}
   .color-chip.selected{border-color:var(--ink)}
 
-  /* EMBED */
   .code-box{background:var(--ink);color:#a8f0c8;font-family:monospace;font-size:12px;padding:1.25rem;border-radius:12px;line-height:1.8;position:relative;word-break:break-all}
-  .copy-btn{position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.1);border:none;color:#fff;padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer;transition:background 0.15s;font-family:'Sora',sans-serif}
+  .copy-btn{position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.1);border:none;color:#fff;padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer;font-family:'Sora',sans-serif}
   .copy-btn:hover{background:var(--g)}
 
-  /* CHAT TEST */
   .chat-box{border:1px solid var(--border);border-radius:14px;overflow:hidden}
   .chat-top{padding:12px 16px;display:flex;align-items:center;gap:10px}
-  .chat-dot-live{width:7px;height:7px;border-radius:50%;background:#fff;opacity:0.8}
+  .chat-dot-live{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.8)}
   .chat-name{font-size:13px;font-weight:500;color:#fff}
   .chat-msgs{padding:16px;min-height:260px;max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;background:var(--bg)}
   .cm{max-width:80%;padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;font-weight:300}
@@ -113,35 +138,22 @@
   .chat-input{display:flex;gap:8px;padding:10px;border-top:1px solid var(--border);background:var(--white)}
   .chat-input input{flex:1;padding:9px 13px;border-radius:8px;border:1.5px solid var(--border);font-size:13px;background:var(--bg);font-family:'Sora',sans-serif}
   .chat-input input:focus{outline:none;border-color:var(--g)}
-  .chat-send{border:none;border-radius:8px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity 0.2s}
+  .chat-send{border:none;border-radius:8px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
   .chat-send svg{width:14px;height:14px;fill:#fff}
   .chat-send:disabled{opacity:0.4;cursor:not-allowed}
   .reset-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer;font-family:'Sora',sans-serif}
-  .reset-btn:hover{border-color:var(--ink);color:var(--ink)}
 
-  /* CONVERSATIONS */
-  .conv-item{padding:14px;border-radius:10px;border:1px solid var(--border);margin-bottom:8px;background:var(--white);cursor:pointer;transition:border-color 0.15s}
-  .conv-item:hover{border-color:var(--g)}
-  .conv-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
-  .conv-id{font-size:12px;font-weight:500;color:var(--g)}
-  .conv-time{font-size:11px;color:var(--muted)}
-  .conv-preview{font-size:12px;color:var(--muted);font-weight:300;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .empty{text-align:center;padding:3rem;color:var(--muted)}
-  .empty-icon{font-size:32px;margin-bottom:0.75rem}
-
-  /* QUICK BTNS */
   .quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .quick-btn{padding:14px;border-radius:10px;border:1px solid var(--border);font-size:13px;font-weight:500;cursor:pointer;color:var(--ink);background:var(--white);text-align:left;transition:all 0.15s;font-family:'Sora',sans-serif}
   .quick-btn:hover{border-color:var(--ink);background:var(--bg)}
-  .quick-btn .qb-icon{font-size:18px;display:block;margin-bottom:6px}
-  .quick-btn .qb-sub{font-size:11px;color:var(--muted);font-weight:300;margin-top:2px}
+  .qb-icon{font-size:18px;display:block;margin-bottom:6px}
+  .qb-sub{font-size:11px;color:var(--muted);font-weight:300;margin-top:2px}
 
   @media(max-width:768px){.sidebar{display:none}.main{margin-left:0;padding:1.25rem}.grid2{grid-template-columns:1fr}.stat-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
 <div class="login-screen" id="login-screen">
   <div class="login-box">
     <div class="login-logo">Chatbot24</div>
@@ -154,7 +166,6 @@
   </div>
 </div>
 
-<!-- APP -->
 <div class="app" id="app">
   <div class="sidebar">
     <div class="sb-logo">Chatbot24</div>
@@ -162,11 +173,10 @@
     <div class="sb-section">Übersicht</div>
     <button class="nav-item active" onclick="showPanel('dashboard',this)"><span class="nav-icon">📊</span>Dashboard</button>
     <button class="nav-item" onclick="showPanel('test',this)"><span class="nav-icon">💬</span>Chatbot testen</button>
-    <button class="nav-item" onclick="showPanel('conversations',this)"><span class="nav-icon">🗂</span>Gespräche</button>
     <div class="sb-section">Einstellungen</div>
     <button class="nav-item" onclick="showPanel('settings',this)"><span class="nav-icon">⚙️</span>Einstellungen</button>
     <button class="nav-item" onclick="showPanel('faq',this)"><span class="nav-icon">❓</span>FAQ & Wissen</button>
-    <button class="nav-item" onclick="showPanel('design',this)"><span class="nav-icon">🎨</span>Design</button>
+    <button class="nav-item" onclick="showPanel('design',this)"><span class="nav-icon">🎨</span>Design & Logo</button>
     <button class="nav-item" onclick="showPanel('embed',this)"><span class="nav-icon">📋</span>Einbetten</button>
     <div class="sb-bottom">
       <button class="logout-btn" onclick="doLogout()">🚪 Abmelden</button>
@@ -179,23 +189,41 @@
     <div class="panel active" id="panel-dashboard">
       <div class="page-title" id="dash-title">Willkommen 👋</div>
       <div class="page-sub" id="dash-sub">–</div>
-      <div class="stat-grid">
-        <div class="stat"><div class="stat-val" id="st-chats">0</div><div class="stat-label">Gespräche</div><div class="stat-change up">↑ Gesamt</div></div>
-        <div class="stat"><div class="stat-val" id="st-msgs">0</div><div class="stat-label">Nachrichten</div><div class="stat-change up">↑ Gesamt</div></div>
-        <div class="stat"><div class="stat-val" id="st-faqs">0</div><div class="stat-label">FAQ-Einträge</div></div>
-        <div class="stat"><div class="stat-val" style="color:var(--g)">24/7</div><div class="stat-label">Online</div><div class="stat-change up">● Aktiv</div></div>
+
+      <!-- CHATBOT ON/OFF -->
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <h3>Chatbot Status</h3>
+          <p>Schalten Sie den Chatbot auf Ihrer Website ein oder aus</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <span class="status-badge online" id="status-badge">● Online</span>
+          <label class="toggle">
+            <input type="checkbox" id="bot-toggle" checked onchange="toggleBot()" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
       </div>
+
+      <div class="stat-grid">
+        <div class="stat"><div class="stat-val" id="st-chats">0</div><div class="stat-label">Gespräche</div><div class="stat-change">↑ Gesamt</div></div>
+        <div class="stat"><div class="stat-val" id="st-msgs">0</div><div class="stat-label">Nachrichten</div><div class="stat-change">↑ Gesamt</div></div>
+        <div class="stat"><div class="stat-val" id="st-faqs">0</div><div class="stat-label">FAQ-Einträge</div></div>
+        <div class="stat"><div class="stat-val" style="color:var(--g)" id="st-status">24/7</div><div class="stat-label">Verfügbarkeit</div><div class="stat-change">● Aktiv</div></div>
+      </div>
+
       <div class="card">
         <div class="card-title">Aktivität (letzte 7 Tage)</div>
         <div class="chart-wrap"><canvas id="chart-activity"></canvas></div>
       </div>
+
       <div class="card">
         <div class="card-title">Schnellzugriff</div>
         <div class="quick-grid">
           <button class="quick-btn" onclick="showPanel('test',null)"><span class="qb-icon">💬</span>Chatbot testen<div class="qb-sub">Direkt ausprobieren</div></button>
           <button class="quick-btn" onclick="showPanel('faq',null)"><span class="qb-icon">❓</span>FAQ bearbeiten<div class="qb-sub">Wissen hinzufügen</div></button>
           <button class="quick-btn" onclick="showPanel('embed',null)"><span class="qb-icon">📋</span>Einbettungs-Code<div class="qb-sub">Für Ihre Website</div></button>
-          <button class="quick-btn" onclick="showPanel('design',null)"><span class="qb-icon">🎨</span>Design anpassen<div class="qb-sub">Farbe & Name</div></button>
+          <button class="quick-btn" onclick="showPanel('design',null)"><span class="qb-icon">🎨</span>Design & Logo<div class="qb-sub">Farbe & Branding</div></button>
         </div>
       </div>
     </div>
@@ -214,16 +242,6 @@
             <button class="chat-send" id="test-send" onclick="sendTestMsg()"><svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg></button>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- CONVERSATIONS -->
-    <div class="panel" id="panel-conversations">
-      <div class="page-title">Gespräche</div>
-      <div class="page-sub">Alle Unterhaltungen mit Ihrem Chatbot</div>
-      <div class="card">
-        <div class="card-header"><div class="card-title">Verlauf</div><span class="badge" id="conv-count">0 Gespräche</span></div>
-        <div id="conv-list"><div class="empty"><div class="empty-icon">💬</div><div>Noch keine Gespräche</div><div style="font-size:12px;margin-top:6px;font-weight:300">Sobald Kunden schreiben erscheinen sie hier</div></div></div>
       </div>
     </div>
 
@@ -251,7 +269,20 @@
       <div class="page-title">FAQ & Wissen</div>
       <div class="page-sub">Diese Antworten kennt Ihr Chatbot auswendig</div>
       <div class="card">
-        <div class="card-header"><div class="card-title">Häufige Fragen</div><span class="badge" id="faq-count">0</span></div>
+        <div class="card-header">
+          <div class="card-title">Häufige Fragen</div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="badge" id="faq-count">0</span>
+            <button class="ai-suggest-btn" id="ai-btn" onclick="getAISuggestions()">✨ KI-Vorschläge</button>
+          </div>
+        </div>
+
+        <!-- AI SUGGESTIONS -->
+        <div class="suggestions-box" id="suggestions-box">
+          <div style="font-size:12px;font-weight:600;color:var(--gd);margin-bottom:0.75rem">✨ KI-Vorschläge für Ihr Unternehmen – klicken zum Hinzufügen:</div>
+          <div id="suggestions-list"></div>
+        </div>
+
         <div id="faq-list"></div>
         <div class="add-box">
           <div class="fl"><label>Neue Frage</label><input class="fi" id="new-q" placeholder="z.B. Haben Sie vegetarische Gerichte?" /></div>
@@ -262,10 +293,22 @@
       </div>
     </div>
 
-    <!-- DESIGN -->
+    <!-- DESIGN & LOGO -->
     <div class="panel" id="panel-design">
-      <div class="page-title">Design</div>
+      <div class="page-title">Design & Logo</div>
       <div class="page-sub">Passen Sie das Aussehen Ihres Chatbots an</div>
+
+      <div class="card">
+        <div class="card-title">Logo hochladen</div>
+        <div class="logo-upload" id="logo-upload-area">
+          <input type="file" accept="image/*" id="logo-input" onchange="handleLogo(event)" />
+          <img id="logo-preview" class="logo-preview" src="" alt="Logo" />
+          <div class="logo-upload-icon" id="logo-icon">🖼️</div>
+          <div class="logo-upload-text" id="logo-text">Logo hier ablegen oder klicken</div>
+          <div class="logo-upload-hint">PNG, JPG oder SVG · Max. 2MB</div>
+        </div>
+      </div>
+
       <div class="card">
         <div class="grid2">
           <div class="fl"><label>Bot-Name</label><input class="fi" id="cfg-botname" /></div>
@@ -303,7 +346,7 @@
 </div>
 
 <script>
-let clientId='', clientData={}, selectedColor='#1D9E75', testHistory=[], chartInstance=null;
+let clientId='', clientData={}, selectedColor='#1D9E75', testHistory=[], chartInstance=null, botActive=true;
 
 async function doLogin(){
   const id=document.getElementById('l-id').value.trim(), pw=document.getElementById('l-pw').value.trim();
@@ -318,7 +361,7 @@ function loadApp(){
   document.getElementById('login-screen').style.display='none';
   document.getElementById('app').style.display='flex';
   document.getElementById('sb-name').textContent=clientData.name||clientId;
-  document.getElementById('dash-title').textContent='Willkommen, '+( clientData.name||clientId)+' 👋';
+  document.getElementById('dash-title').textContent='Willkommen, '+(clientData.name||clientId)+' 👋';
   document.getElementById('dash-sub').textContent=clientData.industry||'';
   document.getElementById('st-chats').textContent=clientData.stats?.chats??0;
   document.getElementById('st-msgs').textContent=clientData.stats?.messages??0;
@@ -342,13 +385,26 @@ function buildChart(){
   const ctx=document.getElementById('chart-activity');
   if(!ctx)return;
   const days=['Mo','Di','Mi','Do','Fr','Sa','So'];
-  const data=days.map(()=>Math.floor(Math.random()*8));
+  const vals=days.map(()=>Math.floor(Math.random()*10));
   if(chartInstance)chartInstance.destroy();
   chartInstance=new Chart(ctx,{
     type:'bar',
-    data:{labels:days,datasets:[{data,backgroundColor:'#1D9E75',borderRadius:6,borderSkipped:false}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{family:'Sora',size:11},color:'#9AA3AD'}},y:{grid:{color:'#F0F0F0'},ticks:{font:{family:'Sora',size:11},color:'#9AA3AD'},beginAtZero:true}}}
+    data:{labels:days,datasets:[{data:vals,backgroundColor:'#1D9E75',borderRadius:6,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{family:'Sora',size:11},color:'#9AA3AD'}},y:{grid:{color:'#F4F4F4'},ticks:{font:{family:'Sora',size:11},color:'#9AA3AD'},beginAtZero:true}}}
   });
+}
+
+function toggleBot(){
+  botActive=document.getElementById('bot-toggle').checked;
+  const badge=document.getElementById('status-badge');
+  const statusVal=document.getElementById('st-status');
+  if(botActive){
+    badge.className='status-badge online'; badge.textContent='● Online';
+    statusVal.textContent='24/7'; statusVal.style.color='var(--g)';
+  } else {
+    badge.className='status-badge offline'; badge.textContent='● Offline';
+    statusVal.textContent='Aus'; statusVal.style.color='#E24B4A';
+  }
 }
 
 function showPanel(name,btn){
@@ -377,6 +433,61 @@ function addFaq(){
 }
 
 function delFaq(i){clientData.faqs.splice(i,1);renderFaqs();}
+
+async function getAISuggestions(){
+  const btn=document.getElementById('ai-btn');
+  btn.classList.add('loading');
+  btn.textContent='✨ Lädt...';
+  const industry=clientData.industry||'Unternehmen';
+  const name=clientData.name||'das Unternehmen';
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        messages:[{role:'user',content:`Generiere 5 typische Kundenfragen mit Antworten für "${name}", ein ${industry}. Antworte NUR als JSON Array ohne Markdown: [{"q":"Frage","a":"Antwort"}]`}]
+      })
+    });
+    const data=await res.json();
+    const text=data.content?.[0]?.text||'[]';
+    const suggestions=JSON.parse(text.replace(/```json|```/g,'').trim());
+    const list=document.getElementById('suggestions-list');
+    list.innerHTML='';
+    suggestions.forEach(s=>{
+      list.innerHTML+=`<div class="suggestion-item" onclick="addSuggestion('${s.q.replace(/'/g,"\\'")}','${s.a.replace(/'/g,"\\'")}')"><div><div class="suggestion-q">${s.q}</div><div class="suggestion-a">${s.a}</div></div><button class="add-suggestion-btn">+ Hinzufügen</button></div>`;
+    });
+    document.getElementById('suggestions-box').classList.add('show');
+  }catch(e){
+    alert('KI-Vorschläge konnten nicht geladen werden. Bitte Guthaben prüfen.');
+  }
+  btn.classList.remove('loading');
+  btn.textContent='✨ KI-Vorschläge';
+}
+
+function addSuggestion(q,a){
+  clientData.faqs=clientData.faqs||[];
+  clientData.faqs.push({q,a});
+  renderFaqs();
+  document.getElementById('suggestions-box').classList.remove('show');
+  showToast('t-faq');
+  saveData();
+}
+
+function handleLogo(event){
+  const file=event.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const preview=document.getElementById('logo-preview');
+    preview.src=e.target.result;
+    preview.style.display='block';
+    document.getElementById('logo-icon').style.display='none';
+    document.getElementById('logo-text').textContent='Logo erfolgreich hochgeladen ✓';
+  };
+  reader.readAsDataURL(file);
+}
 
 function pickColor(color,el){
   selectedColor=color;
@@ -450,7 +561,7 @@ async function sendTestMsg(){
 }
 
 document.getElementById('l-pw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
-setTimeout(()=>{ document.getElementById('test-input')?.addEventListener('keydown',e=>{if(e.key==='Enter')sendTestMsg();}); },500);
+setTimeout(()=>{document.getElementById('test-input')?.addEventListener('keydown',e=>{if(e.key==='Enter')sendTestMsg();});},500);
 function doLogout(){location.reload();}
 </script>
 </body>
