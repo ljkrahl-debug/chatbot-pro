@@ -70,6 +70,7 @@ app.post('/api/chat/:clientId', async (req, res) => {
     });
 
     const data = await response.json();
+    console.error('API RESPONSE:', JSON.stringify(data));
     const reply = data.content?.[0]?.text || 'Entschuldigung, bitte versuche es erneut.';
 
     // Update stats
@@ -79,7 +80,9 @@ app.post('/api/chat/:clientId', async (req, res) => {
 
     res.json({ reply });
   } catch (err) {
-    res.status(500).json({ error: 'API error', detail: err.message });
+    const errDetail = err.message;
+    console.error("API ERROR:", errDetail);
+    res.status(500).json({ error: "API error", detail: errDetail });
   }
 });
 
