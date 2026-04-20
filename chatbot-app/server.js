@@ -75,7 +75,13 @@ app.post('/api/chat/:clientId', async (req, res) => {
 
     // Update stats
     clients[clientId].stats.messages++;
-    if (messages.length === 1) clients[clientId].stats.chats++;
+    if (messages.length === 1) {
+      clients[clientId].stats.chats++;
+      // Track daily stats
+      const today = new Date().toISOString().split('T')[0];
+      if (!clients[clientId].stats.daily) clients[clientId].stats.daily = {};
+      clients[clientId].stats.daily[today] = (clients[clientId].stats.daily[today] || 0) + 1;
+    }
     saveClients(clients);
 
     res.json({ reply });
