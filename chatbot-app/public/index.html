@@ -203,6 +203,18 @@
   .faq-a{max-height:0;overflow:hidden;transition:max-height 0.4s ease,padding 0.3s}
   .faq-item.open .faq-a{max-height:200px;padding:0 1.25rem 1.1rem}
   .faq-a p{font-size:14px;color:var(--soft);line-height:1.7;font-weight:300}
+
+  /* LANGUAGES */
+  .lang-section{padding:4rem 2.5rem;background:var(--bg)}
+  .lang-inner{max-width:960px;margin:0 auto;text-align:center}
+  .lang-grid{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-top:2.5rem}
+  .lang-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:1.25rem 1.75rem;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all 0.2s;min-width:120px}
+  .lang-card:hover{border-color:var(--g);transform:translateY(-3px);box-shadow:0 8px 24px rgba(29,158,117,0.1)}
+  .lang-flag{font-size:36px}
+  .lang-name{font-size:13px;font-weight:500;color:var(--ink)}
+  .lang-auto{font-size:11px;color:var(--muted);font-weight:300}
+  .lang-note{font-size:14px;color:var(--soft);margin-top:2rem;font-weight:300}
+  .lang-note span{color:var(--g);font-weight:500}
 </style>
 </head>
 <body>
@@ -401,6 +413,48 @@
   </div>
 </div>
 
+
+<!-- LANGUAGES -->
+<div class="lang-section">
+  <div class="lang-inner">
+    <div class="sec-label fade-up">Mehrsprachigkeit</div>
+    <div class="sec-title fade-up">Ihr Chatbot spricht<br>die Sprache Ihrer Kunden.</div>
+    <div class="lang-grid">
+      <div class="lang-card fade-up">
+        <div class="lang-flag">🇩🇪</div>
+        <div class="lang-name">Deutsch</div>
+        <div class="lang-auto">Automatisch</div>
+      </div>
+      <div class="lang-card fade-up">
+        <div class="lang-flag">🇬🇧</div>
+        <div class="lang-name">Englisch</div>
+        <div class="lang-auto">Automatisch</div>
+      </div>
+      <div class="lang-card fade-up">
+        <div class="lang-flag">🇹🇷</div>
+        <div class="lang-name">Türkisch</div>
+        <div class="lang-auto">Automatisch</div>
+      </div>
+      <div class="lang-card fade-up">
+        <div class="lang-flag">🇫🇷</div>
+        <div class="lang-name">Französisch</div>
+        <div class="lang-auto">Automatisch</div>
+      </div>
+      <div class="lang-card fade-up">
+        <div class="lang-flag">🇪🇸</div>
+        <div class="lang-name">Spanisch</div>
+        <div class="lang-auto">Automatisch</div>
+      </div>
+      <div class="lang-card fade-up">
+        <div class="lang-flag">🇮🇹</div>
+        <div class="lang-name">Italienisch</div>
+        <div class="lang-auto">Automatisch</div>
+      </div>
+    </div>
+    <div class="lang-note fade-up">Der Bot erkennt die Sprache des Kunden <span>automatisch</span> – kein Extra-Aufwand für Sie.</div>
+  </div>
+</div>
+
 <!-- HOW -->
 <div class="how" id="how">
   <div class="how-inner">
@@ -486,6 +540,7 @@
   <div class="foot-logo">Chatbot24</div>
   <div class="foot-links">
     <a href="mailto:chatbot24service@gmail.com">chatbot24service@gmail.com</a>
+    <a href="/admin" style="color:var(--g);font-weight:500">Admin-Login</a>
     <a href="/rechtliches">Impressum</a>
     <a href="/rechtliches">Datenschutz</a>
   </div>
