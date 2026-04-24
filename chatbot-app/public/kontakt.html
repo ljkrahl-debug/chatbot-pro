@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Chatbot24 – Kontakt</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init("7jMm9AcOIMM_Hzyu4");</script>
+<style>
+  :root{--g:#1D9E75;--gd:#0F6E56;--gl:#E8F8F2;--ink:#0A0A0A;--soft:#5A6472;--muted:#9AA3AD;--border:#EBEBEB;--bg:#F7F9FB}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Sora',sans-serif;background:#fff;color:var(--ink);line-height:1.6}
+  nav{position:fixed;top:0;left:0;right:0;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:100}
+  .logo{font-size:18px;font-weight:600;color:var(--g);letter-spacing:-0.3px}
+  .nav-back{font-size:13px;color:var(--muted);text-decoration:none;transition:color 0.2s}
+  .nav-back:hover{color:var(--ink)}
+  .page{max-width:900px;margin:0 auto;padding:6rem 2.5rem 4rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+  .info h1{font-size:36px;font-weight:600;letter-spacing:-1.5px;margin-bottom:1rem;line-height:1.15}
+  .info h1 span{color:var(--g)}
+  .info p{font-size:15px;color:var(--soft);font-weight:300;line-height:1.8;margin-bottom:2rem}
+  .info-item{display:flex;gap:12px;align-items:flex-start;margin-bottom:1.25rem}
+  .info-icon{width:36px;height:36px;border-radius:10px;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+  .info-text{font-size:14px;color:var(--soft);font-weight:300}
+  .info-text strong{display:block;font-weight:500;color:var(--ink);margin-bottom:2px}
+  .form-card{background:var(--bg);border-radius:20px;padding:2rem;border:1px solid var(--border)}
+  .form-card h2{font-size:18px;font-weight:600;margin-bottom:0.25rem;letter-spacing:-0.3px}
+  .form-card p{font-size:13px;color:var(--muted);margin-bottom:1.5rem;font-weight:300}
+  .fg{margin-bottom:1rem}
+  .fg label{display:block;font-size:12px;font-weight:500;color:var(--soft);margin-bottom:5px}
+  .fg input,.fg textarea{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Sora',sans-serif;background:#fff;color:var(--ink);transition:border-color 0.2s}
+  .fg input:focus,.fg textarea:focus{outline:none;border-color:var(--g)}
+  .fg textarea{resize:vertical;min-height:100px;line-height:1.6}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  .submit-btn{width:100%;background:var(--g);color:#fff;border:none;padding:13px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:'Sora',sans-serif;transition:all 0.2s;margin-top:0.5rem}
+  .submit-btn:hover{background:var(--gd);transform:translateY(-1px)}
+  .submit-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+  .success{display:none;text-align:center;padding:2rem}
+  .success-icon{font-size:48px;margin-bottom:1rem}
+  .success h3{font-size:18px;font-weight:600;color:var(--g);margin-bottom:0.5rem}
+  .success p{font-size:14px;color:var(--soft);font-weight:300}
+  @media(max-width:700px){.page{grid-template-columns:1fr;gap:2rem;padding-top:5rem}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Chatbot24</div>
+  <a href="/" class="nav-back">← Zurück</a>
+</nav>
+
+<div class="page">
+  <div class="info">
+    <h1>Lassen Sie uns <span>reden.</span></h1>
+    <p>Haben Sie Interesse an einem KI-Chatbot für Ihre Website? Füllen Sie das Formular aus – wir melden uns innerhalb von 24 Stunden!</p>
+
+    <div class="info-item">
+      <div class="info-icon">📧</div>
+      <div class="info-text"><strong>E-Mail</strong>chatbot24service@gmail.com</div>
+    </div>
+    <div class="info-item">
+      <div class="info-icon">⚡</div>
+      <div class="info-text"><strong>Antwortzeit</strong>Innerhalb von 24 Stunden</div>
+    </div>
+    <div class="info-item">
+      <div class="info-icon">🚀</div>
+      <div class="info-text"><strong>Live in</strong>48 Stunden nach Auftragserteilung</div>
+    </div>
+    <div class="info-item">
+      <div class="info-icon">💰</div>
+      <div class="info-text"><strong>Preis</strong>Ab 29 €/Monat + 199 € Einrichtung</div>
+    </div>
+  </div>
+
+  <div class="form-card">
+    <div id="form-wrap">
+      <h2>Kostenloses Angebot</h2>
+      <p>Kein Risiko · Keine Vertragsbindung</p>
+      <div class="grid2">
+        <div class="fg"><label>Ihr Name *</label><input id="f-name" placeholder="Max Mustermann" /></div>
+        <div class="fg"><label>E-Mail *</label><input id="f-email" type="email" placeholder="max@firma.de" /></div>
+      </div>
+      <div class="grid2">
+        <div class="fg"><label>Website</label><input id="f-website" placeholder="www.ihre-website.de" /></div>
+        <div class="fg"><label>Branche</label><input id="f-branche" placeholder="z.B. Restaurant" /></div>
+      </div>
+      <div class="fg"><label>Nachricht</label><textarea id="f-nachricht" placeholder="Was möchten Sie uns mitteilen?"></textarea></div>
+      <button class="submit-btn" id="submit-btn" onclick="sendForm()">Angebot anfragen →</button>
+    </div>
+    <div class="success" id="success">
+      <div class="success-icon">🎉</div>
+      <h3>Anfrage gesendet!</h3>
+      <p>Vielen Dank! Wir melden uns innerhalb von 24 Stunden bei Ihnen.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+async function sendForm(){
+  const name=document.getElementById('f-name').value.trim();
+  const email=document.getElementById('f-email').value.trim();
+  if(!name||!email){alert('Bitte Name und E-Mail ausfüllen!');return;}
+  const btn=document.getElementById('submit-btn');
+  btn.disabled=true;btn.textContent='Wird gesendet...';
+  try{
+    await emailjs.send('service_7fdqs58','template_cxvdq64',{
+      name,email,
+      website:document.getElementById('f-website').value||'–',
+      branche:document.getElementById('f-branche').value||'–',
+      nachricht:document.getElementById('f-nachricht').value||'–'
+    });
+    document.getElementById('form-wrap').style.display='none';
+    document.getElementById('success').style.display='block';
+  }catch(e){
+    alert('Fehler beim Senden. Bitte versuche es erneut.');
+    btn.disabled=false;btn.textContent='Angebot anfragen →';
+  }
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.tagName!=='TEXTAREA')sendForm();});
+</script>
+</body>
+</html>
