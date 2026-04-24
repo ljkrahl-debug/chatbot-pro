@@ -18,80 +18,106 @@
   .logo{font-size:18px;font-weight:600;color:var(--g);letter-spacing:-0.3px}
   .nav-links{display:flex;gap:2.5rem;font-size:14px;color:var(--muted)}
   .nav-links a:hover{color:var(--ink)}
-  .nav-btn{background:var(--ink);color:#fff;padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;transition:opacity 0.2s;cursor:pointer;border:none;font-family:'Sora',sans-serif}
+  .nav-btn{background:var(--ink);color:#fff;padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;border:none;cursor:pointer;font-family:'Sora',sans-serif;transition:opacity 0.2s}
   .nav-btn:hover{opacity:0.8}
 
   /* HERO */
-  .hero{padding:140px 2.5rem 80px;max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
-  .hero-left{}
+  .hero{padding:130px 2.5rem 70px;max-width:960px;margin:0 auto;text-align:center}
   .hero-tag{display:inline-flex;align-items:center;gap:8px;background:var(--gl);color:var(--gd);font-size:12px;font-weight:500;padding:5px 14px;border-radius:100px;margin-bottom:1.5rem}
   .hero-tag span{width:6px;height:6px;border-radius:50%;background:var(--g);animation:blink 2s infinite}
   @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
-  h1{font-size:clamp(34px,4.5vw,52px);font-weight:600;line-height:1.1;letter-spacing:-2px;margin-bottom:1.25rem}
+  h1{font-size:clamp(36px,5vw,58px);font-weight:600;line-height:1.1;letter-spacing:-2px;margin-bottom:1.25rem}
   h1 mark{background:none;color:var(--g)}
-  .hero-desc{font-size:16px;color:var(--soft);max-width:420px;line-height:1.8;font-weight:300;margin-bottom:2rem}
-  .hero-btns{display:flex;gap:10px;flex-wrap:wrap}
-  .btn-main{background:var(--g);color:#fff;padding:13px 26px;border-radius:10px;font-size:14px;font-weight:500;border:none;cursor:pointer;font-family:'Sora',sans-serif;transition:all 0.2s}
+  .hero-desc{font-size:17px;color:var(--soft);max-width:520px;margin:0 auto 2.5rem;line-height:1.8;font-weight:300}
+  .hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .btn-main{background:var(--g);color:#fff;padding:14px 28px;border-radius:10px;font-size:15px;font-weight:500;border:none;cursor:pointer;font-family:'Sora',sans-serif;transition:all 0.2s}
   .btn-main:hover{background:var(--gd);transform:translateY(-1px)}
-  .btn-outline{background:#fff;color:var(--ink);padding:13px 26px;border-radius:10px;font-size:14px;font-weight:500;border:1.5px solid var(--border);cursor:pointer;font-family:'Sora',sans-serif;transition:all 0.2s}
+  .btn-outline{background:#fff;color:var(--ink);padding:14px 28px;border-radius:10px;font-size:15px;font-weight:500;border:1.5px solid var(--border);cursor:pointer;font-family:'Sora',sans-serif;transition:all 0.2s}
   .btn-outline:hover{border-color:var(--ink)}
   .hero-note{font-size:12px;color:var(--muted);margin-top:1rem}
 
-  /* DEMO WIDGET */
-  .demo-widget{background:var(--bg);border-radius:20px;border:1px solid var(--border);overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.08)}
-  .demo-top{padding:10px 16px;display:flex;align-items:center;gap:8px}
-  .demo-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.8)}
-  .demo-name{font-size:13px;font-weight:500;color:#fff}
-  .demo-msgs{padding:14px;min-height:200px;max-height:240px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;background:#f8fafb}
-  .dm{max-width:85%;padding:8px 12px;border-radius:12px;font-size:13px;line-height:1.5;font-weight:300}
-  .dm.bot{background:#fff;color:var(--ink);border-bottom-left-radius:3px;align-self:flex-start;border:1px solid var(--border)}
-  .dm.user{background:var(--g);color:#fff;border-bottom-right-radius:3px;align-self:flex-end}
-  .dm.typing{color:var(--muted);font-style:italic;background:#fff;border:1px solid var(--border)}
-  .demo-input{display:flex;gap:8px;padding:10px;border-top:1px solid var(--border);background:#fff}
-  .demo-input input{flex:1;padding:8px 12px;border-radius:8px;border:1.5px solid var(--border);font-size:13px;font-family:'Sora',sans-serif}
-  .demo-input input:focus{outline:none;border-color:var(--g)}
-  .demo-send{background:var(--g);border:none;border-radius:8px;width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-  .demo-send svg{width:14px;height:14px;fill:#fff}
-  .demo-send:disabled{opacity:0.4;cursor:not-allowed}
-  .demo-label{text-align:center;font-size:11px;color:var(--muted);padding:6px;background:#fff;font-weight:300}
-
-  /* DIVIDER */
   .divider{height:1px;background:var(--border);max-width:960px;margin:0 auto}
 
-  /* PLATFORMS */
-  .platforms{padding:2.5rem 2.5rem;max-width:960px;margin:0 auto;display:flex;align-items:center;gap:3rem;flex-wrap:wrap}
-  .platforms-label{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.1em;white-space:nowrap}
-  .platform-tags{display:flex;gap:1.5rem;flex-wrap:wrap}
+  .platforms{padding:2.5rem;max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:3rem;flex-wrap:wrap}
+  .platforms-label{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.1em}
   .platform-tag{font-size:13px;color:#C8D0DA;font-weight:500}
 
-  /* SECTIONS */
-  section{padding:5rem 2.5rem;max-width:960px;margin:0 auto}
+  /* DASHBOARD PREVIEW */
+  .dashboard-section{padding:5rem 2.5rem;max-width:960px;margin:0 auto}
   .sec-label{font-size:11px;font-weight:600;color:var(--g);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem}
   .sec-title{font-size:clamp(26px,4vw,38px);font-weight:600;letter-spacing:-1.5px;margin-bottom:1rem;line-height:1.15}
-  .sec-sub{font-size:15px;color:var(--soft);font-weight:300;line-height:1.8;max-width:480px}
+  .sec-sub{font-size:15px;color:var(--soft);font-weight:300;line-height:1.8;margin-bottom:3rem}
 
-  /* FEATURES */
-  .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-top:3rem}
-  .feat{background:#fff;padding:1.5rem;transition:background 0.15s}
-  .feat:hover{background:var(--bg)}
-  .feat-icon{width:34px;height:34px;border-radius:10px;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:17px;margin-bottom:0.875rem}
-  .feat-title{font-size:14px;font-weight:500;margin-bottom:0.35rem}
-  .feat-desc{font-size:13px;color:var(--muted);line-height:1.6;font-weight:300}
+  /* FEATURE SHOWCASE */
+  .showcase{display:flex;flex-direction:column;gap:5rem}
+  .showcase-item{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+  .showcase-item.reverse{direction:rtl}
+  .showcase-item.reverse>*{direction:ltr}
+  .showcase-text{}
+  .showcase-label{font-size:11px;font-weight:600;color:var(--g);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem}
+  .showcase-title{font-size:22px;font-weight:600;letter-spacing:-0.5px;margin-bottom:0.75rem;line-height:1.25}
+  .showcase-desc{font-size:14px;color:var(--soft);font-weight:300;line-height:1.8;margin-bottom:1.25rem}
+  .showcase-bullets{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .showcase-bullets li{font-size:13px;color:var(--soft);display:flex;align-items:center;gap:8px;font-weight:300}
+  .showcase-bullets li::before{content:"✓";color:var(--g);font-weight:600;font-size:13px}
+  .showcase-visual{border-radius:16px;overflow:hidden;border:1px solid var(--border);box-shadow:0 4px 24px rgba(0,0,0,0.06)}
 
-  /* SCREENSHOTS */
-  .screenshots{margin-top:3rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
-  .screenshot-card{border-radius:14px;overflow:hidden;border:1px solid var(--border);background:var(--bg)}
-  .screenshot-img{width:100%;height:200px;background:linear-gradient(135deg,#1D9E75,#0F6E56);display:flex;align-items:center;justify-content:center;font-size:48px}
-  .screenshot-info{padding:1rem}
-  .screenshot-title{font-size:14px;font-weight:500;margin-bottom:4px}
-  .screenshot-desc{font-size:12px;color:var(--muted);font-weight:300}
+  /* MOCK DASHBOARD */
+  .mock-dashboard{background:#fff;font-size:11px}
+  .mock-header{background:var(--ink);padding:10px 14px;display:flex;align-items:center;gap:8px}
+  .mock-logo{color:var(--g);font-weight:600;font-size:12px}
+  .mock-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.3)}
+  .mock-body{display:flex}
+  .mock-sidebar{width:90px;background:#f8f9fa;border-right:1px solid var(--border);padding:8px}
+  .mock-nav{font-size:9px;color:var(--muted);padding:5px 6px;border-radius:4px;margin-bottom:2px;cursor:default}
+  .mock-nav.active{background:var(--gl);color:var(--gd);font-weight:500}
+  .mock-content{flex:1;padding:12px}
+  .mock-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}
+  .mock-stat{background:var(--bg);border-radius:6px;padding:8px;border:1px solid var(--border)}
+  .mock-stat-val{font-size:16px;font-weight:600;color:var(--ink)}
+  .mock-stat-lbl{font-size:8px;color:var(--muted)}
+  .mock-card{background:var(--bg);border-radius:8px;padding:10px;border:1px solid var(--border);margin-bottom:8px}
+  .mock-card-title{font-size:10px;font-weight:600;margin-bottom:6px}
+  .mock-bars{display:flex;gap:4px;align-items:flex-end;height:40px}
+  .mock-bar{flex:1;background:var(--g);border-radius:2px;opacity:0.7}
+
+  /* MOCK CHAT */
+  .mock-chat{background:#f8f9fa}
+  .mock-chat-header{background:var(--g);padding:10px 14px;display:flex;align-items:center;gap:8px}
+  .mock-chat-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.7)}
+  .mock-chat-name{color:#fff;font-size:11px;font-weight:500}
+  .mock-chat-msgs{padding:12px;display:flex;flex-direction:column;gap:8px;min-height:140px}
+  .mock-msg{max-width:80%;padding:7px 10px;border-radius:10px;font-size:10px;line-height:1.5;font-weight:300}
+  .mock-msg.bot{background:#fff;color:var(--ink);align-self:flex-start;border:1px solid var(--border);border-bottom-left-radius:3px}
+  .mock-msg.user{background:var(--g);color:#fff;align-self:flex-end;border-bottom-right-radius:3px}
+  .mock-chat-input{display:flex;gap:6px;padding:8px;border-top:1px solid var(--border);background:#fff}
+  .mock-input-bar{flex:1;height:24px;background:var(--bg);border-radius:6px;border:1px solid var(--border)}
+  .mock-send{width:24px;height:24px;background:var(--g);border-radius:6px;display:flex;align-items:center;justify-content:center}
+
+  /* MOCK FAQ */
+  .mock-faq{padding:12px}
+  .mock-faq-item{padding:8px 0;border-bottom:1px solid var(--border)}
+  .mock-faq-item:last-child{border-bottom:none}
+  .mock-faq-q{font-size:10px;font-weight:500;margin-bottom:3px}
+  .mock-faq-a{font-size:9px;color:var(--muted);font-weight:300}
+  .mock-ai-btn{background:var(--gl);color:var(--gd);border:none;padding:6px 10px;border-radius:6px;font-size:9px;font-weight:500;margin-top:8px;cursor:default}
+
+  /* MOCK DESIGN */
+  .mock-design{padding:12px}
+  .mock-colors{display:flex;gap:6px;margin-bottom:10px}
+  .mock-color{width:22px;height:22px;border-radius:50%}
+  .mock-color.selected{outline:2px solid var(--ink);outline-offset:2px}
+  .mock-toggle-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)}
+  .mock-toggle-label{font-size:10px;font-weight:500}
+  .mock-toggle{width:28px;height:16px;background:var(--g);border-radius:10px;position:relative}
+  .mock-toggle-dot{width:12px;height:12px;background:#fff;border-radius:50%;position:absolute;right:2px;top:2px}
 
   /* HOW */
   .how{background:var(--ink);padding:5rem 2.5rem}
   .how-inner{max-width:960px;margin:0 auto}
   .how .sec-label{color:var(--g)}
-  .how .sec-title{color:#fff}
-  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:3rem}
+  .how .sec-title{color:#fff;margin-bottom:3rem}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem}
   .step{border-top:1px solid rgba(255,255,255,0.1);padding-top:1.5rem}
   .step-n{font-size:12px;color:var(--g);font-weight:600;margin-bottom:0.75rem}
   .step-title{font-size:14px;font-weight:500;color:#fff;margin-bottom:0.4rem}
@@ -100,7 +126,8 @@
   /* PRICING */
   .pricing-section{padding:5rem 2.5rem;max-width:960px;margin:0 auto}
   .price-wrap{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:3rem;align-items:start}
-  .price-bullets{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:1.5rem}
+  .price-info p{font-size:15px;color:var(--soft);font-weight:300;line-height:1.8;margin-bottom:1.5rem}
+  .price-bullets{list-style:none;display:flex;flex-direction:column;gap:10px}
   .price-bullets li{font-size:14px;color:var(--soft);display:flex;align-items:center;gap:10px;font-weight:300}
   .price-bullets li::before{content:"✓";color:var(--g);font-weight:600}
   .price-card{background:var(--ink);border-radius:20px;padding:2.5rem;color:#fff}
@@ -111,6 +138,7 @@
   .price-setup{font-size:13px;color:rgba(255,255,255,0.35);margin:8px 0 2rem}
   .price-btn{width:100%;padding:14px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;border:none;background:var(--g);color:#fff;font-family:'Sora',sans-serif;transition:background 0.2s}
   .price-btn:hover{background:var(--gd)}
+  .price-note{font-size:11px;color:rgba(255,255,255,0.3);margin-top:0.75rem;text-align:center}
 
   /* MODAL */
   .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;padding:1rem}
@@ -118,7 +146,7 @@
   .modal{background:#fff;border-radius:20px;padding:2.5rem;width:100%;max-width:520px;position:relative;max-height:90vh;overflow-y:auto}
   .modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted)}
   .modal h2{font-size:22px;font-weight:600;letter-spacing:-0.5px;margin-bottom:0.25rem}
-  .modal .modal-sub{font-size:13px;color:var(--muted);margin-bottom:1.5rem;font-weight:300}
+  .modal-sub{font-size:13px;color:var(--muted);margin-bottom:1.5rem;font-weight:300}
   .fg{margin-bottom:1rem}
   .fg label{display:block;font-size:12px;font-weight:500;color:var(--soft);margin-bottom:5px}
   .fg input,.fg textarea{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Sora',sans-serif;background:var(--bg);color:var(--ink);transition:border-color 0.2s}
@@ -140,11 +168,10 @@
 
   @media(max-width:700px){
     .nav-links{display:none}
-    .hero{grid-template-columns:1fr;gap:2rem;padding-top:5rem}
-    .feat-grid{grid-template-columns:1fr}
+    .hero{padding-top:5rem}
+    .showcase-item,.showcase-item.reverse{grid-template-columns:1fr;direction:ltr}
     .steps{grid-template-columns:1fr 1fr}
     .price-wrap{grid-template-columns:1fr}
-    .screenshots{grid-template-columns:1fr}
     footer{flex-direction:column;text-align:center}
   }
 </style>
@@ -154,8 +181,8 @@
 <nav>
   <div class="logo">Chatbot24</div>
   <div class="nav-links">
-    <a href="#demo">Demo</a>
-    <a href="#features">Funktionen</a>
+    <a href="#dashboard">Dashboard</a>
+    <a href="#how">Ablauf</a>
     <a href="#pricing">Preise</a>
   </div>
   <button class="nav-btn" onclick="openModal()">Jetzt bestellen</button>
@@ -163,105 +190,189 @@
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-left">
-    <div class="hero-tag"><span></span>KI-Chatbot als Service</div>
-    <h1>Weniger Anfragen.<br><mark>Mehr Kunden.</mark></h1>
-    <p class="hero-desc">Ein KI-Assistent auf Ihrer Website der Kundenfragen automatisch beantwortet – rund um die Uhr, auf Deutsch, in 48h live.</p>
-    <div class="hero-btns">
-      <button class="btn-main" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">Live-Demo ausprobieren →</button>
-      <button class="btn-outline" onclick="openModal()">Jetzt bestellen</button>
-    </div>
-    <div class="hero-note">Kein Risiko · Keine Vertragsbindung · In 48h live</div>
+  <div class="hero-tag"><span></span>KI-Chatbot als Service</div>
+  <h1>Weniger Anfragen.<br><mark>Mehr Kunden.</mark></h1>
+  <p class="hero-desc">Ein KI-Assistent auf Ihrer Website der Kundenfragen automatisch beantwortet – rund um die Uhr, auf Deutsch, in 48h live.</p>
+  <div class="hero-btns">
+    <button class="btn-main" onclick="openModal()">Jetzt bestellen →</button>
+    <button class="btn-outline" onclick="document.getElementById('dashboard').scrollIntoView({behavior:'smooth'})">Was bekomme ich?</button>
   </div>
-
-  <!-- LIVE DEMO -->
-  <div id="demo">
-    <div class="demo-widget">
-      <div class="demo-top" style="background:#1D9E75">
-        <div class="demo-dot"></div>
-        <div class="demo-name">Chatbot24 – Live Demo</div>
-      </div>
-      <div class="demo-msgs" id="demo-msgs"></div>
-      <div class="demo-input">
-        <input id="demo-input" placeholder="Stellen Sie eine Frage..." />
-        <button class="demo-send" id="demo-send" onclick="sendDemo()">
-          <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
-        </button>
-      </div>
-      <div class="demo-label">⚡ Echte KI – jetzt ausprobieren!</div>
-    </div>
-  </div>
+  <div class="hero-note">Kein Risiko · Keine Vertragsbindung · In 48h live</div>
 </div>
 
 <div class="divider"></div>
 
 <div class="platforms">
   <div class="platforms-label">Läuft auf</div>
-  <div class="platform-tags">
-    <span class="platform-tag">WordPress</span>
-    <span class="platform-tag">Shopify</span>
-    <span class="platform-tag">Webflow</span>
-    <span class="platform-tag">Wix</span>
-    <span class="platform-tag">HTML</span>
-  </div>
+  <span class="platform-tag">WordPress</span>
+  <span class="platform-tag">Shopify</span>
+  <span class="platform-tag">Webflow</span>
+  <span class="platform-tag">Wix</span>
+  <span class="platform-tag">HTML</span>
 </div>
 
 <div class="divider"></div>
 
-<!-- FEATURES -->
-<section id="features">
-  <div class="sec-label">Funktionen</div>
-  <div class="sec-title">Alles was Sie brauchen.</div>
-  <p class="sec-sub">Ein komplettes System – von der KI bis zum Admin-Dashboard.</p>
-  <div class="feat-grid">
-    <div class="feat"><div class="feat-icon">🤖</div><div class="feat-title">Echte KI</div><div class="feat-desc">Antwortet intelligent auf Kundenfragen – auf Deutsch, 24/7.</div></div>
-    <div class="feat"><div class="feat-icon">⚙️</div><div class="feat-title">Admin-Dashboard</div><div class="feat-desc">FAQs selbst pflegen – ohne technische Kenntnisse.</div></div>
-    <div class="feat"><div class="feat-icon">🎨</div><div class="feat-title">Ihr Branding</div><div class="feat-desc">Farbe und Name passen zu Ihrer Marke.</div></div>
-    <div class="feat"><div class="feat-icon">📋</div><div class="feat-title">1-Zeilen-Code</div><div class="feat-desc">Einbindung in jede Website mit einem Schnipsel.</div></div>
-    <div class="feat"><div class="feat-icon">📊</div><div class="feat-title">Statistiken</div><div class="feat-desc">Sehen Sie wie aktiv Ihr Chatbot ist.</div></div>
-    <div class="feat"><div class="feat-icon">🔒</div><div class="feat-title">DSGVO-konform</div><div class="feat-desc">Hosting in Deutschland, datenschutzkonform.</div></div>
-  </div>
+<!-- DASHBOARD SHOWCASE -->
+<div class="dashboard-section" id="dashboard">
+  <div class="sec-label">Was Sie bekommen</div>
+  <div class="sec-title">Ihr persönliches Dashboard.</div>
+  <p class="sec-sub">Nach der Einrichtung erhalten Sie Zugang zu einem professionellen Admin-Dashboard – alles selbst verwalten, ohne Technik.</p>
 
-  <!-- SCREENSHOTS -->
-  <div class="screenshots" style="margin-top:3rem">
-    <div class="screenshot-card">
-      <div class="screenshot-img">📊</div>
-      <div class="screenshot-info">
-        <div class="screenshot-title">Admin-Dashboard</div>
-        <div class="screenshot-desc">Statistiken, FAQ verwalten, Design anpassen – alles an einem Ort.</div>
+  <div class="showcase">
+
+    <!-- 1 – Statistiken -->
+    <div class="showcase-item">
+      <div class="showcase-text">
+        <div class="showcase-label">Übersicht</div>
+        <div class="showcase-title">Live-Statistiken & Aktivität</div>
+        <div class="showcase-desc">Sehen Sie täglich wie viele Gespräche Ihr Chatbot geführt hat – mit einem übersichtlichen Balkendiagramm der letzten 7 Tage.</div>
+        <ul class="showcase-bullets">
+          <li>Anzahl Gespräche & Nachrichten</li>
+          <li>Aktivitätsdiagramm pro Tag</li>
+          <li>Chatbot-Status ein/ausschalten</li>
+          <li>Schnellzugriff auf alle Funktionen</li>
+        </ul>
+      </div>
+      <div class="showcase-visual">
+        <div class="mock-dashboard">
+          <div class="mock-header"><div class="mock-logo">Chatbot24</div></div>
+          <div class="mock-body">
+            <div class="mock-sidebar">
+              <div class="mock-nav active">📊 Dashboard</div>
+              <div class="mock-nav">💬 Testen</div>
+              <div class="mock-nav">⚙️ Einstell.</div>
+              <div class="mock-nav">❓ FAQ</div>
+              <div class="mock-nav">🎨 Design</div>
+            </div>
+            <div class="mock-content">
+              <div class="mock-stats">
+                <div class="mock-stat"><div class="mock-stat-val" style="color:var(--g)">24</div><div class="mock-stat-lbl">Gespräche</div></div>
+                <div class="mock-stat"><div class="mock-stat-val">142</div><div class="mock-stat-lbl">Nachrichten</div></div>
+                <div class="mock-stat"><div class="mock-stat-val">8</div><div class="mock-stat-lbl">FAQs</div></div>
+              </div>
+              <div class="mock-card">
+                <div class="mock-card-title">Aktivität – letzte 7 Tage</div>
+                <div class="mock-bars">
+                  <div class="mock-bar" style="height:30%"></div>
+                  <div class="mock-bar" style="height:60%"></div>
+                  <div class="mock-bar" style="height:45%"></div>
+                  <div class="mock-bar" style="height:80%"></div>
+                  <div class="mock-bar" style="height:55%"></div>
+                  <div class="mock-bar" style="height:90%"></div>
+                  <div class="mock-bar" style="height:70%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="screenshot-card">
-      <div class="screenshot-img" style="background:linear-gradient(135deg,#378ADD,#1D5FA8)">💬</div>
-      <div class="screenshot-info">
-        <div class="screenshot-title">Chat-Widget</div>
-        <div class="screenshot-desc">Erscheint als eleganter Button auf Ihrer Website – in Ihrer Farbe.</div>
+
+    <!-- 2 – Chatbot testen -->
+    <div class="showcase-item reverse">
+      <div class="showcase-text">
+        <div class="showcase-label">Vorschau</div>
+        <div class="showcase-title">Chatbot direkt testen</div>
+        <div class="showcase-desc">Testen Sie Ihren Chatbot direkt im Dashboard – genau so wie Ihre Kunden ihn sehen. Stellen Sie Fragen und prüfen Sie die Antworten.</div>
+        <ul class="showcase-bullets">
+          <li>Live-Vorschau im Browser</li>
+          <li>Farbe ändert sich sofort beim Anklicken</li>
+          <li>Gespräch jederzeit neu starten</li>
+          <li>Bot-Name individuell anpassbar</li>
+        </ul>
+      </div>
+      <div class="showcase-visual">
+        <div class="mock-chat">
+          <div class="mock-chat-header"><div class="mock-chat-dot"></div><div class="mock-chat-name">Support-Assistent</div></div>
+          <div class="mock-chat-msgs">
+            <div class="mock-msg bot">Hallo! Willkommen bei Frida Kitchen. Wie kann ich helfen?</div>
+            <div class="mock-msg user">Haben Sie vegetarische Gerichte?</div>
+            <div class="mock-msg bot">Ja! Wir haben eine große Auswahl an vegetarischen Speisen – von Salaten bis zu unseren beliebten veganen Pasta-Gerichten. 🌿</div>
+            <div class="mock-msg user">Wann haben Sie geöffnet?</div>
+            <div class="mock-msg bot">Wir sind täglich von 12 bis 22 Uhr für Sie da. Reservierungen sind jederzeit möglich!</div>
+          </div>
+          <div class="mock-chat-input"><div class="mock-input-bar"></div><div class="mock-send"></div></div>
+        </div>
       </div>
     </div>
-    <div class="screenshot-card">
-      <div class="screenshot-img" style="background:linear-gradient(135deg,#7F77DD,#5A52AA)">❓</div>
-      <div class="screenshot-info">
-        <div class="screenshot-title">FAQ-Verwaltung</div>
-        <div class="screenshot-desc">Eigene Fragen und Antworten eintragen – der Bot lernt sofort.</div>
+
+    <!-- 3 – FAQ -->
+    <div class="showcase-item">
+      <div class="showcase-text">
+        <div class="showcase-label">Wissen</div>
+        <div class="showcase-title">FAQ selbst pflegen</div>
+        <div class="showcase-desc">Tragen Sie Ihre häufigsten Fragen und Antworten ein – der Bot antwortet sofort darauf. Mit KI-Vorschlägen passend zu Ihrer Branche.</div>
+        <ul class="showcase-bullets">
+          <li>Unbegrenzte FAQ-Einträge</li>
+          <li>✨ KI schlägt passende Fragen vor</li>
+          <li>Bot erkennt Fragen auch in anderen Worten</li>
+          <li>Jederzeit bearbeitbar</li>
+        </ul>
+      </div>
+      <div class="showcase-visual">
+        <div class="mock-dashboard">
+          <div class="mock-header"><div class="mock-logo">FAQ & Wissen</div></div>
+          <div class="mock-faq">
+            <div class="mock-faq-item"><div class="mock-faq-q">Wie lange dauert die Lieferung?</div><div class="mock-faq-a">Wir liefern innerhalb von 2–3 Werktagen.</div></div>
+            <div class="mock-faq-item"><div class="mock-faq-q">Kann ich zurückgeben?</div><div class="mock-faq-a">Ja, 14 Tage Rückgaberecht ohne Angabe von Gründen.</div></div>
+            <div class="mock-faq-item"><div class="mock-faq-q">Welche Zahlungsmethoden?</div><div class="mock-faq-a">PayPal, Kreditkarte, Rechnung und SEPA.</div></div>
+            <div style="margin-top:8px"><div class="mock-ai-btn">✨ KI-Vorschläge generieren</div></div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="screenshot-card">
-      <div class="screenshot-img" style="background:linear-gradient(135deg,#D85A30,#A83A18)">🌍</div>
-      <div class="screenshot-info">
-        <div class="screenshot-title">Mehrsprachig</div>
-        <div class="screenshot-desc">Deutsch, Englisch, Türkisch und mehr – automatisch erkannt.</div>
+
+    <!-- 4 – Design -->
+    <div class="showcase-item reverse">
+      <div class="showcase-text">
+        <div class="showcase-label">Branding</div>
+        <div class="showcase-title">Design anpassen</div>
+        <div class="showcase-desc">Passen Sie Farbe, Bot-Name und Initialen an Ihr Unternehmen an – der Chatbot sieht aus als wäre er Teil Ihrer Website.</div>
+        <ul class="showcase-bullets">
+          <li>6 Standardfarben + eigene Farbe wählbar</li>
+          <li>Bot-Name frei wählbar</li>
+          <li>Farbe ändert sich sofort in der Vorschau</li>
+          <li>Einbettungs-Code automatisch aktualisiert</li>
+        </ul>
+      </div>
+      <div class="showcase-visual">
+        <div class="mock-dashboard">
+          <div class="mock-header"><div class="mock-logo">Design & Branding</div></div>
+          <div class="mock-design">
+            <div style="font-size:10px;font-weight:600;margin-bottom:8px">Akzentfarbe</div>
+            <div class="mock-colors">
+              <div class="mock-color selected" style="background:#1D9E75"></div>
+              <div class="mock-color" style="background:#378ADD"></div>
+              <div class="mock-color" style="background:#7F77DD"></div>
+              <div class="mock-color" style="background:#D85A30"></div>
+              <div class="mock-color" style="background:#D4537E"></div>
+              <div class="mock-color" style="background:#0A0A0A"></div>
+            </div>
+            <div class="mock-toggle-row">
+              <div class="mock-toggle-label">Chatbot aktiv</div>
+              <div class="mock-toggle"><div class="mock-toggle-dot"></div></div>
+            </div>
+            <div class="mock-toggle-row">
+              <div class="mock-toggle-label">Mehrsprachig</div>
+              <div class="mock-toggle"><div class="mock-toggle-dot"></div></div>
+            </div>
+            <div style="margin-top:10px;background:var(--ink);color:#a8f0c8;font-family:monospace;font-size:8px;padding:8px;border-radius:6px;line-height:1.6">&lt;script src="chatbot24.chat/widget.js"<br>&nbsp;data-id="ihre-firma"&gt;&lt;/script&gt;</div>
+          </div>
+        </div>
       </div>
     </div>
+
   </div>
-</section>
+</div>
 
 <!-- HOW -->
-<div class="how">
+<div class="how" id="how">
   <div class="how-inner">
     <div class="sec-label">Ablauf</div>
-    <div class="sec-title" style="color:#fff">In 4 Schritten live.</div>
+    <div class="sec-title">In 4 Schritten live.</div>
     <div class="steps">
-      <div class="step"><div class="step-n">01</div><div class="step-title">Bestellen</div><div class="step-desc">Formular ausfüllen – wir melden uns innerhalb von 24h.</div></div>
+      <div class="step"><div class="step-n">01</div><div class="step-title">Bestellen</div><div class="step-desc">Formular ausfüllen – wir melden uns innerhalb von 24h mit der Rechnung.</div></div>
       <div class="step"><div class="step-n">02</div><div class="step-title">Einrichtung</div><div class="step-desc">In 48h konfiguriert, gebrandmarkt und getestet.</div></div>
       <div class="step"><div class="step-n">03</div><div class="step-title">Integration</div><div class="step-desc">Eine Zeile Code – auf jeder Website.</div></div>
       <div class="step"><div class="step-n">04</div><div class="step-title">Fertig</div><div class="step-desc">Sie verwalten selbst. Wir sorgen für den Betrieb.</div></div>
@@ -274,14 +385,15 @@
   <div class="sec-label">Preise</div>
   <div class="sec-title">Ein Preis. Alles drin.</div>
   <div class="price-wrap">
-    <div>
-      <p class="sec-sub">Kein kompliziertes Preismodell. Alles inklusive – keine versteckten Kosten.</p>
+    <div class="price-info">
+      <p>Kein kompliziertes Preismodell. Alles inklusive – keine versteckten Kosten, keine Vertragsbindung.</p>
       <ul class="price-bullets">
         <li>1 Website</li>
         <li>Bis 500 Nachrichten/Monat</li>
-        <li>Admin-Dashboard</li>
+        <li>Vollständiges Admin-Dashboard</li>
         <li>Eigenes Branding & Farbe</li>
-        <li>Mehrsprachig</li>
+        <li>FAQ-Verwaltung mit KI-Vorschlägen</li>
+        <li>Mehrsprachig (DE, EN, TR, FR, ES)</li>
         <li>E-Mail-Support</li>
         <li>In 48h live</li>
       </ul>
@@ -291,6 +403,7 @@
       <div class="price-num"><sup>€</sup>29<sub>/Mo</sub></div>
       <div class="price-setup">+ einmalig 199 € Einrichtung</div>
       <button class="price-btn" onclick="openModal()">Jetzt bestellen →</button>
+      <div class="price-note">Zahlung erst nach Einrichtung · Keine Vertragsbindung</div>
     </div>
   </div>
 </div>
@@ -312,7 +425,7 @@
     <button class="modal-close" onclick="closeModal()">✕</button>
     <div id="form-content">
       <h2>Jetzt bestellen</h2>
-      <p class="modal-sub">Füllen Sie das Formular aus – wir melden uns innerhalb von 24 Stunden mit der Rechnung!</p>
+      <p class="modal-sub">Füllen Sie das Formular aus – wir melden uns innerhalb von 24 Stunden mit allen Details und der Rechnung!</p>
       <div class="form-grid">
         <div class="fg"><label>Ihr Name *</label><input id="f-name" placeholder="Max Mustermann" /></div>
         <div class="fg"><label>E-Mail *</label><input id="f-email" type="email" placeholder="max@firma.de" /></div>
@@ -334,7 +447,6 @@
 </div>
 
 <script>
-// MODAL
 function openModal(){document.getElementById('contact-modal').classList.add('open');}
 function closeModal(){document.getElementById('contact-modal').classList.remove('open');document.getElementById('form-content').style.display='block';document.getElementById('success-msg').style.display='none';}
 document.getElementById('contact-modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
@@ -359,47 +471,6 @@ async function sendForm(){
     btn.disabled=false;btn.textContent='Jetzt bestellen & Rechnung erhalten →';
   }
 }
-
-// LIVE DEMO
-let demoHistory=[];
-function addDemoMsg(text,type){
-  const msgs=document.getElementById('demo-msgs'),div=document.createElement('div');
-  div.className='dm '+type;div.textContent=text;
-  msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;return div;
-}
-
-// Welcome message
-addDemoMsg('Hallo! Ich bin ein KI-Assistent – stellen Sie mir eine Frage und sehen Sie wie ich antworte! 🤖','bot');
-
-async function sendDemo(){
-  const input=document.getElementById('demo-input'),send=document.getElementById('demo-send');
-  const text=input.value.trim();if(!text)return;
-  addDemoMsg(text,'user');
-  demoHistory.push({role:'user',content:text});
-  input.value='';send.disabled=true;
-  const typing=addDemoMsg('Tippt…','bot typing');
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:300,
-        system:'Du bist eine Live-Demo eines KI-Chatbots für Websites. Antworte kurz, freundlich und auf Deutsch. Zeige wie intelligent und hilfreich ein solcher Chatbot sein kann. Du wirst von Chatbot24 betrieben – einem Service der KI-Chatbots für Websites anbietet. Falls jemand fragt wie er das kaufen kann: Paket Start für 29€/Monat + 199€ Einrichtung, Bestellung über das Formular auf der Website.',
-        messages:demoHistory
-      })
-    });
-    const data=await res.json();
-    const reply=data.content?.[0]?.text||'Entschuldigung, bitte versuche es erneut.';
-    demoHistory.push({role:'assistant',content:reply});
-    typing.className='dm bot';typing.textContent=reply;
-  }catch(e){
-    typing.className='dm bot';
-    typing.textContent='Demo momentan nicht verfügbar – aber echte Chatbots funktionieren genauso! 😊';
-  }
-  send.disabled=false;
-}
-document.getElementById('demo-input').addEventListener('keydown',e=>{if(e.key==='Enter')sendDemo();});
 </script>
 </body>
 </html>
