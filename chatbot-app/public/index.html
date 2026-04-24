@@ -174,6 +174,35 @@
     .price-wrap{grid-template-columns:1fr}
     footer{flex-direction:column;text-align:center}
   }
+
+  /* ANIMATIONS */
+  .fade-up{opacity:0;transform:translateY(30px);transition:opacity 0.6s ease,transform 0.6s ease}
+  .fade-up.visible{opacity:1;transform:translateY(0)}
+  .fade-left{opacity:0;transform:translateX(-30px);transition:opacity 0.6s ease,transform 0.6s ease}
+  .fade-left.visible{opacity:1;transform:translateX(0)}
+  .fade-right{opacity:0;transform:translateX(30px);transition:opacity 0.6s ease,transform 0.6s ease}
+  .fade-right.visible{opacity:1;transform:translateX(0)}
+
+  /* HERO BG */
+  .hero{background:radial-gradient(ellipse 80% 60% at 50% -10%,#E8F8F2 0%,transparent 70%)}
+
+  /* TRUST BADGES */
+  .trust-row{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-top:2rem}
+  .trust-badge{display:flex;align-items:center;gap:7px;background:var(--bg);border:1px solid var(--border);padding:7px 14px;border-radius:100px;font-size:12px;color:var(--soft);font-weight:400}
+  .trust-badge span{font-size:14px}
+
+  /* FAQ SECTION */
+  .faq-section{padding:5rem 2.5rem;background:var(--bg)}
+  .faq-inner{max-width:700px;margin:0 auto}
+  .faq-list{margin-top:2.5rem;display:flex;flex-direction:column;gap:8px}
+  .faq-item{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color 0.2s}
+  .faq-item.open{border-color:var(--g)}
+  .faq-q{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.25rem;cursor:pointer;font-size:14px;font-weight:500;gap:1rem}
+  .faq-arrow{font-size:18px;color:var(--muted);transition:transform 0.3s;flex-shrink:0}
+  .faq-item.open .faq-arrow{transform:rotate(45deg);color:var(--g)}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height 0.4s ease,padding 0.3s}
+  .faq-item.open .faq-a{max-height:200px;padding:0 1.25rem 1.1rem}
+  .faq-a p{font-size:14px;color:var(--soft);line-height:1.7;font-weight:300}
 </style>
 </head>
 <body>
@@ -198,6 +227,12 @@
     <button class="btn-outline" onclick="document.getElementById('dashboard').scrollIntoView({behavior:'smooth'})">Was bekomme ich?</button>
   </div>
   <div class="hero-note">Kein Risiko · Keine Vertragsbindung · In 48h live</div>
+  <div class="trust-row">
+    <div class="trust-badge"><span>🔒</span>DSGVO-konform</div>
+    <div class="trust-badge"><span>🇩🇪</span>Hosting in Deutschland</div>
+    <div class="trust-badge"><span>⚡</span>In 48h live</div>
+    <div class="trust-badge"><span>✅</span>Keine Vertragsbindung</div>
+  </div>
 </div>
 
 <div class="divider"></div>
@@ -222,7 +257,7 @@
   <div class="showcase">
 
     <!-- 1 – Statistiken -->
-    <div class="showcase-item">
+    <div class="showcase-item fade-up">
       <div class="showcase-text">
         <div class="showcase-label">Übersicht</div>
         <div class="showcase-title">Live-Statistiken & Aktivität</div>
@@ -270,7 +305,7 @@
     </div>
 
     <!-- 2 – Chatbot testen -->
-    <div class="showcase-item reverse">
+    <div class="showcase-item reverse fade-up">
       <div class="showcase-text">
         <div class="showcase-label">Vorschau</div>
         <div class="showcase-title">Chatbot direkt testen</div>
@@ -298,7 +333,7 @@
     </div>
 
     <!-- 3 – FAQ -->
-    <div class="showcase-item">
+    <div class="showcase-item fade-up">
       <div class="showcase-text">
         <div class="showcase-label">Wissen</div>
         <div class="showcase-title">FAQ selbst pflegen</div>
@@ -324,7 +359,7 @@
     </div>
 
     <!-- 4 – Design -->
-    <div class="showcase-item reverse">
+    <div class="showcase-item reverse fade-up">
       <div class="showcase-text">
         <div class="showcase-label">Branding</div>
         <div class="showcase-title">Design anpassen</div>
@@ -408,8 +443,45 @@
   </div>
 </div>
 
-<div class="divider"></div>
 
+<div class="faq-section">
+  <div class="faq-inner">
+    <div class="sec-label fade-up">Häufige Fragen</div>
+    <div class="sec-title fade-up">Alles was Sie wissen müssen.</div>
+    <div class="faq-list">
+      <div class="faq-item fade-up" onclick="toggleFaq(this)">
+        <div class="faq-q">Wie lange dauert die Einrichtung? <span class="faq-arrow">+</span></div>
+        <div class="faq-a"><p>Nach Ihrer Bestellung richten wir Ihren Chatbot innerhalb von 48 Stunden ein – vollständig konfiguriert, mit Ihrem Branding und Ihren Texten.</p></div>
+      </div>
+      <div class="faq-item fade-up" onclick="toggleFaq(this)">
+        <div class="faq-q">Muss ich technische Kenntnisse haben? <span class="faq-arrow">+</span></div>
+        <div class="faq-a"><p>Nein! Sie fügen einmalig eine Zeile Code in Ihre Website ein – das war's. Das Dashboard bedienen Sie wie eine normale App, ganz ohne Technik.</p></div>
+      </div>
+      <div class="faq-item fade-up" onclick="toggleFaq(this)">
+        <div class="faq-q">Kann ich den Chatbot jederzeit kündigen? <span class="faq-arrow">+</span></div>
+        <div class="faq-a"><p>Ja! Es gibt keine Vertragsbindung. Sie können jederzeit mit 14 Tagen Frist zum Monatsende kündigen.</p></div>
+      </div>
+      <div class="faq-item fade-up" onclick="toggleFaq(this)">
+        <div class="faq-q">Auf welchen Websites funktioniert der Chatbot? <span class="faq-arrow">+</span></div>
+        <div class="faq-a"><p>Auf allen! WordPress, Shopify, Webflow, Wix, oder einfaches HTML – überall wo Sie eine Zeile Code einfügen können, läuft der Chatbot.</p></div>
+      </div>
+      <div class="faq-item fade-up" onclick="toggleFaq(this)">
+        <div class="faq-q">Ist der Chatbot DSGVO-konform? <span class="faq-arrow">+</span></div>
+        <div class="faq-a"><p>Ja! Das Hosting erfolgt in Deutschland, Daten werden nicht an Dritte weitergegeben und Gespräche werden nach 90 Tagen automatisch gelöscht.</p></div>
+      </div>
+      <div class="faq-item fade-up" onclick="toggleFaq(this)">
+        <div class="faq-q">Was passiert wenn der Chatbot eine Frage nicht kennt? <span class="faq-arrow">+</span></div>
+        <div class="faq-a"><p>Die KI antwortet trotzdem intelligent und empfiehlt dem Kunden, Sie direkt zu kontaktieren. Sie können jederzeit mehr FAQ-Einträge hinzufügen.</p></div>
+      </div>
+      <div class="faq-item fade-up" onclick="toggleFaq(this)">
+        <div class="faq-q">Wann muss ich bezahlen? <span class="faq-arrow">+</span></div>
+        <div class="faq-a"><p>Die Einrichtungsgebühr (199 €) wird erst nach Fertigstellung fällig. Die monatliche Gebühr (29 €) startet mit dem ersten Monat nach der Einrichtung.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
 <footer>
   <div class="foot-logo">Chatbot24</div>
   <div class="foot-links">
@@ -470,6 +542,21 @@ async function sendForm(){
     alert('Fehler beim Senden. Bitte versuche es erneut.');
     btn.disabled=false;btn.textContent='Jetzt bestellen & Rechnung erhalten →';
   }
+}
+</script>
+
+<script>
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.15 });
+document.querySelectorAll('.fade-up,.fade-left,.fade-right').forEach(el => observer.observe(el));
+
+// FAQ toggle
+function toggleFaq(item){
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if(!isOpen) item.classList.add('open');
 }
 </script>
 </body>
