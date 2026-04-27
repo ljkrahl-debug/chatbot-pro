@@ -7,12 +7,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-  :root { --g:#1D9E75; --gd:#0F6E56; --gl:#E8F8F2; --ink:#0A0A0A; --soft:#5A6472; --muted:#9AA3AD; --border:#EBEBEB; --bg:#F7F9FB; --white:#fff; }
+  :root{--g:#1D9E75;--gd:#0F6E56;--gl:#E8F8F2;--ink:#0A0A0A;--soft:#5A6472;--muted:#9AA3AD;--border:#EBEBEB;--bg:#F7F9FB;--white:#fff}
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--ink);font-size:14px}
   input,textarea,select,button{font-family:inherit}
 
-  /* LOGIN */
   .login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--ink);padding:2rem}
   .login-box{background:var(--white);border-radius:20px;padding:2.5rem;width:100%;max-width:380px}
   .login-logo{font-size:22px;font-weight:600;color:var(--g);letter-spacing:-0.5px;margin-bottom:4px}
@@ -26,7 +25,6 @@
   .login-hint{font-size:12px;color:var(--muted);margin-top:1rem;text-align:center;font-weight:300}
   .err{color:#E24B4A;font-size:12px;margin-top:0.5rem;text-align:center}
 
-  /* LAYOUT */
   .app{display:none;min-height:100vh}
   .sidebar{width:220px;background:var(--white);border-right:1px solid var(--border);padding:1.5rem 1rem;position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column}
   .sb-logo{font-size:16px;font-weight:600;color:var(--g);padding:0 0.5rem;letter-spacing:-0.3px}
@@ -46,23 +44,18 @@
   .panel{display:none}
   .panel.active{display:block}
 
-  /* CARDS */
   .card{background:var(--white);border-radius:14px;padding:1.5rem;border:1px solid var(--border);margin-bottom:1.25rem}
   .card-title{font-size:14px;font-weight:600;margin-bottom:1.25rem;letter-spacing:-0.2px}
   .card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
 
-  /* STATS */
   .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.25rem}
   .stat{background:var(--white);border-radius:14px;padding:1.25rem;border:1px solid var(--border)}
   .stat-val{font-size:32px;font-weight:600;letter-spacing:-1.5px;line-height:1;margin-bottom:4px}
   .stat-label{font-size:12px;color:var(--muted);font-weight:300}
-  .stat-change{font-size:11px;margin-top:6px;font-weight:500}
-  .stat-change.up{color:var(--g)}
+  .stat-change{font-size:11px;margin-top:6px;font-weight:500;color:var(--g)}
 
-  /* CHART */
   .chart-wrap{position:relative;height:200px}
 
-  /* FORM */
   .fl{margin-bottom:1rem}
   .fl label{display:block;font-size:12px;font-weight:500;color:var(--soft);margin-bottom:5px}
   .fi{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--bg);color:var(--ink);transition:border-color 0.2s}
@@ -74,7 +67,42 @@
   .toast{display:none;background:var(--g);color:#fff;padding:6px 14px;border-radius:6px;font-size:12px;margin-left:10px}
   .toast.show{display:inline-block}
 
-  /* FAQ */
+  /* TOGGLE */
+  .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;background:var(--white);border-radius:12px;border:1px solid var(--border);margin-bottom:1.25rem}
+  .toggle-info h3{font-size:14px;font-weight:500;margin-bottom:2px}
+  .toggle-info p{font-size:12px;color:var(--muted);font-weight:300}
+  .toggle{position:relative;width:44px;height:24px;flex-shrink:0}
+  .toggle input{opacity:0;width:0;height:0}
+  .toggle-slider{position:absolute;inset:0;background:#E0E0E0;border-radius:24px;cursor:pointer;transition:background 0.2s}
+  .toggle-slider:before{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:3px;left:3px;transition:transform 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.15)}
+  .toggle input:checked+.toggle-slider{background:var(--g)}
+  .toggle input:checked+.toggle-slider:before{transform:translateX(20px)}
+  .status-badge{padding:4px 10px;border-radius:100px;font-size:11px;font-weight:500}
+  .status-badge.online{background:var(--gl);color:var(--gd)}
+  .status-badge.offline{background:#FFF0F0;color:#E24B4A}
+
+  /* LOGO UPLOAD */
+  .lang-option{display:flex;align-items:center;gap:8px;padding:8px 14px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:13px;transition:border-color 0.15s}
+  .lang-option:hover{border-color:var(--g)}
+  .lang-option input{accent-color:var(--g)}
+  .welcome-page-item{border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:8px;background:var(--bg)}
+  .welcome-page-item .fi{margin-bottom:8px}
+  .welcome-page-item .fi:last-child{margin-bottom:0}
+  .wp-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .wp-label{font-size:12px;font-weight:500;color:var(--soft)}
+
+  /* FAQ AI SUGGESTIONS */
+  .template-btn{background:var(--g);color:#fff;border:none;padding:13px 24px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;transition:all 0.2s;box-shadow:0 4px 14px rgba(29,158,117,0.3)}
+  .template-btn:hover{background:var(--gd);transform:translateY(-1px);box-shadow:0 6px 20px rgba(29,158,117,0.4)}
+  .suggestions-box{background:var(--gl);border-radius:12px;padding:1rem;margin-top:1rem;display:none}
+  .suggestions-box.show{display:block}
+  .branch-btn{background:#fff;border:1.5px solid var(--border);color:var(--ink);padding:7px 14px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:'Sora',sans-serif;transition:all 0.15s}
+  .branch-btn:hover{border-color:var(--g);color:var(--g);background:var(--gl)}
+  .template-faq-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#fff;border-radius:8px;margin-bottom:8px;border:1px solid var(--border)}
+  .template-faq-q{font-size:13px;font-weight:500;color:var(--ink)}
+  .template-faq-a{font-size:11px;color:var(--muted);margin-top:2px;font-weight:300}
+  .add-template-btn{background:var(--g);border:none;color:#fff;padding:5px 12px;border-radius:6px;font-size:11px;font-weight:500;cursor:pointer;white-space:nowrap;font-family:'Sora',sans-serif}
+
   .faq-item{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--border)}
   .faq-item:first-child{border-top:none}
   .faq-dot{width:6px;height:6px;border-radius:50%;background:var(--g);margin-top:7px;flex-shrink:0}
@@ -85,25 +113,22 @@
   .del-btn:hover{color:#E24B4A}
   .add-box{background:var(--bg);border:1.5px dashed var(--border);border-radius:12px;padding:1rem;margin-top:1rem}
   .add-box .fi{margin-bottom:8px}
-  .add-btn{background:none;border:1.5px solid var(--g);color:var(--g);padding:7px 16px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;transition:background 0.15s;font-family:'Sora',sans-serif;margin-top:8px}
+  .add-btn{background:none;border:1.5px solid var(--g);color:var(--g);padding:7px 16px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:'Sora',sans-serif;margin-top:8px}
   .add-btn:hover{background:var(--gl)}
   .badge{display:inline-block;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:500;background:var(--gl);color:var(--gd)}
 
-  /* DESIGN */
   .color-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:6px}
   .color-chip{width:32px;height:32px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:transform 0.15s}
   .color-chip:hover{transform:scale(1.1)}
   .color-chip.selected{border-color:var(--ink)}
 
-  /* EMBED */
   .code-box{background:var(--ink);color:#a8f0c8;font-family:monospace;font-size:12px;padding:1.25rem;border-radius:12px;line-height:1.8;position:relative;word-break:break-all}
-  .copy-btn{position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.1);border:none;color:#fff;padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer;transition:background 0.15s;font-family:'Sora',sans-serif}
+  .copy-btn{position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.1);border:none;color:#fff;padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer;font-family:'Sora',sans-serif}
   .copy-btn:hover{background:var(--g)}
 
-  /* CHAT TEST */
   .chat-box{border:1px solid var(--border);border-radius:14px;overflow:hidden}
   .chat-top{padding:12px 16px;display:flex;align-items:center;gap:10px}
-  .chat-dot-live{width:7px;height:7px;border-radius:50%;background:#fff;opacity:0.8}
+  .chat-dot-live{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.8)}
   .chat-name{font-size:13px;font-weight:500;color:#fff}
   .chat-msgs{padding:16px;min-height:260px;max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;background:var(--bg)}
   .cm{max-width:80%;padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;font-weight:300}
@@ -113,35 +138,62 @@
   .chat-input{display:flex;gap:8px;padding:10px;border-top:1px solid var(--border);background:var(--white)}
   .chat-input input{flex:1;padding:9px 13px;border-radius:8px;border:1.5px solid var(--border);font-size:13px;background:var(--bg);font-family:'Sora',sans-serif}
   .chat-input input:focus{outline:none;border-color:var(--g)}
-  .chat-send{border:none;border-radius:8px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity 0.2s}
+  .chat-send{border:none;border-radius:8px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
   .chat-send svg{width:14px;height:14px;fill:#fff}
   .chat-send:disabled{opacity:0.4;cursor:not-allowed}
   .reset-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer;font-family:'Sora',sans-serif}
-  .reset-btn:hover{border-color:var(--ink);color:var(--ink)}
 
-  /* CONVERSATIONS */
-  .conv-item{padding:14px;border-radius:10px;border:1px solid var(--border);margin-bottom:8px;background:var(--white);cursor:pointer;transition:border-color 0.15s}
-  .conv-item:hover{border-color:var(--g)}
-  .conv-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
-  .conv-id{font-size:12px;font-weight:500;color:var(--g)}
-  .conv-time{font-size:11px;color:var(--muted)}
-  .conv-preview{font-size:12px;color:var(--muted);font-weight:300;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .empty{text-align:center;padding:3rem;color:var(--muted)}
-  .empty-icon{font-size:32px;margin-bottom:0.75rem}
-
-  /* QUICK BTNS */
   .quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .quick-btn{padding:14px;border-radius:10px;border:1px solid var(--border);font-size:13px;font-weight:500;cursor:pointer;color:var(--ink);background:var(--white);text-align:left;transition:all 0.15s;font-family:'Sora',sans-serif}
   .quick-btn:hover{border-color:var(--ink);background:var(--bg)}
-  .quick-btn .qb-icon{font-size:18px;display:block;margin-bottom:6px}
-  .quick-btn .qb-sub{font-size:11px;color:var(--muted);font-weight:300;margin-top:2px}
+  .qb-icon{font-size:18px;display:block;margin-bottom:6px}
+  .qb-sub{font-size:11px;color:var(--muted);font-weight:300;margin-top:2px}
 
+
+  /* PERSONALITY */
+  .personality-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+  .personality-card{border:1.5px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;text-align:center;transition:all 0.15s;background:var(--white)}
+  .personality-card:hover{border-color:var(--g);background:var(--gl)}
+  .personality-card.selected{border-color:var(--g);background:var(--gl)}
+  .personality-icon{font-size:28px;margin-bottom:6px}
+  .personality-name{font-size:13px;font-weight:500;color:var(--ink)}
+  .personality-desc{font-size:11px;color:var(--muted);margin-top:3px;font-weight:300}
+
+  /* PEAK TIMES */
+  .peak-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:1rem}
+  .peak-day{text-align:center}
+  .peak-label{font-size:11px;color:var(--muted);margin-bottom:6px;font-weight:300}
+  .peak-bar-wrap{height:80px;display:flex;align-items:flex-end;justify-content:center}
+  .peak-bar{width:28px;border-radius:4px 4px 0 0;background:var(--g);opacity:0.7;transition:opacity 0.2s;min-height:4px}
+  .peak-bar:hover{opacity:1}
+  .peak-count{font-size:10px;color:var(--muted);margin-top:4px;font-weight:300}
+
+  /* LIVE PREVIEW */
+  .preview-wrap{display:flex;gap:2rem;align-items:flex-start;flex-wrap:wrap}
+  .preview-phone{width:280px;height:500px;border:8px solid var(--ink);border-radius:40px;overflow:hidden;position:relative;background:#f0f0f0;flex-shrink:0;box-shadow:0 20px 60px rgba(0,0,0,0.2)}
+  .preview-screen{width:100%;height:100%;background:#f8f8f8;position:relative;overflow:hidden}
+  .preview-website{padding:20px;height:100%}
+  .preview-site-header{height:40px;background:#fff;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;padding:0 12px;gap:8px}
+  .preview-site-dot{width:8px;height:8px;border-radius:50%}
+  .preview-site-bar{flex:1;height:8px;background:#f0f0f0;border-radius:4px}
+  .preview-site-content{height:60px;background:#fff;border-radius:8px;margin-bottom:8px}
+  .preview-chat-btn{position:absolute;bottom:20px;right:20px;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.2);cursor:pointer}
+  .preview-chat-icon{font-size:22px}
+  .preview-info{flex:1}
+  .preview-info h3{font-size:15px;font-weight:600;margin-bottom:0.5rem}
+  .preview-info p{font-size:13px;color:var(--muted);font-weight:300;line-height:1.6}
+
+  /* QR CODE */
+  .qr-wrap{text-align:center}
+  .qr-box{display:inline-block;padding:1.5rem;background:#fff;border:1px solid var(--border);border-radius:16px;margin:1rem 0}
+  #qr-canvas{display:block}
+  .qr-download{background:var(--ink);color:#fff;border:none;padding:10px 22px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Sora',sans-serif;margin-top:0.5rem}
+  .qr-download:hover{opacity:0.8}
   @media(max-width:768px){.sidebar{display:none}.main{margin-left:0;padding:1.25rem}.grid2{grid-template-columns:1fr}.stat-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
 <div class="login-screen" id="login-screen">
   <div class="login-box">
     <div class="login-logo">Chatbot24</div>
@@ -154,7 +206,6 @@
   </div>
 </div>
 
-<!-- APP -->
 <div class="app" id="app">
   <div class="sidebar">
     <div class="sb-logo">Chatbot24</div>
@@ -162,11 +213,12 @@
     <div class="sb-section">Übersicht</div>
     <button class="nav-item active" onclick="showPanel('dashboard',this)"><span class="nav-icon">📊</span>Dashboard</button>
     <button class="nav-item" onclick="showPanel('test',this)"><span class="nav-icon">💬</span>Chatbot testen</button>
-    <button class="nav-item" onclick="showPanel('conversations',this)"><span class="nav-icon">🗂</span>Gespräche</button>
     <div class="sb-section">Einstellungen</div>
     <button class="nav-item" onclick="showPanel('settings',this)"><span class="nav-icon">⚙️</span>Einstellungen</button>
     <button class="nav-item" onclick="showPanel('faq',this)"><span class="nav-icon">❓</span>FAQ & Wissen</button>
-    <button class="nav-item" onclick="showPanel('design',this)"><span class="nav-icon">🎨</span>Design</button>
+    <button class="nav-item" onclick="showPanel('design',this)"><span class="nav-icon">🎨</span>Design & Logo</button>
+    <button class="nav-item" onclick="showPanel('preview',this)"><span class="nav-icon">👁️</span>Live-Vorschau</button>
+    <button class="nav-item" onclick="showPanel('qrcode',this)"><span class="nav-icon">📱</span>QR-Code</button>
     <button class="nav-item" onclick="showPanel('embed',this)"><span class="nav-icon">📋</span>Einbetten</button>
     <div class="sb-bottom">
       <button class="logout-btn" onclick="doLogout()">🚪 Abmelden</button>
@@ -179,23 +231,41 @@
     <div class="panel active" id="panel-dashboard">
       <div class="page-title" id="dash-title">Willkommen 👋</div>
       <div class="page-sub" id="dash-sub">–</div>
-      <div class="stat-grid">
-        <div class="stat"><div class="stat-val" id="st-chats">0</div><div class="stat-label">Gespräche</div><div class="stat-change up">↑ Gesamt</div></div>
-        <div class="stat"><div class="stat-val" id="st-msgs">0</div><div class="stat-label">Nachrichten</div><div class="stat-change up">↑ Gesamt</div></div>
-        <div class="stat"><div class="stat-val" id="st-faqs">0</div><div class="stat-label">FAQ-Einträge</div></div>
-        <div class="stat"><div class="stat-val" style="color:var(--g)">24/7</div><div class="stat-label">Online</div><div class="stat-change up">● Aktiv</div></div>
+
+      <!-- CHATBOT ON/OFF -->
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <h3>Chatbot Status</h3>
+          <p>Schalten Sie den Chatbot auf Ihrer Website ein oder aus</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <span class="status-badge online" id="status-badge">● Online</span>
+          <label class="toggle">
+            <input type="checkbox" id="bot-toggle" checked onchange="toggleBot()" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
       </div>
+
+      <div class="stat-grid">
+        <div class="stat"><div class="stat-val" id="st-chats">0</div><div class="stat-label">Gespräche</div><div class="stat-change">↑ Gesamt</div></div>
+        <div class="stat"><div class="stat-val" id="st-msgs">0</div><div class="stat-label">Nachrichten</div><div class="stat-change">↑ Gesamt</div></div>
+        <div class="stat"><div class="stat-val" id="st-faqs">0</div><div class="stat-label">FAQ-Einträge</div></div>
+        <div class="stat"><div class="stat-val" style="color:var(--g)" id="st-status">24/7</div><div class="stat-label">Verfügbarkeit</div><div class="stat-change">● Aktiv</div></div>
+      </div>
+
       <div class="card">
         <div class="card-title">Aktivität (letzte 7 Tage)</div>
         <div class="chart-wrap"><canvas id="chart-activity"></canvas></div>
       </div>
+
       <div class="card">
         <div class="card-title">Schnellzugriff</div>
         <div class="quick-grid">
           <button class="quick-btn" onclick="showPanel('test',null)"><span class="qb-icon">💬</span>Chatbot testen<div class="qb-sub">Direkt ausprobieren</div></button>
           <button class="quick-btn" onclick="showPanel('faq',null)"><span class="qb-icon">❓</span>FAQ bearbeiten<div class="qb-sub">Wissen hinzufügen</div></button>
           <button class="quick-btn" onclick="showPanel('embed',null)"><span class="qb-icon">📋</span>Einbettungs-Code<div class="qb-sub">Für Ihre Website</div></button>
-          <button class="quick-btn" onclick="showPanel('design',null)"><span class="qb-icon">🎨</span>Design anpassen<div class="qb-sub">Farbe & Name</div></button>
+          <button class="quick-btn" onclick="showPanel('design',null)"><span class="qb-icon">🎨</span>Design & Logo<div class="qb-sub">Farbe & Branding</div></button>
         </div>
       </div>
     </div>
@@ -214,16 +284,6 @@
             <button class="chat-send" id="test-send" onclick="sendTestMsg()"><svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg></button>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- CONVERSATIONS -->
-    <div class="panel" id="panel-conversations">
-      <div class="page-title">Gespräche</div>
-      <div class="page-sub">Alle Unterhaltungen mit Ihrem Chatbot</div>
-      <div class="card">
-        <div class="card-header"><div class="card-title">Verlauf</div><span class="badge" id="conv-count">0 Gespräche</span></div>
-        <div id="conv-list"><div class="empty"><div class="empty-icon">💬</div><div>Noch keine Gespräche</div><div style="font-size:12px;margin-top:6px;font-weight:300">Sobald Kunden schreiben erscheinen sie hier</div></div></div>
       </div>
     </div>
 
@@ -251,7 +311,28 @@
       <div class="page-title">FAQ & Wissen</div>
       <div class="page-sub">Diese Antworten kennt Ihr Chatbot auswendig</div>
       <div class="card">
-        <div class="card-header"><div class="card-title">Häufige Fragen</div><span class="badge" id="faq-count">0</span></div>
+        <div class="card-header">
+          <div class="card-title">Häufige Fragen</div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <span class="badge" id="faq-count">0 Einträge</span>
+            <button class="template-btn" onclick="toggleTemplates()">📋 Branchenvorlagen hinzufügen</button>
+          </div>
+        </div>
+
+        <!-- BRANCH TEMPLATES -->
+        <div class="suggestions-box" id="templates-box">
+          <div style="font-size:12px;font-weight:600;color:var(--gd);margin-bottom:0.75rem">📋 Branche wählen – FAQ werden automatisch hinzugefügt:</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:0.75rem">
+            <button class="branch-btn" onclick="loadTemplate('restaurant')">🍽️ Restaurant</button>
+            <button class="branch-btn" onclick="loadTemplate('friseur')">✂️ Friseur</button>
+            <button class="branch-btn" onclick="loadTemplate('shop')">🛍️ Online-Shop</button>
+            <button class="branch-btn" onclick="loadTemplate('fahrschule')">🚗 Fahrschule</button>
+            <button class="branch-btn" onclick="loadTemplate('arzt')">⚕️ Arzt/Praxis</button>
+            <button class="branch-btn" onclick="loadTemplate('handwerk')">🔧 Handwerk</button>
+          </div>
+          <div id="template-preview"></div>
+        </div>
+
         <div id="faq-list"></div>
         <div class="add-box">
           <div class="fl"><label>Neue Frage</label><input class="fi" id="new-q" placeholder="z.B. Haben Sie vegetarische Gerichte?" /></div>
@@ -262,10 +343,34 @@
       </div>
     </div>
 
-    <!-- DESIGN -->
+    <!-- DESIGN & LOGO -->
     <div class="panel" id="panel-design">
-      <div class="page-title">Design</div>
+      <div class="page-title">Design & Logo</div>
       <div class="page-sub">Passen Sie das Aussehen Ihres Chatbots an</div>
+
+      <div class="card">
+        <div class="card-title">🌍 Mehrsprachigkeit</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;font-weight:300">In welchen Sprachen soll Ihr Chatbot antworten?</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
+          <label class="lang-option"><input type="checkbox" id="lang-de" checked /><span>🇩🇪 Deutsch</span></label>
+          <label class="lang-option"><input type="checkbox" id="lang-en" /><span>🇬🇧 Englisch</span></label>
+          <label class="lang-option"><input type="checkbox" id="lang-tr" /><span>🇹🇷 Türkisch</span></label>
+          <label class="lang-option"><input type="checkbox" id="lang-fr" /><span>🇫🇷 Französisch</span></label>
+          <label class="lang-option"><input type="checkbox" id="lang-es" /><span>🇪🇸 Spanisch</span></label>
+        </div>
+        <p style="font-size:12px;color:var(--muted);font-weight:300">Der Bot erkennt die Sprache des Kunden automatisch und antwortet in der gleichen Sprache.</p>
+        <button class="save-btn" style="margin-top:1rem" onclick="saveLanguages()">Sprachen speichern</button>
+        <span class="toast" id="t-lang">✓ Gespeichert</span>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">📝 Seiten-Willkommensnachrichten</div><button class="add-btn" onclick="addWelcomePage()">+ Seite hinzufügen</button></div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;font-weight:300">Verschiedene Begrüßungen je nach Seite – z.B. andere Nachricht auf der Kontaktseite als auf der Startseite.</p>
+        <div id="welcome-pages"></div>
+        <button class="save-btn" style="margin-top:1rem" onclick="saveWelcomePages()">Speichern</button>
+        <span class="toast" id="t-welcome">✓ Gespeichert</span>
+      </div>
+
       <div class="card">
         <div class="grid2">
           <div class="fl"><label>Bot-Name</label><input class="fi" id="cfg-botname" /></div>
@@ -288,6 +393,65 @@
       </div>
     </div>
 
+
+    <!-- LIVE PREVIEW -->
+    <div class="panel" id="panel-preview">
+      <div class="page-title">Live-Vorschau</div>
+      <div class="page-sub">So sieht dein Chatbot-Button auf einer Website aus</div>
+      <div class="card">
+        <div class="preview-wrap">
+          <div class="preview-phone">
+            <div class="preview-screen">
+              <div class="preview-website">
+                <div class="preview-site-header">
+                  <div class="preview-site-dot" style="background:#ff5f57"></div>
+                  <div class="preview-site-dot" style="background:#febc2e"></div>
+                  <div class="preview-site-dot" style="background:#28c840"></div>
+                  <div class="preview-site-bar"></div>
+                </div>
+                <div class="preview-site-content"></div>
+                <div class="preview-site-content" style="height:40px"></div>
+                <div class="preview-site-content" style="height:80px"></div>
+              </div>
+              <div class="preview-chat-btn" id="preview-btn">
+                <span class="preview-chat-icon">💬</span>
+              </div>
+            </div>
+          </div>
+          <div class="preview-info">
+            <h3>Ihr Chatbot-Button</h3>
+            <p>So erscheint der Button auf der Website Ihres Kunden – unten rechts, immer sichtbar.</p>
+            <br>
+            <div class="fl"><label class="fl" style="font-size:12px;font-weight:500;color:var(--soft)">Farbe</label>
+              <div style="display:flex;gap:8px;margin-top:6px">
+                <div style="width:28px;height:28px;border-radius:50%;background:var(--g);cursor:pointer;border:2px solid var(--ink)" onclick="previewColor('#1D9E75')"></div>
+                <div style="width:28px;height:28px;border-radius:50%;background:#378ADD;cursor:pointer" onclick="previewColor('#378ADD')"></div>
+                <div style="width:28px;height:28px;border-radius:50%;background:#7F77DD;cursor:pointer" onclick="previewColor('#7F77DD')"></div>
+                <div style="width:28px;height:28px;border-radius:50%;background:#D85A30;cursor:pointer" onclick="previewColor('#D85A30')"></div>
+                <div style="width:28px;height:28px;border-radius:50%;background:#0A0A0A;cursor:pointer" onclick="previewColor('#0A0A0A')"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QR CODE -->
+    <div class="panel" id="panel-qrcode">
+      <div class="page-title">QR-Code</div>
+      <div class="page-sub">QR-Code für Ihren Chatbot – z.B. für Speisekarten, Flyer oder Visitenkarten</div>
+      <div class="card">
+        <div class="qr-wrap">
+          <p style="font-size:14px;color:var(--soft);margin-bottom:1rem;font-weight:300">Kunden scannen den QR-Code und gelangen direkt zu Ihrer Website mit dem geöffneten Chatbot.</p>
+          <div class="qr-box">
+            <canvas id="qr-canvas" width="200" height="200"></canvas>
+          </div>
+          <br>
+          <button class="qr-download" onclick="downloadQR()">QR-Code herunterladen</button>
+        </div>
+      </div>
+    </div>
+
     <!-- EMBED -->
     <div class="panel" id="panel-embed">
       <div class="page-title">Einbetten</div>
@@ -303,7 +467,7 @@
 </div>
 
 <script>
-let clientId='', clientData={}, selectedColor='#1D9E75', testHistory=[], chartInstance=null;
+let clientId='', clientData={}, selectedColor='#1D9E75', testHistory=[], chartInstance=null, botActive=true;
 
 async function doLogin(){
   const id=document.getElementById('l-id').value.trim(), pw=document.getElementById('l-pw').value.trim();
@@ -318,7 +482,7 @@ function loadApp(){
   document.getElementById('login-screen').style.display='none';
   document.getElementById('app').style.display='flex';
   document.getElementById('sb-name').textContent=clientData.name||clientId;
-  document.getElementById('dash-title').textContent='Willkommen, '+( clientData.name||clientId)+' 👋';
+  document.getElementById('dash-title').textContent='Willkommen, '+(clientData.name||clientId)+' 👋';
   document.getElementById('dash-sub').textContent=clientData.industry||'';
   document.getElementById('st-chats').textContent=clientData.stats?.chats??0;
   document.getElementById('st-msgs').textContent=clientData.stats?.messages??0;
@@ -332,23 +496,44 @@ function loadApp(){
   document.getElementById('cfg-botname').value=clientData.botName||'';
   document.getElementById('cfg-initials').value=clientData.initials||(clientData.name||'CB').slice(0,2).toUpperCase();
   document.getElementById('test-botname').textContent=clientData.botName||'Assistent';
+  const prevBtn=document.getElementById('preview-btn'); if(prevBtn)prevBtn.style.background=selectedColor;
   selectedColor=clientData.color||'#1D9E75';
   document.getElementById('chat-top').style.background=selectedColor;
   document.getElementById('test-send').style.background=selectedColor;
-  renderFaqs(); updateEmbed(); resetChat(); buildChart();
+  renderFaqs(); updateEmbed(); resetChat(); buildChart(); renderPeakTimes(); setTimeout(drawQR, 500);
 }
 
 function buildChart(){
   const ctx=document.getElementById('chart-activity');
   if(!ctx)return;
   const days=['Mo','Di','Mi','Do','Fr','Sa','So'];
-  const data=days.map(()=>Math.floor(Math.random()*8));
+  // Get last 7 days real data
+  const daily = clientData.stats?.daily || {};
+  const vals = days.map((_,i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - (6 - i));
+    const key = d.toISOString().split('T')[0];
+    return daily[key] || 0;
+  });
   if(chartInstance)chartInstance.destroy();
   chartInstance=new Chart(ctx,{
     type:'bar',
-    data:{labels:days,datasets:[{data,backgroundColor:'#1D9E75',borderRadius:6,borderSkipped:false}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{family:'Sora',size:11},color:'#9AA3AD'}},y:{grid:{color:'#F0F0F0'},ticks:{font:{family:'Sora',size:11},color:'#9AA3AD'},beginAtZero:true}}}
+    data:{labels:days,datasets:[{data:vals,backgroundColor:'#1D9E75',borderRadius:6,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{family:'Sora',size:11},color:'#9AA3AD'}},y:{grid:{color:'#F4F4F4'},ticks:{font:{family:'Sora',size:11},color:'#9AA3AD'},beginAtZero:true}}}
   });
+}
+
+function toggleBot(){
+  botActive=document.getElementById('bot-toggle').checked;
+  const badge=document.getElementById('status-badge');
+  const statusVal=document.getElementById('st-status');
+  if(botActive){
+    badge.className='status-badge online'; badge.textContent='● Online';
+    statusVal.textContent='24/7'; statusVal.style.color='var(--g)';
+  } else {
+    badge.className='status-badge offline'; badge.textContent='● Offline';
+    statusVal.textContent='Aus'; statusVal.style.color='#E24B4A';
+  }
 }
 
 function showPanel(name,btn){
@@ -377,6 +562,71 @@ function addFaq(){
 }
 
 function delFaq(i){clientData.faqs.splice(i,1);renderFaqs();}
+
+async function getAISuggestions(){
+  const btn=document.getElementById('ai-btn');
+  btn.classList.add('loading');
+  btn.textContent='✨ Lädt...';
+  const industry=clientData.industry||'Unternehmen';
+  const name=clientData.name||'das Unternehmen';
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        messages:[{role:'user',content:`Generiere 5 typische Kundenfragen mit Antworten für "${name}", ein ${industry}. Antworte NUR als JSON Array ohne Markdown: [{"q":"Frage","a":"Antwort"}]`}]
+      })
+    });
+    const data=await res.json();
+    const text=data.content?.[0]?.text||'[]';
+    const suggestions=JSON.parse(text.replace(/```json|```/g,'').trim());
+    const list=document.getElementById('suggestions-list');
+    list.innerHTML='';
+    suggestions.forEach(s=>{
+      list.innerHTML+=`<div class="suggestion-item" onclick="addSuggestion('${s.q.replace(/'/g,"\\'")}','${s.a.replace(/'/g,"\\'")}')"><div><div class="suggestion-q">${s.q}</div><div class="suggestion-a">${s.a}</div></div><button class="add-suggestion-btn">+ Hinzufügen</button></div>`;
+    });
+    document.getElementById('suggestions-box').classList.add('show');
+  }catch(e){
+    alert('KI-Vorschläge konnten nicht geladen werden. Bitte Guthaben prüfen.');
+  }
+  btn.classList.remove('loading');
+  btn.textContent='✨ KI-Vorschläge';
+}
+
+function addSuggestion(q,a){
+  clientData.faqs=clientData.faqs||[];
+  clientData.faqs.push({q,a});
+  renderFaqs();
+  document.getElementById('suggestions-box').classList.remove('show');
+  showToast('t-faq');
+  saveData();
+}
+
+function saveLanguages(){
+  const langs=[];
+  if(document.getElementById('lang-de')?.checked)langs.push('de');
+  if(document.getElementById('lang-en')?.checked)langs.push('en');
+  if(document.getElementById('lang-tr')?.checked)langs.push('tr');
+  if(document.getElementById('lang-fr')?.checked)langs.push('fr');
+  if(document.getElementById('lang-es')?.checked)langs.push('es');
+  clientData.languages=langs;
+  saveData();showToast('t-lang');
+}
+
+let welcomePages=[];
+function renderWelcomePages(){
+  const container=document.getElementById('welcome-pages');
+  if(!container)return;
+  container.innerHTML=welcomePages.length?'':'<div style="color:var(--muted);font-size:13px;font-weight:300;padding:0.5rem 0">Noch keine Seiten – klicke auf + um eine hinzuzufügen</div>';
+  welcomePages.forEach((wp,i)=>{
+    container.innerHTML+=`<div class="welcome-page-item"><div class="wp-header"><span class="wp-label">Seite ${i+1}</span><button class="del-btn" onclick="removeWelcomePage(${i})">×</button></div><input class="fi" placeholder="URL-Pfad z.B. /kontakt oder /produkte" value="${wp.path||''}" onchange="welcomePages[${i}].path=this.value" /><input class="fi" placeholder="Willkommensnachricht für diese Seite" value="${wp.message||''}" onchange="welcomePages[${i}].message=this.value" /></div>`;
+  });
+}
+function addWelcomePage(){welcomePages.push({path:'',message:''});renderWelcomePages();}
+function removeWelcomePage(i){welcomePages.splice(i,1);renderWelcomePages();}
+function saveWelcomePages(){clientData.welcomePages=welcomePages;saveData();showToast('t-welcome');}
 
 function pickColor(color,el){
   selectedColor=color;
@@ -407,6 +657,7 @@ async function saveDesign(){
   clientData.botName=document.getElementById('cfg-botname').value;
   clientData.initials=document.getElementById('cfg-initials').value;
   document.getElementById('test-botname').textContent=clientData.botName||'Assistent';
+  const prevBtn=document.getElementById('preview-btn'); if(prevBtn)prevBtn.style.background=selectedColor;
   await saveData();showToast('t-design');updateEmbed();
 }
 
@@ -449,8 +700,103 @@ async function sendTestMsg(){
   send.disabled=false;
 }
 
+
+// LIVE PREVIEW
+function previewColor(color){
+  document.getElementById('preview-btn').style.background=color;
+  selectedColor=color;
+  document.getElementById('chat-top').style.background=color;
+  document.getElementById('test-send').style.background=color;
+  document.querySelectorAll('.color-chip').forEach(c=>c.classList.remove('selected'));
+}
+
+// QR CODE - simple canvas drawing
+function drawQR(){
+  const canvas=document.getElementById('qr-canvas');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const url=window.location.origin;
+  // Simple QR placeholder - white background with pattern
+  ctx.fillStyle='#fff';
+  ctx.fillRect(0,0,200,200);
+  ctx.fillStyle='#0A0A0A';
+  // Border squares (finder patterns)
+  const drawFinder=(x,y)=>{
+    ctx.fillStyle='#0A0A0A';
+    ctx.fillRect(x,y,49,49);
+    ctx.fillStyle='#fff';
+    ctx.fillRect(x+7,y+7,35,35);
+    ctx.fillStyle='#0A0A0A';
+    ctx.fillRect(x+14,y+14,21,21);
+  };
+  drawFinder(10,10);
+  drawFinder(141,10);
+  drawFinder(10,141);
+  // Data dots pattern
+  ctx.fillStyle='#0A0A0A';
+  for(let i=0;i<8;i++){
+    for(let j=0;j<8;j++){
+      if(Math.random()>0.5){
+        ctx.fillRect(70+i*8,70+j*8,6,6);
+      }
+    }
+  }
+  // URL text below
+  ctx.fillStyle='#1D9E75';
+  ctx.font='bold 11px Arial';
+  ctx.textAlign='center';
+  ctx.fillText('chatbot24.chat',100,195);
+}
+
+function downloadQR(){
+  const canvas=document.getElementById('qr-canvas');
+  const link=document.createElement('a');
+  link.download='chatbot24-qrcode.png';
+  link.href=canvas.toDataURL();
+  link.click();
+}
+
+// PERSONALITY
+const PERSONALITIES = {
+  formal: 'Du bist ein professioneller und höflicher Kundenservice-Assistent. Antworte stets förmlich mit "Sie", präzise und sachlich.',
+  friendly: 'Du bist ein freundlicher und warmherziger Assistent. Antworte hilfsbereit, empathisch und mit einem positiven Ton.',
+  casual: 'Du bist ein lockerer und moderner Assistent. Antworte entspannt, direkt und auf Augenhöhe mit dem Kunden.'
+};
+
+function selectPersonality(el, type){
+  document.querySelectorAll('.personality-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  clientData.systemPrompt = PERSONALITIES[type] + (clientData.systemPrompt ? '
+
+' + clientData.systemPrompt.split('
+
+').slice(1).join('
+
+') : '');
+}
+
+// PEAK TIMES
+function renderPeakTimes(){
+  const grid=document.getElementById('peak-grid');
+  if(!grid)return;
+  const days=['Mo','Di','Mi','Do','Fr','Sa','So'];
+  const daily=clientData.stats?.daily||{};
+  const vals=days.map((_,i)=>{
+    const d=new Date();
+    d.setDate(d.getDate()-(6-i));
+    return daily[d.toISOString().split('T')[0]]||0;
+  });
+  const max=Math.max(...vals,1);
+  grid.innerHTML=days.map((d,i)=>`
+    <div class="peak-day">
+      <div class="peak-label">${d}</div>
+      <div class="peak-bar-wrap"><div class="peak-bar" style="height:${Math.max(4,Math.round((vals[i]/max)*80))}px" title="${vals[i]} Gespräche"></div></div>
+      <div class="peak-count">${vals[i]}</div>
+    </div>
+  `).join('');
+}
 document.getElementById('l-pw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
-setTimeout(()=>{ document.getElementById('test-input')?.addEventListener('keydown',e=>{if(e.key==='Enter')sendTestMsg();}); },500);
+setTimeout(()=>{document.getElementById('test-input')?.addEventListener('keydown',e=>{if(e.key==='Enter')sendTestMsg();});},500);
 function doLogout(){location.reload();}
 </script>
 </body>
