@@ -149,6 +149,46 @@
   .qb-icon{font-size:18px;display:block;margin-bottom:6px}
   .qb-sub{font-size:11px;color:var(--muted);font-weight:300;margin-top:2px}
 
+
+  /* PERSONALITY */
+  .personality-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+  .personality-card{border:1.5px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;text-align:center;transition:all 0.15s;background:var(--white)}
+  .personality-card:hover{border-color:var(--g);background:var(--gl)}
+  .personality-card.selected{border-color:var(--g);background:var(--gl)}
+  .personality-icon{font-size:28px;margin-bottom:6px}
+  .personality-name{font-size:13px;font-weight:500;color:var(--ink)}
+  .personality-desc{font-size:11px;color:var(--muted);margin-top:3px;font-weight:300}
+
+  /* PEAK TIMES */
+  .peak-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:1rem}
+  .peak-day{text-align:center}
+  .peak-label{font-size:11px;color:var(--muted);margin-bottom:6px;font-weight:300}
+  .peak-bar-wrap{height:80px;display:flex;align-items:flex-end;justify-content:center}
+  .peak-bar{width:28px;border-radius:4px 4px 0 0;background:var(--g);opacity:0.7;transition:opacity 0.2s;min-height:4px}
+  .peak-bar:hover{opacity:1}
+  .peak-count{font-size:10px;color:var(--muted);margin-top:4px;font-weight:300}
+
+  /* LIVE PREVIEW */
+  .preview-wrap{display:flex;gap:2rem;align-items:flex-start;flex-wrap:wrap}
+  .preview-phone{width:280px;height:500px;border:8px solid var(--ink);border-radius:40px;overflow:hidden;position:relative;background:#f0f0f0;flex-shrink:0;box-shadow:0 20px 60px rgba(0,0,0,0.2)}
+  .preview-screen{width:100%;height:100%;background:#f8f8f8;position:relative;overflow:hidden}
+  .preview-website{padding:20px;height:100%}
+  .preview-site-header{height:40px;background:#fff;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;padding:0 12px;gap:8px}
+  .preview-site-dot{width:8px;height:8px;border-radius:50%}
+  .preview-site-bar{flex:1;height:8px;background:#f0f0f0;border-radius:4px}
+  .preview-site-content{height:60px;background:#fff;border-radius:8px;margin-bottom:8px}
+  .preview-chat-btn{position:absolute;bottom:20px;right:20px;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.2);cursor:pointer}
+  .preview-chat-icon{font-size:22px}
+  .preview-info{flex:1}
+  .preview-info h3{font-size:15px;font-weight:600;margin-bottom:0.5rem}
+  .preview-info p{font-size:13px;color:var(--muted);font-weight:300;line-height:1.6}
+
+  /* QR CODE */
+  .qr-wrap{text-align:center}
+  .qr-box{display:inline-block;padding:1.5rem;background:#fff;border:1px solid var(--border);border-radius:16px;margin:1rem 0}
+  #qr-canvas{display:block}
+  .qr-download{background:var(--ink);color:#fff;border:none;padding:10px 22px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Sora',sans-serif;margin-top:0.5rem}
+  .qr-download:hover{opacity:0.8}
   @media(max-width:768px){.sidebar{display:none}.main{margin-left:0;padding:1.25rem}.grid2{grid-template-columns:1fr}.stat-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
@@ -177,6 +217,8 @@
     <button class="nav-item" onclick="showPanel('settings',this)"><span class="nav-icon">⚙️</span>Einstellungen</button>
     <button class="nav-item" onclick="showPanel('faq',this)"><span class="nav-icon">❓</span>FAQ & Wissen</button>
     <button class="nav-item" onclick="showPanel('design',this)"><span class="nav-icon">🎨</span>Design & Logo</button>
+    <button class="nav-item" onclick="showPanel('preview',this)"><span class="nav-icon">👁️</span>Live-Vorschau</button>
+    <button class="nav-item" onclick="showPanel('qrcode',this)"><span class="nav-icon">📱</span>QR-Code</button>
     <button class="nav-item" onclick="showPanel('embed',this)"><span class="nav-icon">📋</span>Einbetten</button>
     <div class="sb-bottom">
       <button class="logout-btn" onclick="doLogout()">🚪 Abmelden</button>
@@ -346,8 +388,68 @@
             <input type="color" id="custom-color" style="width:32px;height:32px;border:none;border-radius:50%;cursor:pointer;padding:0" onchange="pickColor(this.value,this)" />
           </div>
         </div>
+        </div>
         <button class="save-btn" onclick="saveDesign()">Design speichern</button>
         <span class="toast" id="t-design">✓ Gespeichert</span>
+      </div>
+    </div>
+
+
+    <!-- LIVE PREVIEW -->
+    <div class="panel" id="panel-preview">
+      <div class="page-title">Live-Vorschau</div>
+      <div class="page-sub">So sieht dein Chatbot-Button auf einer Website aus</div>
+      <div class="card">
+        <div class="preview-wrap">
+          <div class="preview-phone">
+            <div class="preview-screen">
+              <div class="preview-website">
+                <div class="preview-site-header">
+                  <div class="preview-site-dot" style="background:#ff5f57"></div>
+                  <div class="preview-site-dot" style="background:#febc2e"></div>
+                  <div class="preview-site-dot" style="background:#28c840"></div>
+                  <div class="preview-site-bar"></div>
+                </div>
+                <div class="preview-site-content"></div>
+                <div class="preview-site-content" style="height:40px"></div>
+                <div class="preview-site-content" style="height:80px"></div>
+              </div>
+              <div class="preview-chat-btn" id="preview-btn">
+                <span class="preview-chat-icon">💬</span>
+              </div>
+            </div>
+          </div>
+          <div class="preview-info">
+            <h3>Ihr Chatbot-Button</h3>
+            <p>So erscheint der Button auf der Website Ihres Kunden – unten rechts, immer sichtbar.</p>
+            <br>
+            <div class="fl"><label class="fl" style="font-size:12px;font-weight:500;color:var(--soft)">Farbe</label>
+              <div style="display:flex;gap:8px;margin-top:6px">
+                <div style="width:28px;height:28px;border-radius:50%;background:var(--g);cursor:pointer;border:2px solid var(--ink)" onclick="previewColor('#1D9E75')"></div>
+                <div style="width:28px;height:28px;border-radius:50%;background:#378ADD;cursor:pointer" onclick="previewColor('#378ADD')"></div>
+                <div style="width:28px;height:28px;border-radius:50%;background:#7F77DD;cursor:pointer" onclick="previewColor('#7F77DD')"></div>
+                <div style="width:28px;height:28px;border-radius:50%;background:#D85A30;cursor:pointer" onclick="previewColor('#D85A30')"></div>
+                <div style="width:28px;height:28px;border-radius:50%;background:#0A0A0A;cursor:pointer" onclick="previewColor('#0A0A0A')"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QR CODE -->
+    <div class="panel" id="panel-qrcode">
+      <div class="page-title">QR-Code</div>
+      <div class="page-sub">QR-Code für Ihren Chatbot – z.B. für Speisekarten, Flyer oder Visitenkarten</div>
+      <div class="card">
+        <div class="qr-wrap">
+          <p style="font-size:14px;color:var(--soft);margin-bottom:1rem;font-weight:300">Kunden scannen den QR-Code und gelangen direkt zu Ihrer Website mit dem geöffneten Chatbot.</p>
+          <div class="qr-box">
+            <canvas id="qr-canvas" width="200" height="200"></canvas>
+          </div>
+          <br>
+          <button class="qr-download" onclick="downloadQR()">QR-Code herunterladen</button>
+        </div>
       </div>
     </div>
 
@@ -395,10 +497,11 @@ function loadApp(){
   document.getElementById('cfg-botname').value=clientData.botName||'';
   document.getElementById('cfg-initials').value=clientData.initials||(clientData.name||'CB').slice(0,2).toUpperCase();
   document.getElementById('test-botname').textContent=clientData.botName||'Assistent';
+  const prevBtn=document.getElementById('preview-btn'); if(prevBtn)prevBtn.style.background=selectedColor;
   selectedColor=clientData.color||'#1D9E75';
   document.getElementById('chat-top').style.background=selectedColor;
   document.getElementById('test-send').style.background=selectedColor;
-  renderFaqs(); updateEmbed(); resetChat(); buildChart();
+  renderFaqs(); updateEmbed(); resetChat(); buildChart(); renderPeakTimes(); setTimeout(drawQR, 500);
 }
 
 function buildChart(){
@@ -555,6 +658,7 @@ async function saveDesign(){
   clientData.botName=document.getElementById('cfg-botname').value;
   clientData.initials=document.getElementById('cfg-initials').value;
   document.getElementById('test-botname').textContent=clientData.botName||'Assistent';
+  const prevBtn=document.getElementById('preview-btn'); if(prevBtn)prevBtn.style.background=selectedColor;
   await saveData();showToast('t-design');updateEmbed();
 }
 
@@ -597,6 +701,101 @@ async function sendTestMsg(){
   send.disabled=false;
 }
 
+
+// LIVE PREVIEW
+function previewColor(color){
+  document.getElementById('preview-btn').style.background=color;
+  selectedColor=color;
+  document.getElementById('chat-top').style.background=color;
+  document.getElementById('test-send').style.background=color;
+  document.querySelectorAll('.color-chip').forEach(c=>c.classList.remove('selected'));
+}
+
+// QR CODE - simple canvas drawing
+function drawQR(){
+  const canvas=document.getElementById('qr-canvas');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const url=window.location.origin;
+  // Simple QR placeholder - white background with pattern
+  ctx.fillStyle='#fff';
+  ctx.fillRect(0,0,200,200);
+  ctx.fillStyle='#0A0A0A';
+  // Border squares (finder patterns)
+  const drawFinder=(x,y)=>{
+    ctx.fillStyle='#0A0A0A';
+    ctx.fillRect(x,y,49,49);
+    ctx.fillStyle='#fff';
+    ctx.fillRect(x+7,y+7,35,35);
+    ctx.fillStyle='#0A0A0A';
+    ctx.fillRect(x+14,y+14,21,21);
+  };
+  drawFinder(10,10);
+  drawFinder(141,10);
+  drawFinder(10,141);
+  // Data dots pattern
+  ctx.fillStyle='#0A0A0A';
+  for(let i=0;i<8;i++){
+    for(let j=0;j<8;j++){
+      if(Math.random()>0.5){
+        ctx.fillRect(70+i*8,70+j*8,6,6);
+      }
+    }
+  }
+  // URL text below
+  ctx.fillStyle='#1D9E75';
+  ctx.font='bold 11px Arial';
+  ctx.textAlign='center';
+  ctx.fillText('chatbot24.chat',100,195);
+}
+
+function downloadQR(){
+  const canvas=document.getElementById('qr-canvas');
+  const link=document.createElement('a');
+  link.download='chatbot24-qrcode.png';
+  link.href=canvas.toDataURL();
+  link.click();
+}
+
+// PERSONALITY
+const PERSONALITIES = {
+  formal: 'Du bist ein professioneller und höflicher Kundenservice-Assistent. Antworte stets förmlich mit "Sie", präzise und sachlich.',
+  friendly: 'Du bist ein freundlicher und warmherziger Assistent. Antworte hilfsbereit, empathisch und mit einem positiven Ton.',
+  casual: 'Du bist ein lockerer und moderner Assistent. Antworte entspannt, direkt und auf Augenhöhe mit dem Kunden.'
+};
+
+function selectPersonality(el, type){
+  document.querySelectorAll('.personality-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  clientData.systemPrompt = PERSONALITIES[type] + (clientData.systemPrompt ? '
+
+' + clientData.systemPrompt.split('
+
+').slice(1).join('
+
+') : '');
+}
+
+// PEAK TIMES
+function renderPeakTimes(){
+  const grid=document.getElementById('peak-grid');
+  if(!grid)return;
+  const days=['Mo','Di','Mi','Do','Fr','Sa','So'];
+  const daily=clientData.stats?.daily||{};
+  const vals=days.map((_,i)=>{
+    const d=new Date();
+    d.setDate(d.getDate()-(6-i));
+    return daily[d.toISOString().split('T')[0]]||0;
+  });
+  const max=Math.max(...vals,1);
+  grid.innerHTML=days.map((d,i)=>`
+    <div class="peak-day">
+      <div class="peak-label">${d}</div>
+      <div class="peak-bar-wrap"><div class="peak-bar" style="height:${Math.max(4,Math.round((vals[i]/max)*80))}px" title="${vals[i]} Gespräche"></div></div>
+      <div class="peak-count">${vals[i]}</div>
+    </div>
+  `).join('');
+}
 document.getElementById('l-pw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 setTimeout(()=>{document.getElementById('test-input')?.addEventListener('keydown',e=>{if(e.key==='Enter')sendTestMsg();});},500);
 function doLogout(){location.reload();}
