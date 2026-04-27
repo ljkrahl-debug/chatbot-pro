@@ -342,7 +342,12 @@ function buildChart(){
   const ctx=document.getElementById('chart-activity');
   if(!ctx)return;
   const days=['Mo','Di','Mi','Do','Fr','Sa','So'];
-  const data=days.map(()=>Math.floor(Math.random()*8));
+  const daily=clientData.stats?.daily||{};
+  const data=days.map((_,i)=>{
+    const d=new Date();
+    d.setDate(d.getDate()-(6-i));
+    return daily[d.toISOString().split('T')[0]]||0;
+  });
   if(chartInstance)chartInstance.destroy();
   chartInstance=new Chart(ctx,{
     type:'bar',
