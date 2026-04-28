@@ -164,6 +164,10 @@
   .qr-box{display:inline-block;padding:1.25rem;background:#fff;border:1px solid var(--border);border-radius:14px;margin-bottom:1rem}
   .qr-dl{background:var(--ink);color:#fff;border:none;padding:10px 22px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Sora',sans-serif}
   .qr-dl:hover{opacity:0.8}
+  .icon-btn{width:44px;height:44px;border-radius:10px;border:1.5px solid var(--border);background:var(--white);font-size:20px;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center}
+  .icon-btn:hover{border-color:var(--g);background:var(--gl)}
+  .icon-btn.selected{border-color:var(--g);background:var(--gl);border-width:2px}
+
   @media(max-width:768px){.sidebar{display:none}.main{margin-left:0;padding:1.25rem}.grid2{grid-template-columns:1fr}.stat-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
@@ -195,9 +199,7 @@
     <button class="nav-item" onclick="showPanel('settings',this)"><span class="nav-icon">⚙️</span>Einstellungen</button>
     <button class="nav-item" onclick="showPanel('faq',this)"><span class="nav-icon">❓</span>FAQ & Wissen</button>
     <button class="nav-item" onclick="showPanel('design',this)"><span class="nav-icon">🎨</span>Design</button>
-    <button class="nav-item" onclick="showPanel('topics',this)"><span class="nav-icon">💡</span>Themen</button>
     <button class="nav-item" onclick="showPanel('preview',this)"><span class="nav-icon">👁️</span>Vorschau</button>
-    <button class="nav-item" onclick="showPanel('qrcode',this)"><span class="nav-icon">📱</span>QR-Code</button>
     <button class="nav-item" onclick="showPanel('embed',this)"><span class="nav-icon">📋</span>Einbetten</button>
     <div class="sb-bottom">
       <button class="logout-btn" onclick="doLogout()">🚪 Abmelden</button>
@@ -320,66 +322,111 @@
     </div>
 
 
-    <!-- TOPICS -->
-    <div class="panel" id="panel-topics">
-      <div class="page-title">Themen-Auswertung</div>
-      <div class="page-sub">Über welche Themen sprechen Ihre Kunden am häufigsten</div>
-      <div class="card">
-        <div class="card-header"><div class="card-title">Häufigste Themen</div><span class="badge" id="topics-badge">Analyse</span></div>
-        <div id="topics-list"><div style="color:var(--muted);font-size:13px;font-weight:300;text-align:center;padding:2rem">Klicken Sie auf "Analysieren" um die häufigsten Themen zu ermitteln.</div></div>
-        <div style="margin-top:1rem"><button class="save-btn" onclick="analyzeTopics()">Jetzt analysieren</button></div>
-      </div>
-    </div>
-
     <!-- LIVE PREVIEW -->
     <div class="panel" id="panel-preview">
       <div class="page-title">Live-Vorschau</div>
-      <div class="page-sub">So sieht Ihr Chatbot-Button auf einer Website aus</div>
+      <div class="page-sub">So sieht Ihr Chatbot auf verschiedenen Geräten aus</div>
+
       <div class="card">
-        <div style="display:flex;gap:2rem;align-items:flex-start;flex-wrap:wrap">
-          <div class="preview-phone">
-            <div class="preview-screen">
-              <div class="preview-website">
-                <div class="preview-bar"></div>
-                <div class="preview-block" style="height:60px"></div>
-                <div class="preview-block" style="height:40px"></div>
-                <div class="preview-block" style="height:80px"></div>
+        <div class="card-title" style="margin-bottom:1.25rem">Chat-Icon wählen</div>
+        <div style="font-size:12px;font-weight:500;color:var(--soft);margin-bottom:8px">Emoji auswählen:</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1.25rem">
+          <button class="icon-btn selected" onclick="selectIcon(this,'💬')">💬</button>
+          <button class="icon-btn" onclick="selectIcon(this,'🤖')">🤖</button>
+          <button class="icon-btn" onclick="selectIcon(this,'💡')">💡</button>
+          <button class="icon-btn" onclick="selectIcon(this,'🙋')">🙋</button>
+          <button class="icon-btn" onclick="selectIcon(this,'⭐')">⭐</button>
+          <button class="icon-btn" onclick="selectIcon(this,'🎯')">🎯</button>
+          <button class="icon-btn" onclick="selectIcon(this,'📞')">📞</button>
+          <button class="icon-btn" onclick="selectIcon(this,'✉️')">✉️</button>
+          <button class="icon-btn" onclick="selectIcon(this,'🔔')">🔔</button>
+          <button class="icon-btn" onclick="selectIcon(this,'💎')">💎</button>
+          <button class="icon-btn" onclick="selectIcon(this,'🚀')">🚀</button>
+          <button class="icon-btn" onclick="selectIcon(this,'❓')">❓</button>
+        </div>
+        <div style="font-size:12px;font-weight:500;color:var(--soft);margin-bottom:8px">Oder eigenes Logo hochladen:</div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:1.25rem">
+          <div style="width:52px;height:52px;border-radius:50%;border:1.5px solid var(--border);overflow:hidden;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <img id="logo-preview" src="" style="display:none;width:100%;height:100%;object-fit:cover" />
+            <span id="logo-placeholder" style="font-size:20px">🖼️</span>
+          </div>
+          <div>
+            <input type="file" id="logo-input" accept="image/*" style="display:none" onchange="handleLogoUpload(event)" />
+            <button class="add-btn" onclick="document.getElementById('logo-input').click()">Logo hochladen</button>
+            <div style="font-size:11px;color:var(--muted);margin-top:4px;font-weight:300">PNG, JPG · Max. 1MB · Wird als Icon angezeigt</div>
+          </div>
+        </div>
+        <button class="save-btn" onclick="saveIcon()">Icon speichern</button>
+        <span class="toast" id="t-icon">✓ Gespeichert</span>
+      </div>
+
+      <div class="card">
+        <div class="card-title" style="margin-bottom:1.25rem">Vorschau auf verschiedenen Geräten</div>
+        <div style="display:flex;gap:2rem;flex-wrap:wrap;align-items:flex-end">
+
+          <!-- MOBILE -->
+          <div style="text-align:center">
+            <div style="font-size:12px;color:var(--muted);margin-bottom:8px;font-weight:500">📱 Smartphone</div>
+            <div class="preview-phone">
+              <div class="preview-screen">
+                <div class="preview-website">
+                  <div class="preview-bar"></div>
+                  <div class="preview-block" style="height:50px"></div>
+                  <div class="preview-block" style="height:35px"></div>
+                  <div class="preview-block" style="height:65px"></div>
+                </div>
+                <div class="preview-chat-btn" id="preview-btn-mobile" style="background:var(--g)"><span id="preview-icon-mobile">💬</span></div>
               </div>
-              <div class="preview-chat-btn" id="preview-btn" style="background:var(--g)">💬</div>
             </div>
           </div>
-          <div style="flex:1">
-            <h3 style="font-size:15px;font-weight:600;margin-bottom:0.5rem">Ihr Chatbot-Button</h3>
-            <p style="font-size:13px;color:var(--muted);font-weight:300;line-height:1.6;margin-bottom:1.5rem">So erscheint der Button auf der Website Ihres Kunden – unten rechts, immer sichtbar. Die Farbe entspricht Ihrer Design-Einstellung.</p>
-            <div class="fl"><label class="fl" style="font-size:12px;font-weight:500;color:var(--soft)">Vorschau-Farbe ändern:</label>
-              <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
-                <div style="width:30px;height:30px;border-radius:50%;background:#1D9E75;cursor:pointer;border:2px solid var(--ink)" onclick="previewColor('#1D9E75')"></div>
-                <div style="width:30px;height:30px;border-radius:50%;background:#378ADD;cursor:pointer;border:2px solid transparent" onclick="previewColor('#378ADD')"></div>
-                <div style="width:30px;height:30px;border-radius:50%;background:#7F77DD;cursor:pointer;border:2px solid transparent" onclick="previewColor('#7F77DD')"></div>
-                <div style="width:30px;height:30px;border-radius:50%;background:#D85A30;cursor:pointer;border:2px solid transparent" onclick="previewColor('#D85A30')"></div>
-                <div style="width:30px;height:30px;border-radius:50%;background:#0A0A0A;cursor:pointer;border:2px solid transparent" onclick="previewColor('#0A0A0A')"></div>
+
+          <!-- TABLET -->
+          <div style="text-align:center">
+            <div style="font-size:12px;color:var(--muted);margin-bottom:8px;font-weight:500">📱 Tablet</div>
+            <div style="width:340px;height:260px;border:6px solid var(--ink);border-radius:16px;overflow:hidden;position:relative;background:#f0f0f0;box-shadow:0 12px 40px rgba(0,0,0,0.15)">
+              <div style="width:100%;height:100%;background:#f8f8f8;position:relative">
+                <div style="padding:14px">
+                  <div style="height:26px;background:#fff;border-radius:6px;margin-bottom:8px"></div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                    <div style="height:80px;background:#fff;border-radius:6px"></div>
+                    <div style="height:80px;background:#fff;border-radius:6px"></div>
+                  </div>
+                  <div style="height:40px;background:#fff;border-radius:6px;margin-top:8px"></div>
+                </div>
+                <div class="preview-chat-btn" id="preview-btn-tablet" style="background:var(--g);bottom:14px;right:14px;width:44px;height:44px;font-size:19px"><span id="preview-icon-tablet">💬</span></div>
               </div>
             </div>
           </div>
+
+          <!-- DESKTOP -->
+          <div style="text-align:center">
+            <div style="font-size:12px;color:var(--muted);margin-bottom:8px;font-weight:500">💻 Desktop</div>
+            <div style="width:420px;height:260px;border:6px solid var(--ink);border-radius:12px;overflow:hidden;position:relative;background:#f0f0f0;box-shadow:0 12px 40px rgba(0,0,0,0.15)">
+              <div style="height:28px;background:#e0e0e0;display:flex;align-items:center;padding:0 10px;gap:5px">
+                <div style="width:8px;height:8px;border-radius:50%;background:#ff5f57"></div>
+                <div style="width:8px;height:8px;border-radius:50%;background:#febc2e"></div>
+                <div style="width:8px;height:8px;border-radius:50%;background:#28c840"></div>
+                <div style="flex:1;height:14px;background:#fff;border-radius:4px;margin-left:8px"></div>
+              </div>
+              <div style="background:#f8f8f8;height:calc(100% - 28px);position:relative">
+                <div style="padding:14px;display:grid;grid-template-columns:1fr 2fr;gap:10px;height:100%">
+                  <div style="background:#fff;border-radius:6px"></div>
+                  <div style="display:flex;flex-direction:column;gap:8px">
+                    <div style="height:30px;background:#fff;border-radius:6px"></div>
+                    <div style="height:60px;background:#fff;border-radius:6px"></div>
+                    <div style="height:40px;background:#fff;border-radius:6px"></div>
+                  </div>
+                </div>
+                <div class="preview-chat-btn" id="preview-btn-desktop" style="background:var(--g);bottom:14px;right:14px;width:44px;height:44px;font-size:19px"><span id="preview-icon-desktop">💬</span></div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
 
-    <!-- QR CODE -->
-    <div class="panel" id="panel-qrcode">
-      <div class="page-title">QR-Code</div>
-      <div class="page-sub">QR-Code für Ihre Website – z.B. für Flyer, Speisekarten oder Visitenkarten</div>
-      <div class="card">
-        <div class="qr-center">
-          <p style="font-size:14px;color:var(--muted);margin-bottom:1rem;font-weight:300">Kunden scannen den QR-Code und gelangen direkt zu Ihrer Website.</p>
-          <div class="qr-box"><canvas id="qr-canvas" width="200" height="200"></canvas></div>
-          <br>
-          <button class="qr-dl" onclick="downloadQR()">⬇ QR-Code herunterladen</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- EMBED -->
+        <!-- EMBED -->
     <div class="panel" id="panel-embed">
       <div class="page-title">Einbetten</div>
       <div class="page-sub">Fügen Sie diesen Code in Ihre Website ein</div>
@@ -426,7 +473,14 @@ function loadApp(){
   selectedColor=clientData.color||'#1D9E75';
   document.getElementById('chat-top').style.background=selectedColor;
   document.getElementById('test-send').style.background=selectedColor;
-  renderFaqs(); updateEmbed(); resetChat(); buildChart(); setTimeout(drawQR,300); if(clientData.color){const pb=document.getElementById("preview-btn");if(pb)pb.style.background=clientData.color;}
+  renderFaqs(); updateEmbed(); resetChat(); buildChart(); selectedIcon=clientData.botIcon||'💬';
+  if(clientData.botLogoBase64){
+    selectedLogoBase64=clientData.botLogoBase64;
+    document.getElementById('logo-preview').src=selectedLogoBase64;
+    document.getElementById('logo-preview').style.display='block';
+    document.getElementById('logo-placeholder').style.display='none';
+  }
+  setTimeout(updateAllPreviews, 100);
 }
 
 function buildChart(){
@@ -565,55 +619,84 @@ async function analyzeTopics(){
   const badge=document.getElementById('topics-badge');
   const list=document.getElementById('topics-list');
   badge.textContent='Analysiert...';
-  list.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:1rem">Wird analysiert...</div>';
-  const faqs=clientData.faqs||[];
-  const topics=[
-    {label:'Öffnungszeiten',count:Math.floor(Math.random()*15)+3},
-    {label:'Preise & Kosten',count:Math.floor(Math.random()*12)+2},
-    {label:'Reservierungen',count:Math.floor(Math.random()*10)+1},
-    {label:'Produkte & Angebot',count:Math.floor(Math.random()*8)+1},
-    {label:'Kontakt & Standort',count:Math.floor(Math.random()*6)+1},
-  ].sort((a,b)=>b.count-a.count);
-  const max=topics[0].count;
-  list.innerHTML=topics.map(t=>`
-    <div class="topic-item">
-      <div class="topic-label">${t.label}</div>
-      <div class="topic-bar-wrap"><div class="topic-bar" style="width:${Math.round((t.count/max)*100)}%"></div></div>
-      <div class="topic-count">${t.count}x</div>
-    </div>`).join('');
-  badge.textContent=topics.length+' Themen';
+  list.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:1rem">KI analysiert echte Gespräche...</div>';
+  try{
+    const res=await fetch('/api/topics/'+clientId);
+    const data=await res.json();
+    if(!data.topics||data.topics.length===0){
+      list.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:2rem">Noch keine Gespräche vorhanden.<br><span style="font-size:11px">Sobald Kunden den Chatbot nutzen erscheinen hier die Themen.</span></div>';
+      badge.textContent='0 Themen';
+      return;
+    }
+    const max=Math.max(...data.topics.map(t=>t.count),1);
+    list.innerHTML=data.topics.map(t=>`
+      <div class="topic-item">
+        <div class="topic-label">${t.label}</div>
+        <div class="topic-bar-wrap"><div class="topic-bar" style="width:${Math.round((t.count/max)*100)}%"></div></div>
+        <div class="topic-count">${t.count}x</div>
+      </div>`).join('');
+    badge.textContent=data.topics.length+' Themen · '+data.count+' Gespräche';
+  }catch(e){
+    list.innerHTML='<div style="color:#E24B4A;font-size:13px;text-align:center;padding:1rem">Fehler beim Analysieren. Bitte erneut versuchen.</div>';
+    badge.textContent='Fehler';
+  }
 }
 
 // LIVE PREVIEW
 function previewColor(color){
-  document.getElementById('preview-btn').style.background=color;
+  selectedColor=color;
+  updateAllPreviews();
+  document.getElementById('chat-top').style.background=color;
+  document.getElementById('test-send').style.background=color;
+}
+// ICON SELECTOR
+let selectedIcon = '💬';
+let selectedLogoBase64 = null;
+
+function handleLogoUpload(event){
+  const file=event.target.files[0];
+  if(!file||file.size>1024*1024){alert('Bitte ein Bild unter 1MB wählen!');return;}
+  const reader=new FileReader();
+  reader.onload=e=>{
+    selectedLogoBase64=e.target.result;
+    selectedIcon='__logo__';
+    document.getElementById('logo-preview').src=selectedLogoBase64;
+    document.getElementById('logo-preview').style.display='block';
+    document.getElementById('logo-placeholder').style.display='none';
+    document.querySelectorAll('.icon-btn').forEach(b=>b.classList.remove('selected'));
+    updateAllPreviews();
+  };
+  reader.readAsDataURL(file);
+}
+function selectIcon(el, icon){
+  document.querySelectorAll('.icon-btn').forEach(b=>b.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedIcon = icon;
+  updateAllPreviews();
+}
+function updateAllPreviews(){
+  ['mobile','tablet','desktop'].forEach(d=>{
+    const btn=document.getElementById('preview-btn-'+d);
+    const icon=document.getElementById('preview-icon-'+d);
+    if(btn)btn.style.background=selectedColor;
+    if(icon){
+      if(selectedIcon==='__logo__'&&selectedLogoBase64){
+        icon.innerHTML=`<img src="${selectedLogoBase64}" style="width:70%;height:70%;object-fit:contain;border-radius:4px" />`;
+      } else {
+        icon.textContent=selectedIcon;
+      }
+    }
+  });
+}
+function saveIcon(){
+  clientData.botIcon=selectedIcon;
+  if(selectedLogoBase64) clientData.botLogoBase64=selectedLogoBase64;
+  saveData();
+  showToast('t-icon');
 }
 
-// QR CODE
-function drawQR(){
-  const canvas=document.getElementById('qr-canvas');
-  if(!canvas)return;
-  const ctx=canvas.getContext('2d');
-  ctx.fillStyle='#fff';
-  ctx.fillRect(0,0,200,200);
-  const drawFinder=(x,y)=>{
-    ctx.fillStyle='#0A0A0A';ctx.fillRect(x,y,49,49);
-    ctx.fillStyle='#fff';ctx.fillRect(x+7,y+7,35,35);
-    ctx.fillStyle='#0A0A0A';ctx.fillRect(x+14,y+14,21,21);
-  };
-  drawFinder(10,10);drawFinder(141,10);drawFinder(10,141);
-  ctx.fillStyle='#0A0A0A';
-  for(let i=0;i<8;i++){for(let j=0;j<8;j++){if(Math.random()>0.5)ctx.fillRect(70+i*8,70+j*8,6,6);}}
-  ctx.fillStyle='#1D9E75';ctx.font='bold 10px Arial';ctx.textAlign='center';
-  ctx.fillText('chatbot24.chat',100,195);
-}
-function downloadQR(){
-  const canvas=document.getElementById('qr-canvas');
-  const a=document.createElement('a');
-  a.download='chatbot24-qrcode.png';
-  a.href=canvas.toDataURL();
-  a.click();
-}
+
+
 
 document.getElementById('l-pw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 setTimeout(()=>{ document.getElementById('test-input')?.addEventListener('keydown',e=>{if(e.key==='Enter')sendTestMsg();}); },500);
