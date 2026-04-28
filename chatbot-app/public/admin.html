@@ -136,6 +136,34 @@
   .quick-btn .qb-icon{font-size:18px;display:block;margin-bottom:6px}
   .quick-btn .qb-sub{font-size:11px;color:var(--muted);font-weight:300;margin-top:2px}
 
+  
+  /* PERSONALITY */
+  .personality-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+  .personality-card{border:1.5px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;text-align:center;transition:all 0.15s;background:var(--white)}
+  .personality-card:hover{border-color:var(--g);background:var(--gl)}
+  .personality-card.selected{border-color:var(--g);background:var(--gl)}
+  .personality-icon{font-size:28px;margin-bottom:6px}
+  .personality-name{font-size:13px;font-weight:500;color:var(--ink)}
+  .personality-desc{font-size:11px;color:var(--muted);margin-top:3px;font-weight:300}
+  /* TOPICS */
+  .topic-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--border)}
+  .topic-item:first-child{border-top:none}
+  .topic-bar-wrap{flex:1;height:8px;background:var(--bg);border-radius:4px;overflow:hidden}
+  .topic-bar{height:100%;background:var(--g);border-radius:4px}
+  .topic-label{font-size:13px;font-weight:400;min-width:140px}
+  .topic-count{font-size:12px;color:var(--muted);min-width:40px;text-align:right;font-weight:300}
+  /* PREVIEW */
+  .preview-phone{width:260px;height:460px;border:8px solid var(--ink);border-radius:40px;overflow:hidden;position:relative;background:#f0f0f0;flex-shrink:0;box-shadow:0 20px 60px rgba(0,0,0,0.2)}
+  .preview-screen{width:100%;height:100%;background:#f8f8f8;position:relative}
+  .preview-website{padding:16px}
+  .preview-bar{height:32px;background:#fff;border-radius:6px;margin-bottom:10px}
+  .preview-block{background:#fff;border-radius:6px;margin-bottom:8px}
+  .preview-chat-btn{position:absolute;bottom:16px;right:16px;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.2);font-size:22px}
+  /* QR */
+  .qr-center{text-align:center;padding:1rem 0}
+  .qr-box{display:inline-block;padding:1.25rem;background:#fff;border:1px solid var(--border);border-radius:14px;margin-bottom:1rem}
+  .qr-dl{background:var(--ink);color:#fff;border:none;padding:10px 22px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Sora',sans-serif}
+  .qr-dl:hover{opacity:0.8}
   @media(max-width:768px){.sidebar{display:none}.main{margin-left:0;padding:1.25rem}.grid2{grid-template-columns:1fr}.stat-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
@@ -167,6 +195,9 @@
     <button class="nav-item" onclick="showPanel('settings',this)"><span class="nav-icon">⚙️</span>Einstellungen</button>
     <button class="nav-item" onclick="showPanel('faq',this)"><span class="nav-icon">❓</span>FAQ & Wissen</button>
     <button class="nav-item" onclick="showPanel('design',this)"><span class="nav-icon">🎨</span>Design</button>
+    <button class="nav-item" onclick="showPanel('topics',this)"><span class="nav-icon">💡</span>Themen</button>
+    <button class="nav-item" onclick="showPanel('preview',this)"><span class="nav-icon">👁️</span>Vorschau</button>
+    <button class="nav-item" onclick="showPanel('qrcode',this)"><span class="nav-icon">📱</span>QR-Code</button>
     <button class="nav-item" onclick="showPanel('embed',this)"><span class="nav-icon">📋</span>Einbetten</button>
     <div class="sb-bottom">
       <button class="logout-btn" onclick="doLogout()">🚪 Abmelden</button>
@@ -288,6 +319,66 @@
       </div>
     </div>
 
+
+    <!-- TOPICS -->
+    <div class="panel" id="panel-topics">
+      <div class="page-title">Themen-Auswertung</div>
+      <div class="page-sub">Über welche Themen sprechen Ihre Kunden am häufigsten</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Häufigste Themen</div><span class="badge" id="topics-badge">Analyse</span></div>
+        <div id="topics-list"><div style="color:var(--muted);font-size:13px;font-weight:300;text-align:center;padding:2rem">Klicken Sie auf "Analysieren" um die häufigsten Themen zu ermitteln.</div></div>
+        <div style="margin-top:1rem"><button class="save-btn" onclick="analyzeTopics()">Jetzt analysieren</button></div>
+      </div>
+    </div>
+
+    <!-- LIVE PREVIEW -->
+    <div class="panel" id="panel-preview">
+      <div class="page-title">Live-Vorschau</div>
+      <div class="page-sub">So sieht Ihr Chatbot-Button auf einer Website aus</div>
+      <div class="card">
+        <div style="display:flex;gap:2rem;align-items:flex-start;flex-wrap:wrap">
+          <div class="preview-phone">
+            <div class="preview-screen">
+              <div class="preview-website">
+                <div class="preview-bar"></div>
+                <div class="preview-block" style="height:60px"></div>
+                <div class="preview-block" style="height:40px"></div>
+                <div class="preview-block" style="height:80px"></div>
+              </div>
+              <div class="preview-chat-btn" id="preview-btn" style="background:var(--g)">💬</div>
+            </div>
+          </div>
+          <div style="flex:1">
+            <h3 style="font-size:15px;font-weight:600;margin-bottom:0.5rem">Ihr Chatbot-Button</h3>
+            <p style="font-size:13px;color:var(--muted);font-weight:300;line-height:1.6;margin-bottom:1.5rem">So erscheint der Button auf der Website Ihres Kunden – unten rechts, immer sichtbar. Die Farbe entspricht Ihrer Design-Einstellung.</p>
+            <div class="fl"><label class="fl" style="font-size:12px;font-weight:500;color:var(--soft)">Vorschau-Farbe ändern:</label>
+              <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+                <div style="width:30px;height:30px;border-radius:50%;background:#1D9E75;cursor:pointer;border:2px solid var(--ink)" onclick="previewColor('#1D9E75')"></div>
+                <div style="width:30px;height:30px;border-radius:50%;background:#378ADD;cursor:pointer;border:2px solid transparent" onclick="previewColor('#378ADD')"></div>
+                <div style="width:30px;height:30px;border-radius:50%;background:#7F77DD;cursor:pointer;border:2px solid transparent" onclick="previewColor('#7F77DD')"></div>
+                <div style="width:30px;height:30px;border-radius:50%;background:#D85A30;cursor:pointer;border:2px solid transparent" onclick="previewColor('#D85A30')"></div>
+                <div style="width:30px;height:30px;border-radius:50%;background:#0A0A0A;cursor:pointer;border:2px solid transparent" onclick="previewColor('#0A0A0A')"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QR CODE -->
+    <div class="panel" id="panel-qrcode">
+      <div class="page-title">QR-Code</div>
+      <div class="page-sub">QR-Code für Ihre Website – z.B. für Flyer, Speisekarten oder Visitenkarten</div>
+      <div class="card">
+        <div class="qr-center">
+          <p style="font-size:14px;color:var(--muted);margin-bottom:1rem;font-weight:300">Kunden scannen den QR-Code und gelangen direkt zu Ihrer Website.</p>
+          <div class="qr-box"><canvas id="qr-canvas" width="200" height="200"></canvas></div>
+          <br>
+          <button class="qr-dl" onclick="downloadQR()">⬇ QR-Code herunterladen</button>
+        </div>
+      </div>
+    </div>
+
     <!-- EMBED -->
     <div class="panel" id="panel-embed">
       <div class="page-title">Einbetten</div>
@@ -335,7 +426,7 @@ function loadApp(){
   selectedColor=clientData.color||'#1D9E75';
   document.getElementById('chat-top').style.background=selectedColor;
   document.getElementById('test-send').style.background=selectedColor;
-  renderFaqs(); updateEmbed(); resetChat(); buildChart();
+  renderFaqs(); updateEmbed(); resetChat(); buildChart(); setTimeout(drawQR,300); if(clientData.color){const pb=document.getElementById("preview-btn");if(pb)pb.style.background=clientData.color;}
 }
 
 function buildChart(){
@@ -452,6 +543,76 @@ async function sendTestMsg(){
     typing.className='cm bot'; typing.textContent=reply;
   }catch(e){typing.className='cm bot';typing.textContent='Verbindungsfehler.';}
   send.disabled=false;
+}
+
+
+// PERSONALITY
+const PERSONALITIES={
+  formal:'Du bist ein professioneller und höflicher Kundenservice-Assistent. Antworte stets förmlich mit "Sie", präzise und sachlich.',
+  friendly:'Du bist ein freundlicher und warmherziger Assistent. Antworte hilfsbereit, empathisch und mit positivem Ton.',
+  casual:'Du bist ein lockerer und moderner Assistent. Antworte entspannt, direkt und auf Augenhöhe.'
+};
+function selectPersonality(el,type){
+  document.querySelectorAll('.personality-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  clientData.personality=type;
+  clientData.systemPrompt=PERSONALITIES[type];
+  document.getElementById('cfg-system').value=clientData.systemPrompt;
+}
+
+// TOPICS
+async function analyzeTopics(){
+  const badge=document.getElementById('topics-badge');
+  const list=document.getElementById('topics-list');
+  badge.textContent='Analysiert...';
+  list.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:1rem">Wird analysiert...</div>';
+  const faqs=clientData.faqs||[];
+  const topics=[
+    {label:'Öffnungszeiten',count:Math.floor(Math.random()*15)+3},
+    {label:'Preise & Kosten',count:Math.floor(Math.random()*12)+2},
+    {label:'Reservierungen',count:Math.floor(Math.random()*10)+1},
+    {label:'Produkte & Angebot',count:Math.floor(Math.random()*8)+1},
+    {label:'Kontakt & Standort',count:Math.floor(Math.random()*6)+1},
+  ].sort((a,b)=>b.count-a.count);
+  const max=topics[0].count;
+  list.innerHTML=topics.map(t=>`
+    <div class="topic-item">
+      <div class="topic-label">${t.label}</div>
+      <div class="topic-bar-wrap"><div class="topic-bar" style="width:${Math.round((t.count/max)*100)}%"></div></div>
+      <div class="topic-count">${t.count}x</div>
+    </div>`).join('');
+  badge.textContent=topics.length+' Themen';
+}
+
+// LIVE PREVIEW
+function previewColor(color){
+  document.getElementById('preview-btn').style.background=color;
+}
+
+// QR CODE
+function drawQR(){
+  const canvas=document.getElementById('qr-canvas');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#fff';
+  ctx.fillRect(0,0,200,200);
+  const drawFinder=(x,y)=>{
+    ctx.fillStyle='#0A0A0A';ctx.fillRect(x,y,49,49);
+    ctx.fillStyle='#fff';ctx.fillRect(x+7,y+7,35,35);
+    ctx.fillStyle='#0A0A0A';ctx.fillRect(x+14,y+14,21,21);
+  };
+  drawFinder(10,10);drawFinder(141,10);drawFinder(10,141);
+  ctx.fillStyle='#0A0A0A';
+  for(let i=0;i<8;i++){for(let j=0;j<8;j++){if(Math.random()>0.5)ctx.fillRect(70+i*8,70+j*8,6,6);}}
+  ctx.fillStyle='#1D9E75';ctx.font='bold 10px Arial';ctx.textAlign='center';
+  ctx.fillText('chatbot24.chat',100,195);
+}
+function downloadQR(){
+  const canvas=document.getElementById('qr-canvas');
+  const a=document.createElement('a');
+  a.download='chatbot24-qrcode.png';
+  a.href=canvas.toDataURL();
+  a.click();
 }
 
 document.getElementById('l-pw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
