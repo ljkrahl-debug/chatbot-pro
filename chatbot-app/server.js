@@ -81,6 +81,17 @@ app.post('/api/chat/:clientId', async (req, res) => {
     };
     await db.collection('clients').updateOne({ id: clientId }, update);
 
+    // Erste Nachricht des Gesprächs speichern für Analyse
+    if (messages.length === 1) {
+      await db.collection('conversations').insertOne({
+        clientId,
+        userMessage: messages[0].content.substring(0, 200),
+        botReply: reply.substring(0, 200),
+        date: today,
+        createdAt: new Date()
+      });
+    }
+
     res.json({ reply });
   } catch (err) {
     console.error('API ERROR:', err.message);
@@ -113,6 +124,48 @@ app.put('/api/admin/:clientId', async (req, res) => {
     { $set: updates }
   );
   res.json({ success: true });
+});
+
+// ── TOPICS ANALYSIS ──────────────────────────────────────
+app.get('/api/topics/:clientId', async (req, res) => {
+  try {
+    const convs = await db.collection('conversations')
+      .find({ clientId: req.params.clientId })
+      .sort({ createdAt: -1 })
+      .limit(100)
+      .toArray();
+
+    if (convs.length === 0) {
+      return res.json({ topics: [], count: 0 });
+    }
+
+    const messages = convs.map(c => c.userMessage).join('\n');
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 500,
+        messages: [{
+          role: 'user',
+          content: `Analysiere diese Kundenfragen und gruppiere sie in maximal 6 Themen. Antworte NUR als JSON Array ohne Markdown: [{"label":"Thema","count":Anzahl}]. Sortiere nach Häufigkeit.\n\nFragen:\n${messages}`
+        }]
+      })
+    });
+
+    const data = await response.json();
+    const text = data.content?.[0]?.text || '[]';
+    const topics = JSON.parse(text.replace(/\`\`\`json|\`\`\`/g, '').trim());
+    res.json({ topics, count: convs.length });
+  } catch(err) {
+    console.error('Topics error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // ── DEBUG ─────────────────────────────────────────────────
