@@ -194,11 +194,11 @@
     <div class="sb-section">Übersicht</div>
     <button class="nav-item active" onclick="showPanel('dashboard',this)"><span class="nav-icon">📊</span>Dashboard</button>
     <button class="nav-item" onclick="showPanel('test',this)"><span class="nav-icon">💬</span>Chatbot testen</button>
-    <button class="nav-item" onclick="showPanel('conversations',this)"><span class="nav-icon">🗂</span>Gespräche</button>
     <div class="sb-section">Einstellungen</div>
     <button class="nav-item" onclick="showPanel('settings',this)"><span class="nav-icon">⚙️</span>Einstellungen</button>
     <button class="nav-item" onclick="showPanel('faq',this)"><span class="nav-icon">❓</span>FAQ & Wissen</button>
     <button class="nav-item" onclick="showPanel('design',this)"><span class="nav-icon">🎨</span>Design</button>
+    <button class="nav-item" onclick="showPanel('topics',this)"><span class="nav-icon">💡</span>Analyse</button>
     <button class="nav-item" onclick="showPanel('preview',this)"><span class="nav-icon">👁️</span>Vorschau</button>
     <button class="nav-item" onclick="showPanel('embed',this)"><span class="nav-icon">📋</span>Einbetten</button>
     <div class="sb-bottom">
@@ -247,16 +247,6 @@
             <button class="chat-send" id="test-send" onclick="sendTestMsg()"><svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg></button>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- CONVERSATIONS -->
-    <div class="panel" id="panel-conversations">
-      <div class="page-title">Gespräche</div>
-      <div class="page-sub">Alle Unterhaltungen mit Ihrem Chatbot</div>
-      <div class="card">
-        <div class="card-header"><div class="card-title">Verlauf</div><span class="badge" id="conv-count">0 Gespräche</span></div>
-        <div id="conv-list"><div class="empty"><div class="empty-icon">💬</div><div>Noch keine Gespräche</div><div style="font-size:12px;margin-top:6px;font-weight:300">Sobald Kunden schreiben erscheinen sie hier</div></div></div>
       </div>
     </div>
 
@@ -322,7 +312,18 @@
     </div>
 
 
-    <!-- LIVE PREVIEW -->
+    <!-- TOPICS -->
+    <div class="panel" id="panel-topics">
+      <div class="page-title">Gesprächsanalyse</div>
+      <div class="page-sub">Über welche Themen sprechen Ihre Kunden am häufigsten</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Häufigste Themen</div><span class="badge" id="topics-badge">Noch nicht analysiert</span></div>
+        <div id="topics-list"><div style="color:var(--muted);font-size:13px;font-weight:300;text-align:center;padding:2rem">Klicken Sie auf "Analysieren" um die häufigsten Themen zu ermitteln.</div></div>
+        <div style="margin-top:1rem"><button class="save-btn" onclick="analyzeTopics()">Jetzt analysieren</button></div>
+      </div>
+    </div>
+
+        <!-- LIVE PREVIEW -->
     <div class="panel" id="panel-preview">
       <div class="page-title">Live-Vorschau</div>
       <div class="page-sub">So sieht Ihr Chatbot auf verschiedenen Geräten aus</div>
@@ -356,7 +357,17 @@
             <div style="font-size:11px;color:var(--muted);margin-top:4px;font-weight:300">PNG, JPG · Max. 1MB · Wird als Icon angezeigt</div>
           </div>
         </div>
-        <button class="save-btn" onclick="saveIcon()">Icon speichern</button>
+        <div style="font-size:12px;font-weight:500;color:var(--soft);margin-bottom:8px;margin-top:1.25rem">Hintergrundfarbe des Buttons:</div>
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap">
+          <div style="width:30px;height:30px;border-radius:50%;background:#1D9E75;cursor:pointer;border:2px solid var(--ink)" onclick="selectBgColor('#1D9E75',this)"></div>
+          <div style="width:30px;height:30px;border-radius:50%;background:#378ADD;cursor:pointer;border:2px solid transparent" onclick="selectBgColor('#378ADD',this)"></div>
+          <div style="width:30px;height:30px;border-radius:50%;background:#7F77DD;cursor:pointer;border:2px solid transparent" onclick="selectBgColor('#7F77DD',this)"></div>
+          <div style="width:30px;height:30px;border-radius:50%;background:#D85A30;cursor:pointer;border:2px solid transparent" onclick="selectBgColor('#D85A30',this)"></div>
+          <div style="width:30px;height:30px;border-radius:50%;background:#D4537E;cursor:pointer;border:2px solid transparent" onclick="selectBgColor('#D4537E',this)"></div>
+          <div style="width:30px;height:30px;border-radius:50%;background:#0A0A0A;cursor:pointer;border:2px solid transparent" onclick="selectBgColor('#0A0A0A',this)"></div>
+          <input type="color" style="width:30px;height:30px;border:none;border-radius:50%;cursor:pointer;padding:0" onchange="selectBgColor(this.value,this)" />
+        </div>
+        <button class="save-btn" onclick="saveIcon()">Icon & Farbe speichern</button>
         <span class="toast" id="t-icon">✓ Gespeichert</span>
       </div>
 
@@ -668,6 +679,14 @@ function handleLogoUpload(event){
   };
   reader.readAsDataURL(file);
 }
+function selectBgColor(color, el){
+  selectedColor=color;
+  document.querySelectorAll('.color-chip').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('chat-top').style.background=color;
+  document.getElementById('test-send').style.background=color;
+  updateAllPreviews();
+}
+
 function selectIcon(el, icon){
   document.querySelectorAll('.icon-btn').forEach(b=>b.classList.remove('selected'));
   el.classList.add('selected');
