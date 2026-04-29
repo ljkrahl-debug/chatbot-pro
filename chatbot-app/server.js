@@ -81,16 +81,35 @@ app.post('/api/chat/:clientId', async (req, res) => {
     };
     await db.collection('clients').updateOne({ id: clientId }, update);
 
-    // Erste Nachricht des Gesprächs speichern für Analyse
+    // Erste Nachricht speichern + Tageszeit + unbeantwortete Fragen
+    const hour = new Date().getHours();
+    const timeOfDay = hour < 12 ? 'morgens' : hour < 17 ? 'mittags' : 'abends';
+    const unanswered = reply.toLowerCase().includes('tut mir leid') ||
+                       reply.toLowerCase().includes('kann ich nicht') ||
+                       reply.toLowerCase().includes('weiß ich leider') ||
+                       reply.toLowerCase().includes('keine information') ||
+                       reply.toLowerCase().includes('nicht bekannt') ||
+                       reply.toLowerCase().includes('dazu habe ich keine') ||
+                       reply.toLowerCase().includes('leider nicht') ||
+                       reply.toLowerCase().includes('kontaktieren sie');
+
     if (messages.length === 1) {
       await db.collection('conversations').insertOne({
         clientId,
         userMessage: messages[0].content.substring(0, 200),
         botReply: reply.substring(0, 200),
         date: today,
+        timeOfDay,
+        unanswered,
         createdAt: new Date()
       });
     }
+
+    // Tageszeit-Stats updaten
+    await db.collection('clients').updateOne(
+      { id: clientId },
+      { $inc: { [`stats.timeOfDay.${timeOfDay}`]: 1 } }
+    );
 
     res.json({ reply });
   } catch (err) {
@@ -159,6 +178,20 @@ app.post('/api/analyze-doc', async (req, res) => {
     res.json({ faqs, count: faqs.length });
   } catch(err) {
     console.error('Doc analyze error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ── UNANSWERED QUESTIONS ─────────────────────────────────
+app.get('/api/unanswered/:clientId', async (req, res) => {
+  try {
+    const convs = await db.collection('conversations')
+      .find({ clientId: req.params.clientId, unanswered: true })
+      .sort({ createdAt: -1 })
+      .limit(20)
+      .toArray();
+    res.json({ questions: convs.map(c => ({ q: c.userMessage, date: c.date })) });
+  } catch(err) {
     res.status(500).json({ error: err.message });
   }
 });
