@@ -246,10 +246,10 @@
       <div class="card">
         <div class="card-title">Schnellzugriff</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <button class="green-btn" onclick="showPanel('test',null)">💬 Chatbot testen</button>
-          <button class="green-btn" style="background:#378ADD" onclick="showPanel('faq',null)">❓ FAQ bearbeiten</button>
-          <button class="green-btn" style="background:#BA7517" onclick="showPanel('embed',null)">📋 Einbettungs-Code</button>
-          <button class="green-btn" style="background:#7F77DD" onclick="showPanel('design',null)">🎨 Design anpassen</button>
+          <button class="save-btn" onclick="showPanel('test',null)">💬 Chatbot testen</button>
+          <button class="save-btn" onclick="showPanel('faq',null)">❓ FAQ bearbeiten</button>
+          <button class="save-btn" onclick="showPanel('embed',null)">📋 Einbettungs-Code</button>
+          <button class="save-btn" onclick="showPanel('design',null)">🎨 Design anpassen</button>
         </div>
       </div>
     </div>
@@ -324,7 +324,7 @@
         <div class="doc-upload-box" onclick="document.getElementById('doc-input').click()" style="cursor:pointer">
           <div style="font-size:32px;margin-bottom:8px">📎</div>
           <div style="font-size:14px;font-weight:500;margin-bottom:4px">Datei hier ablegen oder klicken</div>
-          <div style="font-size:12px;color:var(--muted);font-weight:300">PDF, DOC, DOCX, TXT · Max. 5MB</div>
+          <div style="font-size:12px;color:var(--muted);font-weight:300">PDF, DOC, DOCX, TXT · Max. 20MB</div>
           <div style="margin-top:10px;font-size:12px;color:var(--muted);font-weight:300" id="doc-filename"></div>
           <input type="file" id="doc-input" accept=".pdf,.doc,.docx,.txt" style="display:none" onchange="handleDocUpload(event)" />
         </div>
@@ -336,15 +336,6 @@
     <div class="panel" id="panel-design">
       <div class="page-title">Design</div>
       <div class="page-sub">Passen Sie das Aussehen Ihres Chatbots an</div>
-
-      <div class="card">
-        <div class="card-title" style="margin-bottom:0.75rem">Bot-Persönlichkeit</div>
-        <div class="personality-grid">
-          <div class="pers-card selected" onclick="selectPersonality(this,'formal')"><div class="pers-icon">🎩</div><div class="pers-name">Formell</div><div class="pers-desc">Professionell & höflich</div></div>
-          <div class="pers-card" onclick="selectPersonality(this,'friendly')"><div class="pers-icon">😊</div><div class="pers-name">Freundlich</div><div class="pers-desc">Warm & nahbar</div></div>
-          <div class="pers-card" onclick="selectPersonality(this,'casual')"><div class="pers-icon">😎</div><div class="pers-name">Locker</div><div class="pers-desc">Entspannt & modern</div></div>
-        </div>
-      </div>
 
       <div class="card">
         <div class="grid2">
@@ -608,10 +599,10 @@ async function handleDocUpload(event){
   const filename=document.getElementById('doc-filename');
   filename.textContent=file.name;
 
-  if(file.size>5*1024*1024){
+  if(file.size>20*1024*1024){
     status.className='doc-status error';
     status.style.display='block';
-    status.textContent='❌ Datei zu groß. Bitte max. 5MB verwenden.';
+    status.textContent='❌ Datei zu groß. Bitte max. 20MB verwenden.';
     return;
   }
 
