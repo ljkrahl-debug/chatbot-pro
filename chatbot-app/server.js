@@ -87,16 +87,32 @@ app.post('/api/chat/:clientId', async (req, res) => {
     // Erste Nachricht speichern + Tageszeit + unbeantwortete Fragen
     const hour = new Date().getHours();
     const timeOfDay = hour < 12 ? 'morgens' : hour < 17 ? 'mittags' : 'abends';
-    const unanswered = reply.toLowerCase().includes('tut mir leid') ||
-                       reply.toLowerCase().includes('kann ich nicht') ||
-                       reply.toLowerCase().includes('weiß ich leider') ||
-                       reply.toLowerCase().includes('keine information') ||
-                       reply.toLowerCase().includes('nicht bekannt') ||
-                       reply.toLowerCase().includes('dazu habe ich keine') ||
-                       reply.toLowerCase().includes('leider nicht') ||
-                       reply.toLowerCase().includes('kontaktieren sie');
+    const replyLower = reply.toLowerCase();
+    const unanswered = replyLower.includes('tut mir leid') ||
+                       replyLower.includes('kann ich nicht') ||
+                       replyLower.includes('weiß ich leider') ||
+                       replyLower.includes('keine information') ||
+                       replyLower.includes('nicht bekannt') ||
+                       replyLower.includes('dazu habe ich keine') ||
+                       replyLower.includes('leider nicht') ||
+                       replyLower.includes('kontaktieren sie') ||
+                       replyLower.includes('leider keine') ||
+                       replyLower.includes('nicht beantworten') ||
+                       replyLower.includes('keine angabe') ||
+                       replyLower.includes('nicht vorliegen') ||
+                       replyLower.includes('wende dich') ||
+                       replyLower.includes('wenden sie sich') ||
+                       replyLower.includes('dazu liegen mir') ||
+                       replyLower.includes('darüber habe ich') ||
+                       replyLower.includes('nicht verfügbar') ||
+                       replyLower.includes('keine details') ||
+                       replyLower.includes('nicht sagen') ||
+                       replyLower.includes('leider ist mir') ||
+                       replyLower.includes('i cannot') ||
+                       replyLower.includes("i don't know") ||
+                       replyLower.includes('unfortunately');
 
-    if (messages.length === 1) {
+    if (messages.length === 1 || unanswered) {
       await db.collection('conversations').insertOne({
         clientId,
         userMessage: messages[0].content.substring(0, 200),
