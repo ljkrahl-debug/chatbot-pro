@@ -1,4 +1,7 @@
 const express = require('express');
+const multer = require('multer');
+const pdfParse = require('pdf-parse');
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 20 * 1024 * 1024 } });
 const cors = require('cors');
 const path = require('path');
 const { MongoClient } = require('mongodb');
