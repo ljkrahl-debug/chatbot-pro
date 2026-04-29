@@ -112,14 +112,29 @@ app.post('/api/chat/:clientId', async (req, res) => {
                        replyLower.includes("i don't know") ||
                        replyLower.includes('unfortunately');
 
-    if (messages.length === 1 || unanswered) {
+    // Immer die aktuelle Frage speichern wenn sie nicht beantwortet wurde
+    // Nur erste Nachricht speichern wenn beantwortet (für Gesprächs-Statistik)
+    const currentMessage = messages[messages.length - 1].content.substring(0, 200);
+    if (unanswered) {
+      // Speichere die AKTUELLE unbeantwortete Frage
       await db.collection('conversations').insertOne({
         clientId,
-        userMessage: messages[0].content.substring(0, 200),
+        userMessage: currentMessage,
         botReply: reply.substring(0, 200),
         date: today,
         timeOfDay,
-        unanswered,
+        unanswered: true,
+        createdAt: new Date()
+      });
+    } else if (messages.length === 1) {
+      // Erste Nachricht eines neuen Gesprächs speichern (für Statistik)
+      await db.collection('conversations').insertOne({
+        clientId,
+        userMessage: currentMessage,
+        botReply: reply.substring(0, 200),
+        date: today,
+        timeOfDay,
+        unanswered: false,
         createdAt: new Date()
       });
     }
