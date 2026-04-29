@@ -197,6 +197,7 @@
     <button class="nav-item active" onclick="showPanel('dashboard',this)"><span class="nav-icon">📊</span>Dashboard</button>
     <button class="nav-item" onclick="showPanel('test',this)"><span class="nav-icon">💬</span>Chatbot testen</button>
     <button class="nav-item" onclick="showPanel('topics',this)"><span class="nav-icon">💡</span>Analyse</button>
+    <button class="nav-item" onclick="showPanel('insights',this)"><span class="nav-icon">🔍</span>Einblicke</button>
     <div class="sb-section">Einstellungen</div>
     <button class="nav-item" onclick="showPanel('settings',this)"><span class="nav-icon">⚙️</span>Einstellungen</button>
     <button class="nav-item" onclick="showPanel('faq',this)"><span class="nav-icon">❓</span>FAQ & Wissen</button>
@@ -450,6 +451,47 @@
       </div>
     </div>
 
+    <!-- EINBLICKE -->
+    <div class="panel" id="panel-insights">
+      <div class="page-title">Einblicke</div>
+      <div class="page-sub">Unbeantwortete Fragen & Aktivitätszeiten</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">❓ Unbeantwortete Fragen</div>
+          <span class="badge" id="unanswered-badge">Laden...</span>
+        </div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;font-weight:300">Diese Fragen konnte der Chatbot nicht beantworten – fügen Sie die Antworten als FAQ hinzu!</p>
+        <div id="unanswered-list"><div style="color:var(--muted);font-size:13px;text-align:center;padding:2rem;font-weight:300">Wird geladen...</div></div>
+        <div style="margin-top:1rem"><button class="green-btn" onclick="loadUnanswered()">🔄 Aktualisieren</button></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🕐 Aktivität nach Tageszeit</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:1.25rem;font-weight:300">Wann stellen Ihre Kunden am häufigsten Fragen?</p>
+        <div id="timeofday-bars" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;text-align:center">
+          <div>
+            <div style="font-size:32px;margin-bottom:6px">🌅</div>
+            <div style="font-size:13px;font-weight:500;margin-bottom:4px">Morgens</div>
+            <div style="font-size:24px;font-weight:600;color:var(--g)" id="tod-morgens">–</div>
+            <div style="font-size:11px;color:var(--muted);font-weight:300">Nachrichten</div>
+          </div>
+          <div>
+            <div style="font-size:32px;margin-bottom:6px">☀️</div>
+            <div style="font-size:13px;font-weight:500;margin-bottom:4px">Mittags</div>
+            <div style="font-size:24px;font-weight:600;color:var(--g)" id="tod-mittags">–</div>
+            <div style="font-size:11px;color:var(--muted);font-weight:300">Nachrichten</div>
+          </div>
+          <div>
+            <div style="font-size:32px;margin-bottom:6px">🌙</div>
+            <div style="font-size:13px;font-weight:500;margin-bottom:4px">Abends</div>
+            <div style="font-size:24px;font-weight:600;color:var(--g)" id="tod-abends">–</div>
+            <div style="font-size:11px;color:var(--muted);font-weight:300">Nachrichten</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- EINBETTEN -->
     <div class="panel" id="panel-embed">
       <div class="page-title">Einbetten</div>
@@ -565,6 +607,7 @@ function showPanel(name,btn){
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('panel-'+name).classList.add('active');
   if(btn)btn.classList.add('active');
+  if(name==='insights'){loadUnanswered();loadTimeOfDay();}
 }
 
 // ── FAQ ────────────────────────────────────────────────────
@@ -736,6 +779,48 @@ function copyEmbed(){
   const btn=document.querySelector('.copy-btn');
   btn.textContent='✓ Kopiert!';
   setTimeout(()=>btn.textContent='Kopieren',2000);
+}
+
+// ── INSIGHTS ───────────────────────────────────────────────
+async function loadUnanswered(){
+  const list=document.getElementById('unanswered-list');
+  const badge=document.getElementById('unanswered-badge');
+  list.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:1rem;font-weight:300">Laden...</div>';
+  try{
+    const res=await fetch('/api/unanswered/'+clientId);
+    const data=await res.json();
+    const qs=data.questions||[];
+    badge.textContent=qs.length+' offen';
+    if(qs.length===0){
+      list.innerHTML='<div style="color:var(--g);font-size:13px;text-align:center;padding:2rem;font-weight:300">🎉 Keine unbeantworteten Fragen – der Chatbot läuft perfekt!</div>';
+      return;
+    }
+    list.innerHTML=qs.map(q=>`
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;padding:12px 0;border-top:1px solid var(--border);gap:12px">
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:500;margin-bottom:3px">${q.q}</div>
+          <div style="font-size:11px;color:var(--muted);font-weight:300">${q.date}</div>
+        </div>
+        <button class="add-btn" onclick="addUnansweredToFaq('${q.q.replace(/'/g,'\'').replace(/"/g,'\"')}')">+ FAQ</button>
+      </div>`).join('');
+  }catch(e){
+    list.innerHTML='<div style="color:var(--red);font-size:13px;text-align:center;padding:1rem">Fehler beim Laden.</div>';
+  }
+}
+
+function addUnansweredToFaq(question){
+  document.getElementById('new-q').value=question;
+  showPanel('faq',null);
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('new-q').focus();
+  document.getElementById('new-a').focus();
+}
+
+function loadTimeOfDay(){
+  const tod=clientData.stats?.timeOfDay||{};
+  document.getElementById('tod-morgens').textContent=tod.morgens||0;
+  document.getElementById('tod-mittags').textContent=tod.mittags||0;
+  document.getElementById('tod-abends').textContent=tod.abends||0;
 }
 
 // ── TOPICS ─────────────────────────────────────────────────
