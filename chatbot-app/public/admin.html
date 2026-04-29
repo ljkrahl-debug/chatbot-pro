@@ -795,32 +795,78 @@ async function loadUnanswered(){
       list.innerHTML='<div style="color:var(--g);font-size:13px;text-align:center;padding:2rem;font-weight:300">🎉 Keine unbeantworteten Fragen – der Chatbot läuft perfekt!</div>';
       return;
     }
-    list.innerHTML=qs.map(q=>`
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;padding:12px 0;border-top:1px solid var(--border);gap:12px">
+    list.innerHTML=qs.map((q,i)=>`
+      <div id="unanswered-item-${i}" style="display:flex;align-items:flex-start;justify-content:space-between;padding:12px 0;border-top:1px solid var(--border);gap:12px">
         <div style="flex:1">
           <div style="font-size:13px;font-weight:500;margin-bottom:3px">${q.q}</div>
           <div style="font-size:11px;color:var(--muted);font-weight:300">${q.date}</div>
         </div>
-        <button class="add-btn" onclick="addUnansweredToFaq('${q.q.replace(/'/g,'\'').replace(/"/g,'\"')}')">+ FAQ</button>
+        <div style="display:flex;gap:6px;flex-shrink:0">
+          <button class="add-btn" onclick="addUnansweredToFaq('${q.q.replace(/'/g,"\'").replace(/"/g,'\"')}', ${i})">+ FAQ</button>
+          <button onclick="dismissUnanswered(${i},'${q.q.replace(/'/g,"\'")}')" style="background:none;border:1px solid var(--border);color:var(--muted);padding:5px 10px;border-radius:6px;font-size:11px;cursor:pointer;transition:all 0.15s" onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--red)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">✕ Ignorieren</button>
+        </div>
       </div>`).join('');
   }catch(e){
     list.innerHTML='<div style="color:var(--red);font-size:13px;text-align:center;padding:1rem">Fehler beim Laden.</div>';
   }
 }
 
-function addUnansweredToFaq(question){
+function addUnansweredToFaq(question, idx){
+  // Remove from unanswered list visually
+  const item=document.getElementById('unanswered-item-'+idx);
+  if(item)item.remove();
+  updateUnansweredBadge();
+  // Navigate to FAQ and prefill
   document.getElementById('new-q').value=question;
-  showPanel('faq',null);
+  showPanel('faq',document.querySelector('.nav-item:nth-child(6)'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.getElementById('new-q').focus();
-  document.getElementById('new-a').focus();
+  setTimeout(()=>document.getElementById('new-a').focus(), 100);
+  // Mark as dismissed in DB
+  dismissQuestion(question);
 }
 
-function loadTimeOfDay(){
-  const tod=clientData.stats?.timeOfDay||{};
-  document.getElementById('tod-morgens').textContent=tod.morgens||0;
-  document.getElementById('tod-mittags').textContent=tod.mittags||0;
-  document.getElementById('tod-abends').textContent=tod.abends||0;
+function dismissUnanswered(idx, question){
+  const item=document.getElementById('unanswered-item-'+idx);
+  if(item){item.style.opacity='0';item.style.transition='opacity 0.2s';setTimeout(()=>item.remove(),200);}
+  updateUnansweredBadge();
+  dismissQuestion(question);
+}
+
+function updateUnansweredBadge(){
+  const remaining=document.querySelectorAll('[id^="unanswered-item-"]').length;
+  document.getElementById('unanswered-badge').textContent=remaining+' offen';
+  if(remaining===0){
+    document.getElementById('unanswered-list').innerHTML='<div style="color:var(--g);font-size:13px;text-align:center;padding:2rem;font-weight:300">🎉 Alle Fragen bearbeitet!</div>';
+  }
+}
+
+async function dismissQuestion(question){
+  try{
+    await fetch('/api/dismiss-question',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({clientId, question})
+    });
+  }catch(e){}
+}
+
+async function loadTimeOfDay(){
+  try{
+    // Fetch fresh data from server
+    const res=await fetch('/api/admin/'+clientId);
+    const freshData=await res.json();
+    const tod=freshData.stats?.timeOfDay||{};
+    document.getElementById('tod-morgens').textContent=tod.morgens||0;
+    document.getElementById('tod-mittags').textContent=tod.mittags||0;
+    document.getElementById('tod-abends').textContent=tod.abends||0;
+    // Update local cache
+    if(clientData.stats)clientData.stats.timeOfDay=tod;
+  }catch(e){
+    const tod=clientData.stats?.timeOfDay||{};
+    document.getElementById('tod-morgens').textContent=tod.morgens||0;
+    document.getElementById('tod-mittags').textContent=tod.mittags||0;
+    document.getElementById('tod-abends').textContent=tod.abends||0;
+  }
 }
 
 // ── TOPICS ─────────────────────────────────────────────────
