@@ -288,7 +288,7 @@
     <!-- FAQ -->
     <div class="panel" id="panel-faq">
       <div class="page-title">FAQ & Wissen</div>
-      <div class="page-sub">Diese Antworten kennt Ihr Chatbot auswendig</div>
+      <div class="page-sub">Fragen manuell eintragen oder Dokument hochladen – die KI erstellt FAQ automatisch</div>
       <div class="card">
         <div class="card-header"><div class="card-title">Häufige Fragen</div><span class="badge" id="faq-count">0</span></div>
         <div id="faq-list"></div>
@@ -298,6 +298,18 @@
           <button class="add-btn" onclick="addFaq()">+ Hinzufügen</button>
         </div>
         <div style="margin-top:1rem"><button class="save-btn" onclick="saveFaq()">FAQ speichern</button><span class="toast" id="t-faq">✓ Gespeichert</span></div>
+      </div>
+
+      <!-- DOCUMENT UPLOAD CARD -->
+      <div class="card">
+        <div class="card-title" style="margin-bottom:0.5rem">📄 FAQ aus Dokument erstellen</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:1.25rem;font-weight:300">Laden Sie ein PDF, Word oder Text-Dokument hoch – die KI liest es und erstellt automatisch passende FAQ daraus.</div>
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:1rem">
+          <input type="file" id="doc-input" accept=".pdf,.doc,.docx,.txt" style="display:none" onchange="handleDocUpload(event)" />
+          <button class="save-btn" onclick="document.getElementById('doc-input').click()">📎 Datei auswählen</button>
+          <span id="doc-filename" style="font-size:13px;color:var(--muted);font-weight:300">Keine Datei ausgewählt</span>
+        </div>
+        <div id="doc-status" style="display:none;padding:12px;border-radius:10px;font-size:13px;font-weight:400"></div>
       </div>
     </div>
 
@@ -500,7 +512,12 @@ function loadApp(){
   selectedColor=clientData.color||'#1D9E75';
   document.getElementById('chat-top').style.background=selectedColor;
   document.getElementById('test-send').style.background=selectedColor;
-  renderFaqs(); updateEmbed(); resetChat(); buildChart(); selectedIcon=clientData.botIcon||'💬';
+  renderFaqs(); updateEmbed(); resetChat(); buildChart();
+  // Init toggle state
+  if(clientData.botActive===false){
+    document.getElementById('bot-toggle').checked=false;
+    toggleBot();
+  } selectedIcon=clientData.botIcon||'💬';
   if(clientData.botLogoBase64){
     selectedLogoBase64=clientData.botLogoBase64;
     document.getElementById('logo-preview').src=selectedLogoBase64;
@@ -742,14 +759,20 @@ function toggleBot(){
   const badge=document.getElementById('bot-status-badge');
   const slider=document.getElementById('toggle-slider');
   const dot=document.getElementById('toggle-dot');
+  const statVal=document.getElementById('st-status');
+  const statLbl=document.getElementById('st-status-lbl');
   if(on){
     badge.style.background='var(--gl)';badge.style.color='var(--gd)';badge.textContent='● Online';
     slider.style.background='var(--g)';
     dot.style.transform='translateX(0)';
+    if(statVal){statVal.textContent='24/7';statVal.style.color='var(--g)';}
+    if(statLbl)statLbl.textContent='Verfügbarkeit';
   } else {
     badge.style.background='#FFF0F0';badge.style.color='#E24B4A';badge.textContent='● Offline';
     slider.style.background='#E0E0E0';
     dot.style.transform='translateX(-22px)';
+    if(statVal){statVal.textContent='Aus';statVal.style.color='#E24B4A';}
+    if(statLbl)statLbl.textContent='Chatbot deaktiviert';
   }
   clientData.botActive=on;
   saveData();
