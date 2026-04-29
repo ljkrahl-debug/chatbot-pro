@@ -4,573 +4,688 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Chatbot24 – KI-Chatbot für Ihre Website</title>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("7jMm9AcOIMM_Hzyu4");</script>
 <style>
-  :root{--g:#1D9E75;--gd:#0F6E56;--gl:#E8F8F2;--ink:#0A0A0A;--soft:#5A6472;--muted:#9AA3AD;--border:#EBEBEB;--bg:#F7F9FB}
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth;overflow-x:hidden;max-width:100%}
-  body{font-family:'Sora',sans-serif;background:#fff;color:var(--ink);line-height:1.6;overflow-x:hidden;width:100%}
-  a{color:inherit;text-decoration:none}
+:root {
+  --g: #1D9E75;
+  --gd: #0F6E56;
+  --gl: #E8F8F2;
+  --ink: #0D0D0D;
+  --soft: #4A5568;
+  --muted: #9AA3AD;
+  --border: #E8EAED;
+  --bg: #F8F9FA;
+  --white: #ffffff;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--ink); line-height: 1.6; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
 
-  nav{position:fixed;top:0;left:0;right:0;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;background:rgba(255,255,255,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:200}
-  .logo{font-size:18px;font-weight:600;color:var(--g);letter-spacing:-0.3px}
-  .nav-links{display:flex;gap:2.5rem;font-size:14px;color:var(--muted)}
-  .nav-links a:hover{color:var(--ink)}
-  .nav-btn{background:var(--ink);color:#fff;padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;border:none;cursor:pointer;font-family:'Sora',sans-serif;transition:opacity 0.2s}
-  .nav-btn:hover{opacity:0.8}
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2.5rem; height: 64px;
+  background: rgba(255,255,255,0.85); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.logo { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--g); letter-spacing: -0.5px; }
+.nav-links { display: flex; gap: 2rem; font-size: 14px; color: var(--muted); }
+.nav-links a:hover { color: var(--ink); }
+.nav-cta {
+  background: var(--ink); color: #fff; padding: 9px 22px; border-radius: 8px;
+  font-size: 13px; font-weight: 500; border: none; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; transition: all 0.2s;
+}
+.nav-cta:hover { background: var(--g); }
 
-  /* HERO */
-  .hero{padding:130px 2.5rem 70px;max-width:960px;margin:0 auto;text-align:center}
-  .hero-tag{display:inline-flex;align-items:center;gap:8px;background:var(--gl);color:var(--gd);font-size:12px;font-weight:500;padding:5px 14px;border-radius:100px;margin-bottom:1.5rem}
-  .hero-tag span{width:6px;height:6px;border-radius:50%;background:var(--g);animation:blink 2s infinite}
-  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
-  h1{font-size:clamp(36px,5vw,58px);font-weight:600;line-height:1.1;letter-spacing:-2px;margin-bottom:1.25rem}
-  h1 mark{background:none;color:var(--g)}
-  .hero-desc{font-size:17px;color:var(--soft);max-width:520px;margin:0 auto 2.5rem;line-height:1.8;font-weight:300}
-  .hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-  .btn-main{background:var(--g);color:#fff;padding:14px 28px;border-radius:10px;font-size:15px;font-weight:500;border:none;cursor:pointer;font-family:'Sora',sans-serif;transition:all 0.2s}
-  .btn-main:hover{background:var(--gd);transform:translateY(-1px)}
-  .btn-outline{background:#fff;color:var(--ink);padding:14px 28px;border-radius:10px;font-size:15px;font-weight:500;border:1.5px solid var(--border);cursor:pointer;font-family:'Sora',sans-serif;transition:all 0.2s}
-  .btn-outline:hover{border-color:var(--ink)}
-  .hero-note{font-size:12px;color:var(--muted);margin-top:1rem}
+/* ── HERO ── */
+.hero {
+  min-height: 100vh; display: flex; align-items: center;
+  padding: 100px 2.5rem 4rem;
+  background:
+    radial-gradient(ellipse 70% 50% at 80% 20%, rgba(29,158,117,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(29,158,117,0.05) 0%, transparent 50%),
+    #fff;
+  max-width: 1100px; margin: 0 auto; gap: 4rem;
+  display: grid; grid-template-columns: 1fr 1fr; align-items: center;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 500; color: var(--g);
+  background: var(--gl); padding: 5px 14px; border-radius: 100px;
+  margin-bottom: 1.5rem; letter-spacing: 0.02em;
+}
+.hero-eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--g); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(40px, 5vw, 62px);
+  line-height: 1.08; letter-spacing: -1.5px;
+  margin-bottom: 1.25rem; color: var(--ink);
+}
+h1 em { font-style: italic; color: var(--g); }
+.hero-desc { font-size: 17px; color: var(--soft); max-width: 440px; line-height: 1.75; font-weight: 300; margin-bottom: 2.5rem; }
+.hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--g); color: #fff; padding: 14px 28px; border-radius: 10px;
+  font-size: 15px; font-weight: 500; border: none; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; transition: all 0.2s;
+  box-shadow: 0 4px 20px rgba(29,158,117,0.25);
+}
+.btn-primary:hover { background: var(--gd); transform: translateY(-1px); box-shadow: 0 8px 28px rgba(29,158,117,0.3); }
+.btn-secondary {
+  background: #fff; color: var(--ink); padding: 14px 28px; border-radius: 10px;
+  font-size: 15px; font-weight: 500; border: 1.5px solid var(--border); cursor: pointer;
+  font-family: 'DM Sans', sans-serif; transition: all 0.2s;
+}
+.btn-secondary:hover { border-color: var(--ink); }
+.hero-note { font-size: 12px; color: var(--muted); margin-top: 1rem; display: flex; align-items: center; gap: 16px; }
+.hero-note span { display: flex; align-items: center; gap: 5px; }
 
-  .divider{height:1px;background:var(--border);max-width:960px;margin:0 auto}
+/* ── HERO VISUAL ── */
+.hero-visual { position: relative; }
+.dashboard-mock {
+  background: #fff; border-radius: 20px; border: 1px solid var(--border);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.1), 0 4px 16px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+.mock-topbar {
+  background: var(--ink); padding: 12px 16px; display: flex;
+  align-items: center; gap: 10px;
+}
+.mock-dots { display: flex; gap: 5px; }
+.mock-dot { width: 8px; height: 8px; border-radius: 50%; }
+.mock-title { font-size: 11px; color: rgba(255,255,255,0.6); margin-left: 4px; }
+.mock-body { display: flex; height: 280px; }
+.mock-sb { width: 100px; background: var(--bg); border-right: 1px solid var(--border); padding: 12px 8px; }
+.mock-sb-item { font-size: 9px; color: var(--muted); padding: 6px 8px; border-radius: 6px; margin-bottom: 2px; }
+.mock-sb-item.active { background: var(--gl); color: var(--gd); font-weight: 500; }
+.mock-content { flex: 1; padding: 14px; }
+.mock-stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+.mock-stat-card { background: var(--bg); border-radius: 8px; padding: 10px; border: 1px solid var(--border); }
+.mock-stat-num { font-size: 18px; font-weight: 600; color: var(--g); }
+.mock-stat-label { font-size: 8px; color: var(--muted); margin-top: 2px; }
+.mock-chart-area { background: var(--bg); border-radius: 8px; padding: 10px; border: 1px solid var(--border); margin-bottom: 10px; }
+.mock-chart-bars { display: flex; gap: 5px; align-items: flex-end; height: 50px; margin-top: 6px; }
+.mock-bar { flex: 1; background: var(--g); border-radius: 2px; opacity: 0.7; }
+.mock-chat-preview { background: var(--bg); border-radius: 8px; padding: 8px; border: 1px solid var(--border); }
+.mock-msg { font-size: 8px; padding: 4px 7px; border-radius: 6px; margin-bottom: 4px; max-width: 80%; }
+.mock-msg.bot { background: #fff; color: var(--ink); border: 1px solid var(--border); }
+.mock-msg.user { background: var(--g); color: #fff; margin-left: auto; }
+.floating-badge {
+  position: absolute; top: -12px; right: -16px;
+  background: var(--ink); color: #fff; border-radius: 12px; padding: 8px 14px;
+  font-size: 11px; font-weight: 500; display: flex; align-items: center; gap: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  animation: float 3s ease-in-out infinite;
+}
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+.floating-badge-2 {
+  position: absolute; bottom: -16px; left: -16px;
+  background: var(--g); color: #fff; border-radius: 12px; padding: 8px 14px;
+  font-size: 11px; font-weight: 500;
+  box-shadow: 0 8px 24px rgba(29,158,117,0.3);
+  animation: float 3s ease-in-out infinite 1.5s;
+}
 
-  .platforms{padding:2.5rem;max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:3rem;flex-wrap:wrap}
-  .platforms-label{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.1em}
-  .platform-tag{font-size:13px;color:#C8D0DA;font-weight:500}
+/* ── DIVIDER ── */
+.full-divider { height: 1px; background: var(--border); }
+.platforms-strip {
+  padding: 1.75rem 2.5rem; max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; gap: 3rem; flex-wrap: wrap;
+}
+.strip-label { font-size: 11px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; white-space: nowrap; }
+.strip-tags { display: flex; gap: 2rem; flex-wrap: wrap; }
+.strip-tag { font-size: 13px; color: #C8D0DA; font-weight: 500; }
 
-  /* DASHBOARD PREVIEW */
-  .dashboard-section{padding:5rem 2.5rem;max-width:960px;margin:0 auto}
-  .sec-label{font-size:11px;font-weight:600;color:var(--g);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem}
-  .sec-title{font-size:clamp(26px,4vw,38px);font-weight:600;letter-spacing:-1.5px;margin-bottom:1rem;line-height:1.15}
-  .sec-sub{font-size:15px;color:var(--soft);font-weight:300;line-height:1.8;margin-bottom:3rem}
+/* ── SECTIONS ── */
+section { padding: 6rem 2.5rem; max-width: 1100px; margin: 0 auto; }
+.sec-eyebrow { font-size: 11px; font-weight: 600; color: var(--g); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.75rem; }
+.sec-title { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 4vw, 44px); letter-spacing: -1px; margin-bottom: 1rem; line-height: 1.15; }
+.sec-sub { font-size: 16px; color: var(--soft); font-weight: 300; line-height: 1.75; max-width: 500px; }
 
-  /* FEATURE SHOWCASE */
-  .showcase{display:flex;flex-direction:column;gap:5rem}
-  .showcase-item{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
-  .showcase-item.reverse{direction:rtl}
-  .showcase-item.reverse>*{direction:ltr}
-  .showcase-text{}
-  .showcase-label{font-size:11px;font-weight:600;color:var(--g);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem}
-  .showcase-title{font-size:22px;font-weight:600;letter-spacing:-0.5px;margin-bottom:0.75rem;line-height:1.25}
-  .showcase-desc{font-size:14px;color:var(--soft);font-weight:300;line-height:1.8;margin-bottom:1.25rem}
-  .showcase-bullets{list-style:none;display:flex;flex-direction:column;gap:8px}
-  .showcase-bullets li{font-size:13px;color:var(--soft);display:flex;align-items:center;gap:8px;font-weight:300}
-  .showcase-bullets li::before{content:"✓";color:var(--g);font-weight:600;font-size:13px}
-  .showcase-visual{border-radius:16px;overflow:hidden;border:1px solid var(--border);box-shadow:0 4px 24px rgba(0,0,0,0.06)}
+/* ── DASHBOARD SHOWCASE ── */
+.showcase { display: flex; flex-direction: column; gap: 5rem; margin-top: 4rem; }
+.showcase-row { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+.showcase-row.reverse { direction: rtl; }
+.showcase-row.reverse > * { direction: ltr; }
+.showcase-text {}
+.show-tag { font-size: 11px; font-weight: 600; color: var(--g); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+.show-title { font-family: 'DM Serif Display', serif; font-size: 26px; letter-spacing: -0.5px; margin-bottom: 0.75rem; line-height: 1.2; }
+.show-desc { font-size: 14px; color: var(--soft); line-height: 1.8; margin-bottom: 1.25rem; font-weight: 300; }
+.show-bullets { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.show-bullets li { font-size: 13px; color: var(--soft); display: flex; align-items: flex-start; gap: 10px; font-weight: 300; }
+.show-bullets li::before { content: "✓"; color: var(--g); font-weight: 600; flex-shrink: 0; }
+.showcase-visual { border-radius: 18px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
 
-  /* MOCK DASHBOARD */
-  .mock-dashboard{background:#fff;font-size:11px}
-  .mock-header{background:var(--ink);padding:10px 14px;display:flex;align-items:center;gap:8px}
-  .mock-logo{color:var(--g);font-weight:600;font-size:12px}
-  .mock-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.3)}
-  .mock-body{display:flex}
-  .mock-sidebar{width:90px;background:#f8f9fa;border-right:1px solid var(--border);padding:8px}
-  .mock-nav{font-size:9px;color:var(--muted);padding:5px 6px;border-radius:4px;margin-bottom:2px;cursor:default}
-  .mock-nav.active{background:var(--gl);color:var(--gd);font-weight:500}
-  .mock-content{flex:1;padding:12px}
-  .mock-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}
-  .mock-stat{background:var(--bg);border-radius:6px;padding:8px;border:1px solid var(--border)}
-  .mock-stat-val{font-size:16px;font-weight:600;color:var(--ink)}
-  .mock-stat-lbl{font-size:8px;color:var(--muted)}
-  .mock-card{background:var(--bg);border-radius:8px;padding:10px;border:1px solid var(--border);margin-bottom:8px}
-  .mock-card-title{font-size:10px;font-weight:600;margin-bottom:6px}
-  .mock-bars{display:flex;gap:4px;align-items:flex-end;height:40px}
-  .mock-bar{flex:1;background:var(--g);border-radius:2px;opacity:0.7}
+/* MOCK DASHBOARD PANELS */
+.mock-panel { background: #fff; font-size: 10px; }
+.mock-header { background: var(--ink); padding: 10px 14px; display: flex; align-items: center; gap: 6px; }
+.mock-header-logo { color: var(--g); font-weight: 600; font-size: 11px; }
+.mock-panel-body { display: flex; }
+.mock-panel-sb { width: 80px; background: var(--bg); border-right: 1px solid var(--border); padding: 8px 6px; }
+.mock-panel-nav { font-size: 8px; color: var(--muted); padding: 5px 6px; border-radius: 4px; margin-bottom: 2px; }
+.mock-panel-nav.active { background: var(--gl); color: var(--gd); font-weight: 500; }
+.mock-panel-content { flex: 1; padding: 12px; }
 
-  /* MOCK CHAT */
-  .mock-chat{background:#f8f9fa}
-  .mock-chat-header{background:var(--g);padding:10px 14px;display:flex;align-items:center;gap:8px}
-  .mock-chat-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.7)}
-  .mock-chat-name{color:#fff;font-size:11px;font-weight:500}
-  .mock-chat-msgs{padding:12px;display:flex;flex-direction:column;gap:8px;min-height:140px}
-  .mock-msg{max-width:80%;padding:7px 10px;border-radius:10px;font-size:10px;line-height:1.5;font-weight:300}
-  .mock-msg.bot{background:#fff;color:var(--ink);align-self:flex-start;border:1px solid var(--border);border-bottom-left-radius:3px}
-  .mock-msg.user{background:var(--g);color:#fff;align-self:flex-end;border-bottom-right-radius:3px}
-  .mock-chat-input{display:flex;gap:6px;padding:8px;border-top:1px solid var(--border);background:#fff}
-  .mock-input-bar{flex:1;height:24px;background:var(--bg);border-radius:6px;border:1px solid var(--border)}
-  .mock-send{width:24px;height:24px;background:var(--g);border-radius:6px;display:flex;align-items:center;justify-content:center}
+/* ── LANG SECTION ── */
+.lang-section { background: var(--ink); padding: 5rem 0; }
+.lang-inner { max-width: 1100px; margin: 0 auto; padding: 0 2.5rem; }
+.lang-inner .sec-title { color: #fff; }
+.lang-inner .sec-eyebrow { color: var(--g); }
+.lang-grid { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2.5rem; }
+.lang-card {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px; padding: 1.25rem 1.5rem;
+  display: flex; align-items: center; gap: 12px;
+  transition: all 0.2s; cursor: default;
+}
+.lang-card:hover { background: rgba(255,255,255,0.1); border-color: rgba(29,158,117,0.4); }
+.lang-flag { font-size: 28px; }
+.lang-name { font-size: 13px; font-weight: 500; color: #fff; }
+.lang-auto { font-size: 11px; color: rgba(255,255,255,0.4); font-weight: 300; margin-top: 2px; }
+.lang-note { font-size: 14px; color: rgba(255,255,255,0.5); margin-top: 2rem; font-weight: 300; }
+.lang-note strong { color: var(--g); font-weight: 500; }
 
-  /* MOCK FAQ */
-  .mock-faq{padding:12px}
-  .mock-faq-item{padding:8px 0;border-bottom:1px solid var(--border)}
-  .mock-faq-item:last-child{border-bottom:none}
-  .mock-faq-q{font-size:10px;font-weight:500;margin-bottom:3px}
-  .mock-faq-a{font-size:9px;color:var(--muted);font-weight:300}
-  .mock-ai-btn{background:var(--gl);color:var(--gd);border:none;padding:6px 10px;border-radius:6px;font-size:9px;font-weight:500;margin-top:8px;cursor:default}
+/* ── HOW ── */
+.how-section { background: var(--bg); padding: 6rem 0; }
+.how-inner { max-width: 1100px; margin: 0 auto; padding: 0 2.5rem; }
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: 3rem; }
+.step { border-top: 2px solid var(--border); padding-top: 1.5rem; transition: border-color 0.2s; }
+.step:hover { border-color: var(--g); }
+.step-n { font-size: 12px; font-weight: 600; color: var(--g); margin-bottom: 0.75rem; letter-spacing: 0.05em; }
+.step-title { font-size: 15px; font-weight: 600; margin-bottom: 0.4rem; }
+.step-desc { font-size: 13px; color: var(--muted); line-height: 1.6; font-weight: 300; }
 
-  /* MOCK DESIGN */
-  .mock-design{padding:12px}
-  .mock-colors{display:flex;gap:6px;margin-bottom:10px}
-  .mock-color{width:22px;height:22px;border-radius:50%}
-  .mock-color.selected{outline:2px solid var(--ink);outline-offset:2px}
-  .mock-toggle-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)}
-  .mock-toggle-label{font-size:10px;font-weight:500}
-  .mock-toggle{width:28px;height:16px;background:var(--g);border-radius:10px;position:relative}
-  .mock-toggle-dot{width:12px;height:12px;background:#fff;border-radius:50%;position:absolute;right:2px;top:2px}
+/* ── PRICING ── */
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 3rem; }
+.price-card {
+  border-radius: 20px; padding: 2rem; border: 1px solid var(--border);
+  background: var(--bg); position: relative; transition: all 0.2s;
+}
+.price-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+.price-card.featured {
+  background: var(--ink); border-color: var(--ink);
+  transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.price-card.featured:hover { transform: translateY(-7px); }
+.featured-badge {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  background: var(--g); color: #fff; font-size: 11px; font-weight: 600;
+  padding: 4px 14px; border-radius: 100px; white-space: nowrap;
+}
+.price-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.5rem; }
+.price-card.featured .price-label { color: rgba(255,255,255,0.4); }
+.price-num { font-family: 'DM Serif Display', serif; font-size: 52px; letter-spacing: -2px; line-height: 1; margin-bottom: 4px; }
+.price-card.featured .price-num { color: #fff; }
+.price-num sup { font-family: 'DM Sans', sans-serif; font-size: 20px; font-weight: 400; vertical-align: super; letter-spacing: 0; }
+.price-num sub { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 300; color: var(--muted); letter-spacing: 0; vertical-align: baseline; }
+.price-card.featured .price-num sub { color: rgba(255,255,255,0.4); }
+.price-setup { font-size: 12px; color: var(--muted); margin-bottom: 1.5rem; font-weight: 300; }
+.price-card.featured .price-setup { color: rgba(255,255,255,0.35); }
+.price-features { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 1.75rem; }
+.price-features li { font-size: 13px; color: var(--soft); display: flex; gap: 8px; align-items: flex-start; font-weight: 300; }
+.price-features li::before { content: "✓"; color: var(--g); font-weight: 600; flex-shrink: 0; }
+.price-card.featured .price-features li { color: rgba(255,255,255,0.7); }
+.price-btn {
+  width: 100%; padding: 13px; border-radius: 10px; font-size: 14px; font-weight: 500;
+  cursor: pointer; border: 1.5px solid var(--border); background: #fff;
+  font-family: 'DM Sans', sans-serif; transition: all 0.2s; color: var(--ink);
+}
+.price-btn:hover { border-color: var(--ink); }
+.price-card.featured .price-btn { background: var(--g); border-color: var(--g); color: #fff; }
+.price-card.featured .price-btn:hover { background: var(--gd); }
+.price-note { font-size: 12px; color: rgba(255,255,255,0.3); margin-top: 0.75rem; text-align: center; }
 
-  /* HOW */
-  .how{background:var(--ink);padding:5rem 2.5rem}
-  .how-inner{max-width:960px;margin:0 auto}
-  .how .sec-label{color:var(--g)}
-  .how .sec-title{color:#fff;margin-bottom:3rem}
-  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem}
-  .step{border-top:1px solid rgba(255,255,255,0.1);padding-top:1.5rem}
-  .step-n{font-size:12px;color:var(--g);font-weight:600;margin-bottom:0.75rem}
-  .step-title{font-size:14px;font-weight:500;color:#fff;margin-bottom:0.4rem}
-  .step-desc{font-size:13px;color:rgba(255,255,255,0.35);line-height:1.6;font-weight:300}
+/* ── FAQ ── */
+.faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-top: 3rem; }
+.faq-item { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: var(--bg); }
+.faq-q { display: flex; justify-content: space-between; align-items: center; padding: 1.1rem 1.25rem; cursor: pointer; font-size: 14px; font-weight: 500; gap: 1rem; }
+.faq-arrow { font-size: 18px; color: var(--muted); transition: transform 0.3s; flex-shrink: 0; }
+.faq-item.open { border-color: var(--g); }
+.faq-item.open .faq-arrow { transform: rotate(45deg); color: var(--g); }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+.faq-item.open .faq-a { max-height: 200px; }
+.faq-a-inner { padding: 0 1.25rem 1.1rem; font-size: 13px; color: var(--soft); line-height: 1.7; font-weight: 300; }
 
-  /* PRICING */
-  .pricing-section{padding:5rem 2.5rem;max-width:960px;margin:0 auto}
-  .price-wrap{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:3rem;align-items:start}
-  .price-info p{font-size:15px;color:var(--soft);font-weight:300;line-height:1.8;margin-bottom:1.5rem}
-  .price-bullets{list-style:none;display:flex;flex-direction:column;gap:10px}
-  .price-bullets li{font-size:14px;color:var(--soft);display:flex;align-items:center;gap:10px;font-weight:300}
-  .price-bullets li::before{content:"✓";color:var(--g);font-weight:600}
-  .price-card{background:var(--ink);border-radius:20px;padding:2.5rem;color:#fff}
-  .price-label{font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:0.5rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em}
-  .price-num{font-size:54px;font-weight:600;letter-spacing:-3px;line-height:1}
-  .price-num sup{font-size:20px;vertical-align:super;letter-spacing:0;font-weight:400}
-  .price-num sub{font-size:15px;vertical-align:baseline;letter-spacing:0;font-weight:300;color:rgba(255,255,255,0.4)}
-  .price-setup{font-size:13px;color:rgba(255,255,255,0.35);margin:8px 0 2rem}
-  .price-btn{width:100%;padding:14px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;border:none;background:var(--g);color:#fff;font-family:'Sora',sans-serif;transition:background 0.2s}
-  .price-btn:hover{background:var(--gd)}
-  .price-note{font-size:11px;color:rgba(255,255,255,0.3);margin-top:0.75rem;text-align:center}
+/* ── TRUST ── */
+.trust-strip { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 2rem; }
+.trust-item { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--muted); font-weight: 300; }
+.trust-icon { font-size: 16px; }
 
-  /* MODAL */
-  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;padding:1rem}
-  .modal-overlay.open{display:flex}
-  .modal{background:#fff;border-radius:20px;padding:2.5rem;width:100%;max-width:520px;position:relative;max-height:90vh;overflow-y:auto}
-  .modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted)}
-  .modal h2{font-size:22px;font-weight:600;letter-spacing:-0.5px;margin-bottom:0.25rem}
-  .modal-sub{font-size:13px;color:var(--muted);margin-bottom:1.5rem;font-weight:300}
-  .fg{margin-bottom:1rem}
-  .fg label{display:block;font-size:12px;font-weight:500;color:var(--soft);margin-bottom:5px}
-  .fg input,.fg textarea{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Sora',sans-serif;background:var(--bg);color:var(--ink);transition:border-color 0.2s}
-  .fg input:focus,.fg textarea:focus{outline:none;border-color:var(--g)}
-  .fg textarea{resize:vertical;min-height:80px;line-height:1.6}
-  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-  .submit-btn{width:100%;background:var(--g);color:#fff;border:none;padding:13px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:'Sora',sans-serif;transition:all 0.2s;margin-top:0.5rem}
-  .submit-btn:hover{background:var(--gd);transform:translateY(-1px)}
-  .submit-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
-  .success-msg{display:none;text-align:center;padding:2rem}
-  .success-icon{font-size:48px;margin-bottom:1rem}
-  .success-msg h3{font-size:18px;font-weight:600;color:var(--g);margin-bottom:0.5rem}
-  .success-msg p{font-size:14px;color:var(--soft);font-weight:300}
+/* ── MODAL ── */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; backdrop-filter: blur(4px); }
+.modal-overlay.open { display: flex; }
+.modal { background: #fff; border-radius: 20px; padding: 2.5rem; width: 100%; max-width: 520px; position: relative; max-height: 90vh; overflow-y: auto; }
+.modal-close { position: absolute; top: 1.25rem; right: 1.25rem; background: var(--bg); border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 16px; cursor: pointer; color: var(--muted); display: flex; align-items: center; justify-content: center; }
+.modal-close:hover { background: var(--border); }
+.modal-title { font-family: 'DM Serif Display', serif; font-size: 24px; letter-spacing: -0.5px; margin-bottom: 0.25rem; }
+.modal-sub { font-size: 13px; color: var(--muted); margin-bottom: 1.5rem; font-weight: 300; }
+.pkg-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 1.25rem; }
+.pkg-card { border: 1.5px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; text-align: center; transition: all 0.15s; }
+.pkg-card.selected { border-color: var(--g); background: var(--gl); }
+.pkg-name { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; margin-bottom: 3px; }
+.pkg-card.selected .pkg-name { color: var(--gd); }
+.pkg-price { font-size: 18px; font-weight: 600; letter-spacing: -0.5px; }
+.pkg-msgs { font-size: 10px; color: var(--muted); font-weight: 300; margin-top: 2px; }
+.fg { margin-bottom: 1rem; }
+.fg label { display: block; font-size: 12px; font-weight: 500; color: var(--soft); margin-bottom: 5px; }
+.fg input, .fg textarea { width: 100%; padding: 10px 13px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 14px; font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--ink); transition: border-color 0.2s; }
+.fg input:focus, .fg textarea:focus { outline: none; border-color: var(--g); background: #fff; }
+.fg textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.submit-btn { width: 100%; background: var(--g); color: #fff; border: none; padding: 14px; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; margin-top: 0.5rem; }
+.submit-btn:hover { background: var(--gd); }
+.submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.modal-note { font-size: 11px; color: var(--muted); margin-top: 0.75rem; text-align: center; font-weight: 300; }
+.success-msg { display: none; text-align: center; padding: 2rem; }
+.success-icon { font-size: 52px; margin-bottom: 1rem; }
+.success-title { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--g); margin-bottom: 0.5rem; }
+.success-sub { font-size: 14px; color: var(--muted); font-weight: 300; }
 
-  footer{padding:2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);flex-wrap:wrap;gap:1rem}
-  .foot-logo{font-size:16px;font-weight:600;color:var(--g)}
-  .foot-links{display:flex;gap:2rem;font-size:13px;color:var(--muted)}
-  .foot-links a:hover{color:var(--ink)}
+footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; max-width: 1100px; margin: 0 auto; }
+.foot-logo { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--g); }
+.foot-links { display: flex; gap: 2rem; font-size: 13px; color: var(--muted); }
+.foot-links a:hover { color: var(--ink); }
 
-  @media(max-width:700px){
-    *{max-width:100%;box-sizing:border-box}
-    img,svg{max-width:100%}
-    .nav-links{display:none}
-    .hero{padding-top:5rem}
-    .showcase-item,.showcase-item.reverse{grid-template-columns:1fr;direction:ltr}
-    .steps{grid-template-columns:1fr 1fr}
-    .price-wrap{grid-template-columns:1fr}
-    footer{flex-direction:column;text-align:center}
-  }
+/* ANIMATIONS */
+.fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+.fade-left { opacity: 0; transform: translateX(-24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-left.visible { opacity: 1; transform: translateX(0); }
+.fade-right { opacity: 0; transform: translateX(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-right.visible { opacity: 1; transform: translateX(0); }
 
-  /* ANIMATIONS */
-  .fade-up{opacity:0;transform:translateY(30px);transition:opacity 0.6s ease,transform 0.6s ease}
-  .fade-up.visible{opacity:1;transform:translateY(0)}
-  .fade-left{opacity:0;transform:translateX(-30px);transition:opacity 0.6s ease,transform 0.6s ease}
-  .fade-left.visible{opacity:1;transform:translateX(0)}
-  .fade-right{opacity:0;transform:translateX(30px);transition:opacity 0.6s ease,transform 0.6s ease}
-  .fade-right.visible{opacity:1;transform:translateX(0)}
-
-  /* HERO BG */
-  .hero{background:radial-gradient(ellipse 80% 60% at 50% -10%,#E8F8F2 0%,transparent 70%)}
-
-  /* TRUST BADGES */
-  .trust-row{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-top:2rem}
-  .trust-badge{display:flex;align-items:center;gap:7px;background:var(--bg);border:1px solid var(--border);padding:7px 14px;border-radius:100px;font-size:12px;color:var(--soft);font-weight:400}
-  .trust-badge span{font-size:14px}
-
-  /* FAQ SECTION */
-  .faq-section{padding:5rem 2.5rem;background:var(--bg)}
-  .faq-inner{max-width:700px;margin:0 auto}
-  .faq-list{margin-top:2.5rem;display:flex;flex-direction:column;gap:8px}
-  .faq-item{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color 0.2s}
-  .faq-item.open{border-color:var(--g)}
-  .faq-q{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.25rem;cursor:pointer;font-size:14px;font-weight:500;gap:1rem}
-  .faq-arrow{font-size:18px;color:var(--muted);transition:transform 0.3s;flex-shrink:0}
-  .faq-item.open .faq-arrow{transform:rotate(45deg);color:var(--g)}
-  .faq-a{max-height:0;overflow:hidden;transition:max-height 0.4s ease,padding 0.3s}
-  .faq-item.open .faq-a{max-height:200px;padding:0 1.25rem 1.1rem}
-  .faq-a p{font-size:14px;color:var(--soft);line-height:1.7;font-weight:300}
-
-  /* LANGUAGES */
-  .lang-section{padding:4rem 2.5rem;background:var(--bg)}
-  .lang-inner{max-width:960px;margin:0 auto;text-align:center}
-  .lang-grid{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-top:2.5rem}
-  .lang-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:1.25rem 1.75rem;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all 0.2s;min-width:120px}
-  .lang-card:hover{border-color:var(--g);transform:translateY(-3px);box-shadow:0 8px 24px rgba(29,158,117,0.1)}
-  .lang-flag{font-size:36px}
-  .lang-name{font-size:13px;font-weight:500;color:var(--ink)}
-  .lang-auto{font-size:11px;color:var(--muted);font-weight:300}
-  .lang-note{font-size:14px;color:var(--soft);margin-top:2rem;font-weight:300}
-  .lang-note span{color:var(--g);font-weight:500}
+@media(max-width:768px) {
+  nav .nav-links { display: none; }
+  .hero { grid-template-columns: 1fr; padding-top: 5rem; gap: 3rem; }
+  .showcase-row, .showcase-row.reverse { grid-template-columns: 1fr; direction: ltr; }
+  .steps { grid-template-columns: 1fr 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .faq-grid { grid-template-columns: 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  footer { flex-direction: column; text-align: center; }
+  .floating-badge, .floating-badge-2 { display: none; }
+}
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
   <div class="logo">Chatbot24</div>
   <div class="nav-links">
     <a href="#dashboard">Dashboard</a>
     <a href="#how">Ablauf</a>
     <a href="#pricing">Preise</a>
+    <a href="#faq">FAQ</a>
   </div>
-  <button class="nav-btn" onclick="openModal()">Jetzt bestellen</button>
+  <button class="nav-cta" onclick="openModal()">Jetzt bestellen</button>
 </nav>
 
 <!-- HERO -->
+<div style="max-width:1100px;margin:0 auto">
 <div class="hero">
-  <div class="hero-tag"><span></span>KI-Chatbot als Service</div>
-  <h1>Weniger Anfragen.<br><mark>Mehr Kunden.</mark></h1>
-  <p class="hero-desc">Ein KI-Assistent auf Ihrer Website der Kundenfragen automatisch beantwortet – rund um die Uhr, auf Deutsch, in 48h live.</p>
-  <div class="hero-btns">
-    <button class="btn-main" onclick="openModal()">Jetzt bestellen →</button>
-    <button class="btn-outline" onclick="document.getElementById('dashboard').scrollIntoView({behavior:'smooth'})">Was bekomme ich?</button>
+  <div>
+    <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>KI-Chatbot als Service</div>
+    <h1>Deine Kunden<br>fragen. <em>Dein Bot</em><br>antwortet.</h1>
+    <p class="hero-desc">Ein intelligenter KI-Assistent auf deiner Website der rund um die Uhr Kundenfragen beantwortet – auf Deutsch, Englisch, Türkisch und mehr.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="openModal()">Jetzt bestellen →</button>
+      <button class="btn-secondary" onclick="document.getElementById('dashboard').scrollIntoView({behavior:'smooth'})">Was bekomme ich?</button>
+    </div>
+    <div class="hero-note">
+      <span><span>✓</span> In 48h live</span>
+      <span><span>✓</span> Keine Vertragsbindung</span>
+      <span><span>✓</span> Zahlung nach Einrichtung</span>
+    </div>
   </div>
-  <div class="hero-note">Kein Risiko · Keine Vertragsbindung · In 48h live</div>
-  <div class="trust-row">
-    <div class="trust-badge"><span>🔒</span>DSGVO-konform</div>
-    <div class="trust-badge"><span>🇩🇪</span>Hosting in Deutschland</div>
-    <div class="trust-badge"><span>⚡</span>In 48h live</div>
-    <div class="trust-badge"><span>✅</span>Keine Vertragsbindung</div>
+
+  <!-- HERO VISUAL -->
+  <div class="hero-visual">
+    <div class="floating-badge">📊 24 Gespräche heute</div>
+    <div class="dashboard-mock">
+      <div class="mock-topbar">
+        <div class="mock-dots">
+          <div class="mock-dot" style="background:#ff5f57"></div>
+          <div class="mock-dot" style="background:#febc2e"></div>
+          <div class="mock-dot" style="background:#28c840"></div>
+        </div>
+        <div class="mock-title">Chatbot24 – Admin Dashboard</div>
+      </div>
+      <div class="mock-body">
+        <div class="mock-sb">
+          <div class="mock-sb-item active">📊 Dashboard</div>
+          <div class="mock-sb-item">💬 Testen</div>
+          <div class="mock-sb-item">🔍 Analyse</div>
+          <div class="mock-sb-item">❓ FAQ</div>
+          <div class="mock-sb-item">🎨 Design</div>
+          <div class="mock-sb-item">👁️ Vorschau</div>
+          <div class="mock-sb-item">📋 Einbetten</div>
+        </div>
+        <div class="mock-content">
+          <div class="mock-stats-row">
+            <div class="mock-stat-card"><div class="mock-stat-num" style="color:var(--g)">142</div><div class="mock-stat-label">Gespräche</div></div>
+            <div class="mock-stat-card"><div class="mock-stat-num">891</div><div class="mock-stat-label">Nachrichten</div></div>
+            <div class="mock-stat-card"><div class="mock-stat-num">12</div><div class="mock-stat-label">FAQs</div></div>
+          </div>
+          <div class="mock-chart-area">
+            <div style="font-size:8px;color:var(--muted);margin-bottom:4px">Aktivität – letzte 7 Tage</div>
+            <div class="mock-chart-bars">
+              <div class="mock-bar" style="height:30%"></div>
+              <div class="mock-bar" style="height:55%"></div>
+              <div class="mock-bar" style="height:40%"></div>
+              <div class="mock-bar" style="height:75%"></div>
+              <div class="mock-bar" style="height:60%"></div>
+              <div class="mock-bar" style="height:90%"></div>
+              <div class="mock-bar" style="height:70%"></div>
+            </div>
+          </div>
+          <div class="mock-chat-preview">
+            <div class="mock-msg bot">Hallo! Wie kann ich helfen? 👋</div>
+            <div class="mock-msg user">Wann habt ihr auf?</div>
+            <div class="mock-msg bot">Wir haben Mo–Fr 9–18 Uhr für Sie geöffnet!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="floating-badge-2">🌍 6 Sprachen · Automatisch</div>
   </div>
 </div>
-
-<div class="divider"></div>
-
-<div class="platforms">
-  <div class="platforms-label">Läuft auf</div>
-  <span class="platform-tag">WordPress</span>
-  <span class="platform-tag">Shopify</span>
-  <span class="platform-tag">Webflow</span>
-  <span class="platform-tag">Wix</span>
-  <span class="platform-tag">HTML</span>
 </div>
 
-<div class="divider"></div>
+<div class="full-divider"></div>
+<div class="platforms-strip">
+  <span class="strip-label">Läuft auf</span>
+  <div class="strip-tags">
+    <span class="strip-tag">WordPress</span>
+    <span class="strip-tag">Shopify</span>
+    <span class="strip-tag">Webflow</span>
+    <span class="strip-tag">Wix</span>
+    <span class="strip-tag">HTML</span>
+    <span class="strip-tag">Alle anderen</span>
+  </div>
+</div>
+<div class="full-divider"></div>
 
 <!-- DASHBOARD SHOWCASE -->
-<div class="dashboard-section" id="dashboard">
-  <div class="sec-label">Was Sie bekommen</div>
-  <div class="sec-title">Ihr persönliches Dashboard.</div>
-  <p class="sec-sub">Nach der Einrichtung erhalten Sie Zugang zu einem professionellen Admin-Dashboard – alles selbst verwalten, ohne Technik.</p>
+<section id="dashboard">
+  <div class="sec-eyebrow fade-up">Was du bekommst</div>
+  <div class="sec-title fade-up">Dein persönliches<br>Admin-Dashboard.</div>
+  <p class="sec-sub fade-up">Alles an einem Ort – ohne technische Kenntnisse bedienbar.</p>
 
   <div class="showcase">
 
-    <!-- 1 – Statistiken -->
-    <div class="showcase-item fade-up">
-      <div class="showcase-text">
-        <div class="showcase-label">Übersicht</div>
-        <div class="showcase-title">Live-Statistiken & Aktivität</div>
-        <div class="showcase-desc">Sehen Sie täglich wie viele Gespräche Ihr Chatbot geführt hat – mit einem übersichtlichen Balkendiagramm der letzten 7 Tage.</div>
-        <ul class="showcase-bullets">
-          <li>Anzahl Gespräche & Nachrichten</li>
+    <!-- 1 STATS -->
+    <div class="showcase-row">
+      <div class="showcase-text fade-left">
+        <div class="show-tag">Übersicht</div>
+        <div class="show-title">Live-Statistiken & Ein/Aus-Schalter</div>
+        <div class="show-desc">Sieh täglich wie viele Gespräche dein Chatbot geführt hat – mit Aktivitätsdiagramm der letzten 7 Tage. Mit einem Klick schaltest du den Bot online oder offline.</div>
+        <ul class="show-bullets">
+          <li>Gespräche, Nachrichten & FAQ-Einträge</li>
           <li>Aktivitätsdiagramm pro Tag</li>
-          <li>Chatbot-Status ein/ausschalten</li>
+          <li>Chatbot ein/ausschalten mit Status-Badge</li>
           <li>Schnellzugriff auf alle Funktionen</li>
         </ul>
       </div>
-      <div class="showcase-visual">
-        <div class="mock-dashboard">
-          <div class="mock-header"><div class="mock-logo">Chatbot24</div></div>
-          <div class="mock-body">
-            <div class="mock-sidebar">
-              <div class="mock-nav active">📊 Dashboard</div>
-              <div class="mock-nav">💬 Testen</div>
-              <div class="mock-nav">⚙️ Einstell.</div>
-              <div class="mock-nav">❓ FAQ</div>
-              <div class="mock-nav">🎨 Design</div>
-            </div>
-            <div class="mock-content">
-              <div class="mock-stats">
-                <div class="mock-stat"><div class="mock-stat-val" style="color:var(--g)">24</div><div class="mock-stat-lbl">Gespräche</div></div>
-                <div class="mock-stat"><div class="mock-stat-val">142</div><div class="mock-stat-lbl">Nachrichten</div></div>
-                <div class="mock-stat"><div class="mock-stat-val">8</div><div class="mock-stat-lbl">FAQs</div></div>
-              </div>
-              <div class="mock-card">
-                <div class="mock-card-title">Aktivität – letzte 7 Tage</div>
-                <div class="mock-bars">
-                  <div class="mock-bar" style="height:30%"></div>
-                  <div class="mock-bar" style="height:60%"></div>
-                  <div class="mock-bar" style="height:45%"></div>
-                  <div class="mock-bar" style="height:80%"></div>
-                  <div class="mock-bar" style="height:55%"></div>
-                  <div class="mock-bar" style="height:90%"></div>
-                  <div class="mock-bar" style="height:70%"></div>
-                </div>
+      <div class="showcase-visual fade-right">
+        <div class="mock-panel">
+          <div class="mock-header"><div class="mock-dots"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div></div><div class="mock-header-logo">Dashboard</div></div>
+          <div style="padding:12px;background:#fff">
+            <div style="display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:10px">
+              <div><div style="font-size:9px;font-weight:600">Chatbot Status</div><div style="font-size:8px;color:var(--muted)">Ein oder ausschalten</div></div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="font-size:8px;background:var(--gl);color:var(--gd);padding:2px 8px;border-radius:100px;font-weight:500">● Online</div>
+                <div style="width:28px;height:16px;background:var(--g);border-radius:16px;position:relative"><div style="position:absolute;width:12px;height:12px;background:#fff;border-radius:50%;right:2px;top:2px"></div></div>
               </div>
             </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px">
+              <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px"><div style="font-size:16px;font-weight:600;color:var(--g)">142</div><div style="font-size:7px;color:var(--muted)">Gespräche</div></div>
+              <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px"><div style="font-size:16px;font-weight:600">891</div><div style="font-size:7px;color:var(--muted)">Nachrichten</div></div>
+              <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px"><div style="font-size:16px;font-weight:600;color:var(--g)">24/7</div><div style="font-size:7px;color:var(--muted)">Verfügbar</div></div>
+            </div>
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px"><div style="font-size:7px;color:var(--muted);margin-bottom:6px">Aktivität – letzte 7 Tage</div><div style="display:flex;gap:4px;align-items:flex-end;height:40px"><div style="flex:1;background:var(--g);border-radius:2px;height:30%;opacity:.7"></div><div style="flex:1;background:var(--g);border-radius:2px;height:55%;opacity:.7"></div><div style="flex:1;background:var(--g);border-radius:2px;height:40%;opacity:.7"></div><div style="flex:1;background:var(--g);border-radius:2px;height:80%;opacity:.7"></div><div style="flex:1;background:var(--g);border-radius:2px;height:60%;opacity:.7"></div><div style="flex:1;background:var(--g);border-radius:2px;height:90%;opacity:.7"></div><div style="flex:1;background:var(--g);border-radius:2px;height:70%;opacity:.7"></div></div></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 2 – Chatbot testen -->
-    <div class="showcase-item reverse fade-up">
-      <div class="showcase-text">
-        <div class="showcase-label">Vorschau</div>
-        <div class="showcase-title">Chatbot direkt testen</div>
-        <div class="showcase-desc">Testen Sie Ihren Chatbot direkt im Dashboard – genau so wie Ihre Kunden ihn sehen. Stellen Sie Fragen und prüfen Sie die Antworten.</div>
-        <ul class="showcase-bullets">
-          <li>Live-Vorschau im Browser</li>
-          <li>Farbe ändert sich sofort beim Anklicken</li>
-          <li>Gespräch jederzeit neu starten</li>
-          <li>Bot-Name individuell anpassbar</li>
+    <!-- 2 INSIGHTS -->
+    <div class="showcase-row reverse">
+      <div class="showcase-text fade-right">
+        <div class="show-tag">Einblicke</div>
+        <div class="show-title">Unbeantwortete Fragen & Tageszeiten</div>
+        <div class="show-desc">Sieh welche Fragen der Bot nicht beantworten konnte und wann die meisten Anfragen kommen – morgens, mittags oder abends. So weißt du genau was im FAQ fehlt.</div>
+        <ul class="show-bullets">
+          <li>Unbeantwortete Fragen direkt als FAQ hinzufügen</li>
+          <li>Unsinnige Fragen mit einem Klick ignorieren</li>
+          <li>Aktivitätszeiten: Morgens, Mittags, Abends</li>
+          <li>Daten automatisch aktualisiert</li>
         </ul>
       </div>
-      <div class="showcase-visual">
-        <div class="mock-chat">
-          <div class="mock-chat-header"><div class="mock-chat-dot"></div><div class="mock-chat-name">Support-Assistent</div></div>
-          <div class="mock-chat-msgs">
-            <div class="mock-msg bot">Hallo! Willkommen bei Frida Kitchen. Wie kann ich helfen?</div>
-            <div class="mock-msg user">Haben Sie vegetarische Gerichte?</div>
-            <div class="mock-msg bot">Ja! Wir haben eine große Auswahl an vegetarischen Speisen – von Salaten bis zu unseren beliebten veganen Pasta-Gerichten. 🌿</div>
-            <div class="mock-msg user">Wann haben Sie geöffnet?</div>
-            <div class="mock-msg bot">Wir sind täglich von 12 bis 22 Uhr für Sie da. Reservierungen sind jederzeit möglich!</div>
+      <div class="showcase-visual fade-left">
+        <div class="mock-panel">
+          <div class="mock-header"><div class="mock-dots"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div></div><div class="mock-header-logo">Einblicke</div></div>
+          <div style="padding:12px;background:#fff">
+            <div style="font-size:9px;font-weight:600;margin-bottom:8px">❓ Unbeantwortete Fragen</div>
+            <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:10px">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-bottom:1px solid var(--border)"><div style="font-size:8px;font-weight:500">Haben Sie auch Lieferung am Wochenende?</div><div style="display:flex;gap:4px"><div style="background:var(--gl);color:var(--gd);font-size:7px;padding:2px 6px;border-radius:4px">+ FAQ</div><div style="background:var(--bg);color:var(--muted);font-size:7px;padding:2px 6px;border-radius:4px">✕</div></div></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px"><div style="font-size:8px;font-weight:500">Was kostet der Express-Service?</div><div style="display:flex;gap:4px"><div style="background:var(--gl);color:var(--gd);font-size:7px;padding:2px 6px;border-radius:4px">+ FAQ</div><div style="background:var(--bg);color:var(--muted);font-size:7px;padding:2px 6px;border-radius:4px">✕</div></div></div>
+            </div>
+            <div style="font-size:9px;font-weight:600;margin-bottom:8px">🕐 Aktivität nach Tageszeit</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center">
+              <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px"><div style="font-size:14px">🌅</div><div style="font-size:7px;color:var(--muted)">Morgens</div><div style="font-size:14px;font-weight:600;color:var(--g)">34</div></div>
+              <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px"><div style="font-size:14px">☀️</div><div style="font-size:7px;color:var(--muted)">Mittags</div><div style="font-size:14px;font-weight:600;color:var(--g)">67</div></div>
+              <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px"><div style="font-size:14px">🌙</div><div style="font-size:7px;color:var(--muted)">Abends</div><div style="font-size:14px;font-weight:600;color:var(--g)">41</div></div>
+            </div>
           </div>
-          <div class="mock-chat-input"><div class="mock-input-bar"></div><div class="mock-send"></div></div>
         </div>
       </div>
     </div>
 
-    <!-- 3 – FAQ -->
-    <div class="showcase-item fade-up">
-      <div class="showcase-text">
-        <div class="showcase-label">Wissen</div>
-        <div class="showcase-title">FAQ selbst pflegen</div>
-        <div class="showcase-desc">Tragen Sie Ihre häufigsten Fragen und Antworten ein – der Bot antwortet sofort darauf. Mit KI-Vorschlägen passend zu Ihrer Branche.</div>
-        <ul class="showcase-bullets">
-          <li>Unbegrenzte FAQ-Einträge</li>
-          <li>✨ KI schlägt passende Fragen vor</li>
-          <li>Bot erkennt Fragen auch in anderen Worten</li>
-          <li>Jederzeit bearbeitbar</li>
+    <!-- 3 FAQ + DOC -->
+    <div class="showcase-row">
+      <div class="showcase-text fade-left">
+        <div class="show-tag">Wissen</div>
+        <div class="show-title">FAQ selbst pflegen & Dokumente hochladen</div>
+        <div class="show-desc">Trage häufige Fragen manuell ein oder lade einfach ein PDF/Word-Dokument hoch – die KI liest es und erstellt automatisch passende FAQ daraus.</div>
+        <ul class="show-bullets">
+          <li>FAQ manuell hinzufügen, bearbeiten, löschen</li>
+          <li>PDF oder Word hochladen → KI erstellt FAQ automatisch</li>
+          <li>Bot kennt alle Fragen sofort nach dem Speichern</li>
+          <li>Max. 20MB pro Dokument</li>
         </ul>
       </div>
-      <div class="showcase-visual">
-        <div class="mock-dashboard">
-          <div class="mock-header"><div class="mock-logo">FAQ & Wissen</div></div>
-          <div class="mock-faq">
-            <div class="mock-faq-item"><div class="mock-faq-q">Wie lange dauert die Lieferung?</div><div class="mock-faq-a">Wir liefern innerhalb von 2–3 Werktagen.</div></div>
-            <div class="mock-faq-item"><div class="mock-faq-q">Kann ich zurückgeben?</div><div class="mock-faq-a">Ja, 14 Tage Rückgaberecht ohne Angabe von Gründen.</div></div>
-            <div class="mock-faq-item"><div class="mock-faq-q">Welche Zahlungsmethoden?</div><div class="mock-faq-a">PayPal, Kreditkarte, Rechnung und SEPA.</div></div>
-            <div style="margin-top:8px"><div class="mock-ai-btn">✨ KI-Vorschläge generieren</div></div>
+      <div class="showcase-visual fade-right">
+        <div class="mock-panel">
+          <div class="mock-header"><div class="mock-dots"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div></div><div class="mock-header-logo">FAQ & Wissen</div></div>
+          <div style="padding:12px;background:#fff">
+            <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:10px">
+              <div style="padding:7px 10px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:8px;font-weight:500">Wann haben Sie geöffnet?</div><div style="font-size:7px;color:var(--muted)">Mo–Fr 9–18 Uhr, Sa 10–14 Uhr</div></div><div style="color:var(--muted);font-size:12px">×</div></div>
+              <div style="padding:7px 10px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:8px;font-weight:500">Bieten Sie Lieferung an?</div><div style="font-size:7px;color:var(--muted)">Ja, kostenfrei ab 50 Euro Bestellwert.</div></div><div style="color:var(--muted);font-size:12px">×</div></div>
+              <div style="padding:7px 10px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:8px;font-weight:500">Welche Zahlungsmethoden?</div><div style="font-size:7px;color:var(--muted)">PayPal, Kreditkarte, Rechnung</div></div><div style="color:var(--muted);font-size:12px">×</div></div>
+            </div>
+            <div style="border:1.5px dashed var(--border);border-radius:8px;padding:10px;text-align:center;background:var(--bg)">
+              <div style="font-size:16px;margin-bottom:4px">📄</div>
+              <div style="font-size:8px;font-weight:500;margin-bottom:2px">PDF hochladen → KI erstellt FAQ</div>
+              <div style="font-size:7px;color:var(--muted)">PDF, DOC, TXT · Max. 20MB</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 4 – Design -->
-    <div class="showcase-item reverse fade-up">
-      <div class="showcase-text">
-        <div class="showcase-label">Branding</div>
-        <div class="showcase-title">Design anpassen</div>
-        <div class="showcase-desc">Passen Sie Farbe, Bot-Name und Initialen an Ihr Unternehmen an – der Chatbot sieht aus als wäre er Teil Ihrer Website.</div>
-        <ul class="showcase-bullets">
+    <!-- 4 DESIGN -->
+    <div class="showcase-row reverse">
+      <div class="showcase-text fade-right">
+        <div class="show-tag">Design</div>
+        <div class="show-title">Dein Branding, dein Icon, deine Farbe</div>
+        <div class="show-desc">Passe den Chatbot vollständig an dein Unternehmen an – Farbe, Bot-Name, Chat-Icon aus 12 Emojis oder eigenes Logo hochladen. Die Vorschau zeigt es sofort auf Smartphone, Tablet und Desktop.</div>
+        <ul class="show-bullets">
           <li>6 Standardfarben + eigene Farbe wählbar</li>
-          <li>Bot-Name frei wählbar</li>
-          <li>Farbe ändert sich sofort in der Vorschau</li>
-          <li>Einbettungs-Code automatisch aktualisiert</li>
+          <li>12 Chat-Icons oder eigenes Logo</li>
+          <li>Bot-Persönlichkeit: Formell, Freundlich oder Locker</li>
+          <li>Live-Vorschau auf 3 Geräten gleichzeitig</li>
         </ul>
       </div>
-      <div class="showcase-visual">
-        <div class="mock-dashboard">
-          <div class="mock-header"><div class="mock-logo">Design & Branding</div></div>
-          <div class="mock-design">
-            <div style="font-size:10px;font-weight:600;margin-bottom:8px">Akzentfarbe</div>
-            <div class="mock-colors">
-              <div class="mock-color selected" style="background:#1D9E75"></div>
-              <div class="mock-color" style="background:#378ADD"></div>
-              <div class="mock-color" style="background:#7F77DD"></div>
-              <div class="mock-color" style="background:#D85A30"></div>
-              <div class="mock-color" style="background:#D4537E"></div>
-              <div class="mock-color" style="background:#0A0A0A"></div>
+      <div class="showcase-visual fade-left">
+        <div class="mock-panel">
+          <div class="mock-header"><div class="mock-dots"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div></div><div class="mock-header-logo">Design & Vorschau</div></div>
+          <div style="padding:12px;background:#fff">
+            <div style="font-size:8px;font-weight:500;margin-bottom:6px">Akzentfarbe</div>
+            <div style="display:flex;gap:5px;margin-bottom:10px">
+              <div style="width:18px;height:18px;border-radius:50%;background:#1D9E75;border:2px solid var(--ink)"></div>
+              <div style="width:18px;height:18px;border-radius:50%;background:#378ADD"></div>
+              <div style="width:18px;height:18px;border-radius:50%;background:#7F77DD"></div>
+              <div style="width:18px;height:18px;border-radius:50%;background:#D85A30"></div>
+              <div style="width:18px;height:18px;border-radius:50%;background:#0A0A0A"></div>
             </div>
-            <div class="mock-toggle-row">
-              <div class="mock-toggle-label">Chatbot aktiv</div>
-              <div class="mock-toggle"><div class="mock-toggle-dot"></div></div>
+            <div style="font-size:8px;font-weight:500;margin-bottom:6px">Chat-Icon</div>
+            <div style="display:flex;gap:4px;margin-bottom:10px">
+              <div style="width:20px;height:20px;border-radius:4px;border:1.5px solid var(--g);background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:10px">💬</div>
+              <div style="width:20px;height:20px;border-radius:4px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px">🤖</div>
+              <div style="width:20px;height:20px;border-radius:4px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px">⭐</div>
+              <div style="width:20px;height:20px;border-radius:4px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px">🚀</div>
+              <div style="width:20px;height:20px;border-radius:4px;border:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--muted)">Logo</div>
             </div>
-            <div class="mock-toggle-row">
-              <div class="mock-toggle-label">Mehrsprachig</div>
-              <div class="mock-toggle"><div class="mock-toggle-dot"></div></div>
+            <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:6px">
+              <div style="border:4px solid var(--ink);border-radius:12px;height:80px;background:#f8f8f8;position:relative;overflow:hidden">
+                <div style="padding:5px"><div style="height:10px;background:#fff;border-radius:3px;margin-bottom:4px"></div><div style="height:8px;background:#fff;border-radius:3px;width:70%"></div></div>
+                <div style="position:absolute;bottom:5px;right:5px;width:18px;height:18px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;font-size:8px">💬</div>
+              </div>
+              <div style="border:3px solid var(--ink);border-radius:6px;height:80px;background:#f8f8f8;position:relative;overflow:hidden">
+                <div style="height:12px;background:#e0e0e0;display:flex;align-items:center;padding:0 4px;gap:2px"><div style="width:4px;height:4px;border-radius:50%;background:#ff5f57"></div><div style="width:4px;height:4px;border-radius:50%;background:#febc2e"></div><div style="width:4px;height:4px;border-radius:50%;background:#28c840"></div></div>
+                <div style="padding:5px;display:grid;grid-template-columns:1fr 1.5fr;gap:4px;height:calc(100%-12px)"><div style="background:#e8e8e8;border-radius:3px"></div><div style="display:flex;flex-direction:column;gap:3px"><div style="height:8px;background:#fff;border-radius:3px"></div><div style="height:14px;background:#fff;border-radius:3px"></div></div></div>
+                <div style="position:absolute;bottom:5px;right:5px;width:18px;height:18px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;font-size:8px">💬</div>
+              </div>
             </div>
-            <div style="margin-top:10px;background:var(--ink);color:#a8f0c8;font-family:monospace;font-size:8px;padding:8px;border-radius:6px;line-height:1.6">&lt;script src="chatbot24.chat/widget.js"<br>&nbsp;data-id="ihre-firma"&gt;&lt;/script&gt;</div>
           </div>
         </div>
       </div>
     </div>
 
   </div>
-</div>
-
+</section>
 
 <!-- LANGUAGES -->
 <div class="lang-section">
   <div class="lang-inner">
-    <div class="sec-label fade-up">Mehrsprachigkeit</div>
-    <div class="sec-title fade-up">Ihr Chatbot spricht<br>die Sprache Ihrer Kunden.</div>
+    <div class="sec-eyebrow fade-up">Mehrsprachigkeit</div>
+    <div class="sec-title fade-up">Dein Bot spricht<br>die Sprache deiner Kunden.</div>
     <div class="lang-grid">
-      <div class="lang-card fade-up">
-        <div class="lang-flag">🇩🇪</div>
-        <div class="lang-name">Deutsch</div>
-        <div class="lang-auto">Automatisch</div>
-      </div>
-      <div class="lang-card fade-up">
-        <div class="lang-flag">🇬🇧</div>
-        <div class="lang-name">Englisch</div>
-        <div class="lang-auto">Automatisch</div>
-      </div>
-      <div class="lang-card fade-up">
-        <div class="lang-flag">🇹🇷</div>
-        <div class="lang-name">Türkisch</div>
-        <div class="lang-auto">Automatisch</div>
-      </div>
-      <div class="lang-card fade-up">
-        <div class="lang-flag">🇫🇷</div>
-        <div class="lang-name">Französisch</div>
-        <div class="lang-auto">Automatisch</div>
-      </div>
-      <div class="lang-card fade-up">
-        <div class="lang-flag">🇪🇸</div>
-        <div class="lang-name">Spanisch</div>
-        <div class="lang-auto">Automatisch</div>
-      </div>
-      <div class="lang-card fade-up">
-        <div class="lang-flag">🇮🇹</div>
-        <div class="lang-name">Italienisch</div>
-        <div class="lang-auto">Automatisch</div>
-      </div>
+      <div class="lang-card fade-up"><div class="lang-flag">🇩🇪</div><div><div class="lang-name">Deutsch</div><div class="lang-auto">Automatisch</div></div></div>
+      <div class="lang-card fade-up"><div class="lang-flag">🇬🇧</div><div><div class="lang-name">Englisch</div><div class="lang-auto">Automatisch</div></div></div>
+      <div class="lang-card fade-up"><div class="lang-flag">🇹🇷</div><div><div class="lang-name">Türkisch</div><div class="lang-auto">Automatisch</div></div></div>
+      <div class="lang-card fade-up"><div class="lang-flag">🇫🇷</div><div><div class="lang-name">Französisch</div><div class="lang-auto">Automatisch</div></div></div>
+      <div class="lang-card fade-up"><div class="lang-flag">🇪🇸</div><div><div class="lang-name">Spanisch</div><div class="lang-auto">Automatisch</div></div></div>
+      <div class="lang-card fade-up"><div class="lang-flag">🇮🇹</div><div><div class="lang-name">Italienisch</div><div class="lang-auto">Automatisch</div></div></div>
     </div>
-    <div class="lang-note fade-up">Der Bot erkennt die Sprache des Kunden <span>automatisch</span> – kein Extra-Aufwand für Sie.</div>
+    <div class="lang-note fade-up">Der Bot erkennt die Sprache des Kunden <strong>automatisch</strong> – kein Extra-Aufwand für dich.</div>
   </div>
 </div>
 
 <!-- HOW -->
-<div class="how" id="how">
+<div class="how-section" id="how">
   <div class="how-inner">
-    <div class="sec-label">Ablauf</div>
-    <div class="sec-title">In 4 Schritten live.</div>
+    <div class="sec-eyebrow fade-up">Ablauf</div>
+    <div class="sec-title fade-up">In 4 Schritten live.</div>
     <div class="steps">
-      <div class="step"><div class="step-n">01</div><div class="step-title">Bestellen</div><div class="step-desc">Formular ausfüllen – wir melden uns innerhalb von 24h mit der Rechnung.</div></div>
-      <div class="step"><div class="step-n">02</div><div class="step-title">Einrichtung</div><div class="step-desc">In 48h konfiguriert, gebrandmarkt und getestet.</div></div>
-      <div class="step"><div class="step-n">03</div><div class="step-title">Integration</div><div class="step-desc">Eine Zeile Code – auf jeder Website.</div></div>
-      <div class="step"><div class="step-n">04</div><div class="step-title">Fertig</div><div class="step-desc">Sie verwalten selbst. Wir sorgen für den Betrieb.</div></div>
+      <div class="step fade-up"><div class="step-n">01</div><div class="step-title">Bestellen</div><div class="step-desc">Formular ausfüllen – wir melden uns innerhalb von 24h mit der Rechnung.</div></div>
+      <div class="step fade-up"><div class="step-n">02</div><div class="step-title">Einrichtung</div><div class="step-desc">In 48h konfiguriert, gebrandmarkt und getestet.</div></div>
+      <div class="step fade-up"><div class="step-n">03</div><div class="step-title">Integration</div><div class="step-desc">Eine Zeile Code – auf jeder Website eingebunden.</div></div>
+      <div class="step fade-up"><div class="step-n">04</div><div class="step-title">Fertig</div><div class="step-desc">Du verwaltest selbst. Wir sorgen für den Betrieb.</div></div>
     </div>
   </div>
 </div>
 
 <!-- PRICING -->
-<div class="pricing-section" id="pricing">
-  <div class="sec-label">Preise</div>
-  <div class="sec-title">Das richtige Paket<br>für jedes Unternehmen.</div>
-  <p style="font-size:15px;color:var(--soft);font-weight:300;margin-bottom:3rem;max-width:500px">Kein kompliziertes Preismodell. Alle Pakete inklusive Dashboard, Branding und Support – keine versteckten Kosten.</p>
+<section id="pricing">
+  <div class="sec-eyebrow fade-up">Preise</div>
+  <div class="sec-title fade-up">Das richtige Paket<br>für jedes Unternehmen.</div>
+  <p class="sec-sub fade-up">Alle Pakete inklusive Dashboard, Branding und Support – keine versteckten Kosten, keine Vertragsbindung.</p>
+  <div class="pricing-grid">
 
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:1.5rem">
-
-    <!-- START -->
-    <div style="background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:2rem">
-      <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem">Paket Start</div>
-      <div style="font-size:42px;font-weight:600;letter-spacing:-2px;line-height:1;margin-bottom:4px"><sup style="font-size:18px;font-weight:400">€</sup>29<sub style="font-size:14px;font-weight:300;color:var(--muted)">/Mo</sub></div>
-      <div style="font-size:13px;color:var(--muted);margin-bottom:1.5rem;font-weight:300">+ einmalig 199€ Einrichtung</div>
-      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:1.5rem">
-        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>500 Nachrichten/Monat</div>
-        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Admin-Dashboard</div>
-        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Eigenes Branding</div>
-        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Mehrsprachig</div>
-        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>E-Mail-Support</div>
-      </div>
-      <button onclick="openModal()" style="width:100%;padding:12px;border-radius:10px;border:1.5px solid var(--border);background:#fff;font-size:14px;font-weight:500;cursor:pointer;font-family:'Sora',sans-serif;transition:all 0.2s" onmouseover="this.style.borderColor='var(--ink)'" onmouseout="this.style.borderColor='var(--border)'">Jetzt bestellen →</button>
+    <div class="price-card fade-up">
+      <div class="price-label">Paket Start</div>
+      <div class="price-num"><sup>€</sup>29<sub>/Mo</sub></div>
+      <div class="price-setup">+ einmalig 199€ Einrichtung</div>
+      <ul class="price-features">
+        <li>500 Nachrichten/Monat</li>
+        <li>Admin-Dashboard</li>
+        <li>Eigenes Branding & Farbe</li>
+        <li>Mehrsprachig</li>
+        <li>E-Mail-Support</li>
+        <li>In 48h live</li>
+      </ul>
+      <button class="price-btn" onclick="openModal('Start (29€/Monat)')">Jetzt bestellen →</button>
     </div>
 
-    <!-- WACHSTUM - HIGHLIGHTED -->
-    <div style="background:var(--ink);border:1px solid var(--ink);border-radius:20px;padding:2rem;position:relative">
-      <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--g);color:#fff;font-size:11px;font-weight:600;padding:4px 14px;border-radius:100px;white-space:nowrap">Beliebtestes Paket</div>
-      <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem">Paket Wachstum</div>
-      <div style="font-size:42px;font-weight:600;letter-spacing:-2px;line-height:1;margin-bottom:4px;color:#fff"><sup style="font-size:18px;font-weight:400">€</sup>49<sub style="font-size:14px;font-weight:300;color:rgba(255,255,255,0.4)">/Mo</sub></div>
-      <div style="font-size:13px;color:rgba(255,255,255,0.35);margin-bottom:1.5rem;font-weight:300">+ einmalig 199€ Einrichtung</div>
-      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:1.5rem">
-        <div style="font-size:13px;color:rgba(255,255,255,0.7);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>2.000 Nachrichten/Monat</div>
-        <div style="font-size:13px;color:rgba(255,255,255,0.7);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Admin-Dashboard</div>
-        <div style="font-size:13px;color:rgba(255,255,255,0.7);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Eigenes Branding</div>
-        <div style="font-size:13px;color:rgba(255,255,255,0.7);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Mehrsprachig</div>
-        <div style="font-size:13px;color:rgba(255,255,255,0.7);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Prioritäts-Support</div>
-        <div style="font-size:13px;color:rgba(255,255,255,0.7);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Gesprächsanalyse</div>
-      </div>
-      <button onclick="openModal()" style="width:100%;padding:12px;border-radius:10px;border:none;background:var(--g);color:#fff;font-size:14px;font-weight:500;cursor:pointer;font-family:'Sora',sans-serif;transition:opacity 0.2s" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Jetzt bestellen →</button>
+    <div class="price-card featured fade-up">
+      <div class="featured-badge">⭐ Beliebtestes Paket</div>
+      <div class="price-label">Paket Wachstum</div>
+      <div class="price-num"><sup>€</sup>49<sub>/Mo</sub></div>
+      <div class="price-setup">+ einmalig 199€ Einrichtung</div>
+      <ul class="price-features">
+        <li>2.000 Nachrichten/Monat</li>
+        <li>Admin-Dashboard</li>
+        <li>Eigenes Branding & Farbe</li>
+        <li>Mehrsprachig</li>
+        <li>Prioritäts-Support</li>
+        <li>Gesprächsanalyse & Einblicke</li>
+      </ul>
+      <button class="price-btn" onclick="openModal('Wachstum (49€/Monat)')">Jetzt bestellen →</button>
+      <div class="price-note">Zahlung erst nach Einrichtung</div>
     </div>
 
-    <!-- PRO -->
-    <div style="background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:2rem">
-      <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem">Paket Pro</div>
-      <div style="font-size:42px;font-weight:600;letter-spacing:-2px;line-height:1;margin-bottom:4px"><sup style="font-size:18px;font-weight:400">€</sup>89<sub style="font-size:14px;font-weight:300;color:var(--muted)">/Mo</sub></div>
-      <div style="font-size:13px;color:var(--muted);margin-bottom:1.5rem;font-weight:300">+ einmalig 199€ Einrichtung</div>
-      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:1.5rem">
-        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>10.000 Nachrichten/Monat</div>
-        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Admin-Dashboard</div>
-        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Eigenes Branding</div>
-        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Mehrsprachig</div>
-        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Premium-Support</div>
-        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Gesprächsanalyse</div>
-        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Für Online-Shops & mehrere Standorte</div>
-      </div>
-      <button onclick="openModal()" style="width:100%;padding:12px;border-radius:10px;border:1.5px solid var(--border);background:#fff;font-size:14px;font-weight:500;cursor:pointer;font-family:'Sora',sans-serif;transition:all 0.2s" onmouseover="this.style.borderColor='var(--ink)'" onmouseout="this.style.borderColor='var(--border)'">Jetzt bestellen →</button>
+    <div class="price-card fade-up">
+      <div class="price-label">Paket Pro</div>
+      <div class="price-num"><sup>€</sup>89<sub>/Mo</sub></div>
+      <div class="price-setup">+ einmalig 199€ Einrichtung</div>
+      <ul class="price-features">
+        <li>10.000 Nachrichten/Monat</li>
+        <li>Admin-Dashboard</li>
+        <li>Eigenes Branding & Farbe</li>
+        <li>Mehrsprachig</li>
+        <li>Premium-Support</li>
+        <li>Gesprächsanalyse & Einblicke</li>
+        <li>Für Shops & mehrere Standorte</li>
+      </ul>
+      <button class="price-btn" onclick="openModal('Pro (89€/Monat)')">Jetzt bestellen →</button>
     </div>
 
   </div>
-  <p style="font-size:12px;color:var(--muted);text-align:center;font-weight:300">Zahlung erst nach Einrichtung · Keine Vertragsbindung · Jederzeit kündbar</p>
-</div>
+  <div class="trust-strip" style="margin-top:2rem">
+    <div class="trust-item fade-up"><span class="trust-icon">🔒</span>DSGVO-konform</div>
+    <div class="trust-item fade-up"><span class="trust-icon">🇩🇪</span>Hosting in Deutschland</div>
+    <div class="trust-item fade-up"><span class="trust-icon">⚡</span>In 48h live</div>
+    <div class="trust-item fade-up"><span class="trust-icon">✅</span>Keine Vertragsbindung</div>
+    <div class="trust-item fade-up"><span class="trust-icon">💳</span>Zahlung nach Einrichtung</div>
+  </div>
+</section>
 
-
-<div class="faq-section">
-  <div class="faq-inner">
-    <div class="sec-label fade-up">Häufige Fragen</div>
-    <div class="sec-title fade-up">Alles was Sie wissen müssen.</div>
-    <div class="faq-list">
-      <div class="faq-item fade-up" onclick="toggleFaq(this)">
-        <div class="faq-q">Wie lange dauert die Einrichtung? <span class="faq-arrow">+</span></div>
-        <div class="faq-a"><p>Nach Ihrer Bestellung richten wir Ihren Chatbot innerhalb von 48 Stunden ein – vollständig konfiguriert, mit Ihrem Branding und Ihren Texten.</p></div>
-      </div>
-      <div class="faq-item fade-up" onclick="toggleFaq(this)">
-        <div class="faq-q">Muss ich technische Kenntnisse haben? <span class="faq-arrow">+</span></div>
-        <div class="faq-a"><p>Nein! Sie fügen einmalig eine Zeile Code in Ihre Website ein – das war's. Das Dashboard bedienen Sie wie eine normale App, ganz ohne Technik.</p></div>
-      </div>
-      <div class="faq-item fade-up" onclick="toggleFaq(this)">
-        <div class="faq-q">Kann ich den Chatbot jederzeit kündigen? <span class="faq-arrow">+</span></div>
-        <div class="faq-a"><p>Ja! Es gibt keine Vertragsbindung. Sie können jederzeit mit 14 Tagen Frist zum Monatsende kündigen.</p></div>
-      </div>
-      <div class="faq-item fade-up" onclick="toggleFaq(this)">
-        <div class="faq-q">Auf welchen Websites funktioniert der Chatbot? <span class="faq-arrow">+</span></div>
-        <div class="faq-a"><p>Auf allen! WordPress, Shopify, Webflow, Wix, oder einfaches HTML – überall wo Sie eine Zeile Code einfügen können, läuft der Chatbot.</p></div>
-      </div>
-      <div class="faq-item fade-up" onclick="toggleFaq(this)">
-        <div class="faq-q">Ist der Chatbot DSGVO-konform? <span class="faq-arrow">+</span></div>
-        <div class="faq-a"><p>Ja! Das Hosting erfolgt in Deutschland, Daten werden nicht an Dritte weitergegeben und Gespräche werden nach 90 Tagen automatisch gelöscht.</p></div>
-      </div>
-      <div class="faq-item fade-up" onclick="toggleFaq(this)">
-        <div class="faq-q">Was passiert wenn der Chatbot eine Frage nicht kennt? <span class="faq-arrow">+</span></div>
-        <div class="faq-a"><p>Die KI antwortet trotzdem intelligent und empfiehlt dem Kunden, Sie direkt zu kontaktieren. Sie können jederzeit mehr FAQ-Einträge hinzufügen.</p></div>
-      </div>
-      <div class="faq-item fade-up" onclick="toggleFaq(this)">
-        <div class="faq-q">Wann muss ich bezahlen? <span class="faq-arrow">+</span></div>
-        <div class="faq-a"><p>Die Einrichtungsgebühr (199 €) wird erst nach Fertigstellung fällig. Die monatliche Gebühr (29 €) startet mit dem ersten Monat nach der Einrichtung.</p></div>
-      </div>
+<!-- FAQ -->
+<section id="faq" style="background:var(--bg);max-width:none;padding:6rem 0">
+  <div style="max-width:1100px;margin:0 auto;padding:0 2.5rem">
+    <div class="sec-eyebrow fade-up">Häufige Fragen</div>
+    <div class="sec-title fade-up">Alles was du<br>wissen musst.</div>
+    <div class="faq-grid" style="margin-top:3rem">
+      <div class="faq-item fade-up" onclick="toggleFaq(this)"><div class="faq-q">Wie lange dauert die Einrichtung? <span class="faq-arrow">+</span></div><div class="faq-a"><div class="faq-a-inner">Nach deiner Bestellung richten wir deinen Chatbot innerhalb von 48 Stunden ein – vollständig konfiguriert, mit deinem Branding und deinen Texten.</div></div></div>
+      <div class="faq-item fade-up" onclick="toggleFaq(this)"><div class="faq-q">Muss ich technische Kenntnisse haben? <span class="faq-arrow">+</span></div><div class="faq-a"><div class="faq-a-inner">Nein! Du fügst einmalig eine Zeile Code in deine Website ein – das war's. Das Dashboard bedienst du wie eine normale App, ganz ohne Technik.</div></div></div>
+      <div class="faq-item fade-up" onclick="toggleFaq(this)"><div class="faq-q">Kann ich den Chatbot jederzeit kündigen? <span class="faq-arrow">+</span></div><div class="faq-a"><div class="faq-a-inner">Ja! Es gibt keine Vertragsbindung. Du kannst jederzeit mit 14 Tagen Frist zum Monatsende kündigen.</div></div></div>
+      <div class="faq-item fade-up" onclick="toggleFaq(this)"><div class="faq-q">Auf welchen Websites funktioniert der Chatbot? <span class="faq-arrow">+</span></div><div class="faq-a"><div class="faq-a-inner">Auf allen! WordPress, Shopify, Webflow, Wix, oder einfaches HTML – überall wo du eine Zeile Code einfügen kannst, läuft der Chatbot.</div></div></div>
+      <div class="faq-item fade-up" onclick="toggleFaq(this)"><div class="faq-q">Ist der Chatbot DSGVO-konform? <span class="faq-arrow">+</span></div><div class="faq-a"><div class="faq-a-inner">Ja! Das Hosting erfolgt in Deutschland. Daten werden nicht an Dritte weitergegeben und Gespräche werden nach 90 Tagen automatisch gelöscht.</div></div></div>
+      <div class="faq-item fade-up" onclick="toggleFaq(this)"><div class="faq-q">Wann muss ich bezahlen? <span class="faq-arrow">+</span></div><div class="faq-a"><div class="faq-a-inner">Die Einrichtungsgebühr (199€) wird erst nach Fertigstellung fällig. Die monatliche Gebühr startet mit dem ersten Monat nach der Einrichtung.</div></div></div>
     </div>
   </div>
-</div>
+</section>
 
-<div class="divider"></div>
+<div class="full-divider"></div>
+
 <footer>
   <div class="foot-logo">Chatbot24</div>
   <div class="foot-links">
@@ -586,24 +701,12 @@
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">✕</button>
     <div id="form-content">
-      <h2>Jetzt bestellen</h2>
-      <p class="modal-sub">Füllen Sie das Formular aus – wir melden uns innerhalb von 24 Stunden mit der Rechnung!</p>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1.25rem">
-        <label style="border:1.5px solid var(--border);border-radius:10px;padding:10px;cursor:pointer;text-align:center;transition:border-color 0.2s" id="pkg-start" onclick="selectPkg('start')">
-          <div style="font-size:11px;font-weight:600;color:var(--muted)">START</div>
-          <div style="font-size:18px;font-weight:600;letter-spacing:-0.5px">29€</div>
-          <div style="font-size:10px;color:var(--muted);font-weight:300">500 Nachrichten</div>
-        </label>
-        <label style="border:2px solid var(--g);border-radius:10px;padding:10px;cursor:pointer;text-align:center;background:var(--gl)" id="pkg-wachstum" onclick="selectPkg('wachstum')">
-          <div style="font-size:11px;font-weight:600;color:var(--gd)">WACHSTUM ⭐</div>
-          <div style="font-size:18px;font-weight:600;letter-spacing:-0.5px">49€</div>
-          <div style="font-size:10px;color:var(--gd);font-weight:300">2.000 Nachrichten</div>
-        </label>
-        <label style="border:1.5px solid var(--border);border-radius:10px;padding:10px;cursor:pointer;text-align:center;transition:border-color 0.2s" id="pkg-pro" onclick="selectPkg('pro')">
-          <div style="font-size:11px;font-weight:600;color:var(--muted)">PRO</div>
-          <div style="font-size:18px;font-weight:600;letter-spacing:-0.5px">89€</div>
-          <div style="font-size:10px;color:var(--muted);font-weight:300">10.000 Nachrichten</div>
-        </label>
+      <div class="modal-title">Jetzt bestellen</div>
+      <p class="modal-sub">Wir melden uns innerhalb von 24 Stunden mit der Rechnung!</p>
+      <div class="pkg-grid">
+        <div class="pkg-card" id="pkg-start" onclick="selectPkg('start')"><div class="pkg-name">Start</div><div class="pkg-price">29€</div><div class="pkg-msgs">500 Nachrichten</div></div>
+        <div class="pkg-card selected" id="pkg-wachstum" onclick="selectPkg('wachstum')"><div class="pkg-name">Wachstum ⭐</div><div class="pkg-price">49€</div><div class="pkg-msgs">2.000 Nachrichten</div></div>
+        <div class="pkg-card" id="pkg-pro" onclick="selectPkg('pro')"><div class="pkg-name">Pro</div><div class="pkg-price">89€</div><div class="pkg-msgs">10.000 Nachrichten</div></div>
       </div>
       <input type="hidden" id="f-paket" value="Wachstum (49€/Monat)" />
       <div class="form-grid">
@@ -616,44 +719,39 @@
       </div>
       <div class="fg"><label>Nachricht (optional)</label><textarea id="f-nachricht" placeholder="Gibt es etwas Besonderes das wir wissen sollten?"></textarea></div>
       <button class="submit-btn" id="submit-btn" onclick="sendForm()">Jetzt bestellen & Rechnung erhalten →</button>
-      <p style="font-size:11px;color:var(--muted);margin-top:0.75rem;text-align:center;font-weight:300">Kein Risiko · Zahlung erst nach Einrichtung · Keine Vertragsbindung</p>
+      <p class="modal-note">Kein Risiko · Zahlung erst nach Einrichtung · Keine Vertragsbindung</p>
     </div>
     <div class="success-msg" id="success-msg">
       <div class="success-icon">🎉</div>
-      <h3>Bestellung eingegangen!</h3>
-      <p>Vielen Dank! Wir melden uns innerhalb von 24 Stunden mit allen Details und der Rechnung.</p>
+      <div class="success-title">Bestellung eingegangen!</div>
+      <p class="success-sub">Vielen Dank! Wir melden uns innerhalb von 24 Stunden mit allen Details und der Rechnung.</p>
     </div>
   </div>
 </div>
 
 <script>
-function selectPkg(pkg){
-  ['start','wachstum','pro'].forEach(p=>{
-    const el=document.getElementById('pkg-'+p);
-    el.style.border='1.5px solid var(--border)';
-    el.style.background='#fff';
-  });
-  const sel=document.getElementById('pkg-'+pkg);
-  sel.style.border='2px solid var(--g)';
-  sel.style.background='var(--gl)';
-  const names={start:'Start (29€/Monat)',wachstum:'Wachstum (49€/Monat)',pro:'Pro (89€/Monat)'};
-  document.getElementById('f-paket').value=names[pkg];
+// MODAL
+function openModal(pkg){
+  document.getElementById('contact-modal').classList.add('open');
+  if(pkg){
+    if(pkg.includes('Start'))selectPkg('start');
+    else if(pkg.includes('Wachstum'))selectPkg('wachstum');
+    else if(pkg.includes('Pro'))selectPkg('pro');
+  }
 }
-function selectPkg(pkg){
-  ['start','wachstum','pro'].forEach(p=>{
-    const el=document.getElementById('pkg-'+p);
-    el.style.border='1.5px solid var(--border)';
-    el.style.background='#fff';
-  });
-  const sel=document.getElementById('pkg-'+pkg);
-  sel.style.border='2px solid var(--g)';
-  sel.style.background='var(--gl)';
-  const names={start:'Start (29€/Monat)',wachstum:'Wachstum (49€/Monat)',pro:'Pro (89€/Monat)'};
-  document.getElementById('f-paket').value=names[pkg];
+function closeModal(){
+  document.getElementById('contact-modal').classList.remove('open');
+  document.getElementById('form-content').style.display='block';
+  document.getElementById('success-msg').style.display='none';
 }
-function openModal(){document.getElementById('contact-modal').classList.add('open');}
-function closeModal(){document.getElementById('contact-modal').classList.remove('open');document.getElementById('form-content').style.display='block';document.getElementById('success-msg').style.display='none';}
 document.getElementById('contact-modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+function selectPkg(pkg){
+  ['start','wachstum','pro'].forEach(p=>document.getElementById('pkg-'+p).classList.remove('selected'));
+  document.getElementById('pkg-'+pkg).classList.add('selected');
+  const names={start:'Start (29€/Monat)',wachstum:'Wachstum (49€/Monat)',pro:'Pro (89€/Monat)'};
+  document.getElementById('f-paket').value=names[pkg];
+}
 
 async function sendForm(){
   const name=document.getElementById('f-name').value.trim();
@@ -665,32 +763,30 @@ async function sendForm(){
     await emailjs.send('service_7fdqs58','template_cxvdq64',{
       name,email,
       website:document.getElementById('f-website').value||'–',
-      paket:document.getElementById('f-paket').value||'Nicht angegeben',
       branche:document.getElementById('f-branche').value||'–',
-      nachricht:document.getElementById('f-nachricht').value||'Keine Nachricht'
+      nachricht:document.getElementById('f-nachricht').value||'Keine Nachricht',
+      paket:document.getElementById('f-paket').value
     });
     document.getElementById('form-content').style.display='none';
     document.getElementById('success-msg').style.display='block';
   }catch(e){
-    alert('Fehler beim Senden. Bitte versuche es erneut.');
+    alert('Fehler beim Senden. Bitte erneut versuchen.');
     btn.disabled=false;btn.textContent='Jetzt bestellen & Rechnung erhalten →';
   }
 }
-</script>
 
-<script>
-// Scroll animations
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.15 });
-document.querySelectorAll('.fade-up,.fade-left,.fade-right').forEach(el => observer.observe(el));
-
-// FAQ toggle
+// FAQ
 function toggleFaq(item){
-  const isOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-  if(!isOpen) item.classList.add('open');
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+  if(!isOpen)item.classList.add('open');
 }
+
+// SCROLL ANIMATIONS
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.12});
+document.querySelectorAll('.fade-up,.fade-left,.fade-right').forEach(el=>observer.observe(el));
 </script>
 </body>
 </html>
