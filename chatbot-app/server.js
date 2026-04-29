@@ -126,6 +126,37 @@ app.put('/api/admin/:clientId', async (req, res) => {
   res.json({ success: true });
 });
 
+// ── DOCUMENT ANALYZE ─────────────────────────────────────
+app.post('/api/analyze-doc', async (req, res) => {
+  const { clientId, text } = req.body;
+  if(!text) return res.status(400).json({ error: 'No text provided' });
+  try{
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 2000,
+        messages: [{
+          role: 'user',
+          content: `Analysiere dieses Dokument und erstelle 5-8 typische Kundenfragen mit Antworten daraus. Antworte NUR als JSON Array: [{"q":"Frage","a":"Antwort"}]\n\nDokument:\n${text.substring(0, 5000)}`
+        }]
+      })
+    });
+    const data = await response.json();
+    const rawText = data.content?.[0]?.text || '[]';
+    const faqs = JSON.parse(rawText.replace(/```json|```/g, '').trim());
+    res.json({ faqs, count: faqs.length });
+  } catch(err) {
+    console.error('Doc analyze error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ── TOPICS ANALYSIS ──────────────────────────────────────
 app.get('/api/topics/:clientId', async (req, res) => {
   try {
