@@ -474,29 +474,62 @@
 <!-- PRICING -->
 <div class="pricing-section" id="pricing">
   <div class="sec-label">Preise</div>
-  <div class="sec-title">Ein Preis. Alles drin.</div>
-  <div class="price-wrap">
-    <div class="price-info">
-      <p>Kein kompliziertes Preismodell. Alles inklusive – keine versteckten Kosten, keine Vertragsbindung.</p>
-      <ul class="price-bullets">
-        <li>1 Website</li>
-        <li>Bis 500 Nachrichten/Monat</li>
-        <li>Vollständiges Admin-Dashboard</li>
-        <li>Eigenes Branding & Farbe</li>
-        <li>FAQ-Verwaltung mit KI-Vorschlägen</li>
-        <li>Mehrsprachig (DE, EN, TR, FR, ES)</li>
-        <li>E-Mail-Support</li>
-        <li>In 48h live</li>
-      </ul>
+  <div class="sec-title">Das richtige Paket<br>für jedes Unternehmen.</div>
+  <p style="font-size:15px;color:var(--soft);font-weight:300;margin-bottom:3rem;max-width:500px">Kein kompliziertes Preismodell. Alle Pakete inklusive Dashboard, Branding und Support – keine versteckten Kosten.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:1.5rem">
+
+    <!-- START -->
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:2rem">
+      <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem">Paket Start</div>
+      <div style="font-size:42px;font-weight:600;letter-spacing:-2px;line-height:1;margin-bottom:4px"><sup style="font-size:18px;font-weight:400">€</sup>29<sub style="font-size:14px;font-weight:300;color:var(--muted)">/Mo</sub></div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:1.5rem;font-weight:300">+ einmalig 199€ Einrichtung</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:1.5rem">
+        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>500 Nachrichten/Monat</div>
+        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Admin-Dashboard</div>
+        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Eigenes Branding</div>
+        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Mehrsprachig</div>
+        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>E-Mail-Support</div>
+      </div>
+      <button onclick="openModal()" style="width:100%;padding:12px;border-radius:10px;border:1.5px solid var(--border);background:#fff;font-size:14px;font-weight:500;cursor:pointer;font-family:'Sora',sans-serif;transition:all 0.2s" onmouseover="this.style.borderColor='var(--ink)'" onmouseout="this.style.borderColor='var(--border)'">Jetzt bestellen →</button>
     </div>
-    <div class="price-card">
-      <div class="price-label">Paket Start</div>
-      <div class="price-num"><sup>€</sup>29<sub>/Mo</sub></div>
-      <div class="price-setup">+ einmalig 199 € Einrichtung</div>
-      <button class="price-btn" onclick="openModal()">Jetzt bestellen →</button>
-      <div class="price-note">Zahlung erst nach Einrichtung · Keine Vertragsbindung</div>
+
+    <!-- WACHSTUM - HIGHLIGHTED -->
+    <div style="background:var(--ink);border:1px solid var(--ink);border-radius:20px;padding:2rem;position:relative">
+      <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--g);color:#fff;font-size:11px;font-weight:600;padding:4px 14px;border-radius:100px;white-space:nowrap">Beliebtestes Paket</div>
+      <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem">Paket Wachstum</div>
+      <div style="font-size:42px;font-weight:600;letter-spacing:-2px;line-height:1;margin-bottom:4px;color:#fff"><sup style="font-size:18px;font-weight:400">€</sup>49<sub style="font-size:14px;font-weight:300;color:rgba(255,255,255,0.4)">/Mo</sub></div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.35);margin-bottom:1.5rem;font-weight:300">+ einmalig 199€ Einrichtung</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:1.5rem">
+        <div style="font-size:13px;color:rgba(255,255,255,0.7);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>2.000 Nachrichten/Monat</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.7);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Admin-Dashboard</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.7);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Eigenes Branding</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.7);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Mehrsprachig</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.7);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Prioritäts-Support</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.7);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Gesprächsanalyse</div>
+      </div>
+      <button onclick="openModal()" style="width:100%;padding:12px;border-radius:10px;border:none;background:var(--g);color:#fff;font-size:14px;font-weight:500;cursor:pointer;font-family:'Sora',sans-serif;transition:opacity 0.2s" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Jetzt bestellen →</button>
     </div>
+
+    <!-- PRO -->
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:2rem">
+      <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem">Paket Pro</div>
+      <div style="font-size:42px;font-weight:600;letter-spacing:-2px;line-height:1;margin-bottom:4px"><sup style="font-size:18px;font-weight:400">€</sup>89<sub style="font-size:14px;font-weight:300;color:var(--muted)">/Mo</sub></div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:1.5rem;font-weight:300">+ einmalig 199€ Einrichtung</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:1.5rem">
+        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>10.000 Nachrichten/Monat</div>
+        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Admin-Dashboard</div>
+        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Eigenes Branding</div>
+        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Mehrsprachig</div>
+        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Premium-Support</div>
+        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Gesprächsanalyse</div>
+        <div style="font-size:13px;color:var(--soft);display:flex;gap:8px"><span style="color:var(--g);font-weight:600">✓</span>Für Online-Shops & mehrere Standorte</div>
+      </div>
+      <button onclick="openModal()" style="width:100%;padding:12px;border-radius:10px;border:1.5px solid var(--border);background:#fff;font-size:14px;font-weight:500;cursor:pointer;font-family:'Sora',sans-serif;transition:all 0.2s" onmouseover="this.style.borderColor='var(--ink)'" onmouseout="this.style.borderColor='var(--border)'">Jetzt bestellen →</button>
+    </div>
+
   </div>
+  <p style="font-size:12px;color:var(--muted);text-align:center;font-weight:300">Zahlung erst nach Einrichtung · Keine Vertragsbindung · Jederzeit kündbar</p>
 </div>
 
 
@@ -554,7 +587,25 @@
     <button class="modal-close" onclick="closeModal()">✕</button>
     <div id="form-content">
       <h2>Jetzt bestellen</h2>
-      <p class="modal-sub">Füllen Sie das Formular aus – wir melden uns innerhalb von 24 Stunden mit allen Details und der Rechnung!</p>
+      <p class="modal-sub">Füllen Sie das Formular aus – wir melden uns innerhalb von 24 Stunden mit der Rechnung!</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1.25rem">
+        <label style="border:1.5px solid var(--border);border-radius:10px;padding:10px;cursor:pointer;text-align:center;transition:border-color 0.2s" id="pkg-start" onclick="selectPkg('start')">
+          <div style="font-size:11px;font-weight:600;color:var(--muted)">START</div>
+          <div style="font-size:18px;font-weight:600;letter-spacing:-0.5px">29€</div>
+          <div style="font-size:10px;color:var(--muted);font-weight:300">500 Nachrichten</div>
+        </label>
+        <label style="border:2px solid var(--g);border-radius:10px;padding:10px;cursor:pointer;text-align:center;background:var(--gl)" id="pkg-wachstum" onclick="selectPkg('wachstum')">
+          <div style="font-size:11px;font-weight:600;color:var(--gd)">WACHSTUM ⭐</div>
+          <div style="font-size:18px;font-weight:600;letter-spacing:-0.5px">49€</div>
+          <div style="font-size:10px;color:var(--gd);font-weight:300">2.000 Nachrichten</div>
+        </label>
+        <label style="border:1.5px solid var(--border);border-radius:10px;padding:10px;cursor:pointer;text-align:center;transition:border-color 0.2s" id="pkg-pro" onclick="selectPkg('pro')">
+          <div style="font-size:11px;font-weight:600;color:var(--muted)">PRO</div>
+          <div style="font-size:18px;font-weight:600;letter-spacing:-0.5px">89€</div>
+          <div style="font-size:10px;color:var(--muted);font-weight:300">10.000 Nachrichten</div>
+        </label>
+      </div>
+      <input type="hidden" id="f-paket" value="Wachstum (49€/Monat)" />
       <div class="form-grid">
         <div class="fg"><label>Ihr Name *</label><input id="f-name" placeholder="Max Mustermann" /></div>
         <div class="fg"><label>E-Mail *</label><input id="f-email" type="email" placeholder="max@firma.de" /></div>
@@ -576,6 +627,30 @@
 </div>
 
 <script>
+function selectPkg(pkg){
+  ['start','wachstum','pro'].forEach(p=>{
+    const el=document.getElementById('pkg-'+p);
+    el.style.border='1.5px solid var(--border)';
+    el.style.background='#fff';
+  });
+  const sel=document.getElementById('pkg-'+pkg);
+  sel.style.border='2px solid var(--g)';
+  sel.style.background='var(--gl)';
+  const names={start:'Start (29€/Monat)',wachstum:'Wachstum (49€/Monat)',pro:'Pro (89€/Monat)'};
+  document.getElementById('f-paket').value=names[pkg];
+}
+function selectPkg(pkg){
+  ['start','wachstum','pro'].forEach(p=>{
+    const el=document.getElementById('pkg-'+p);
+    el.style.border='1.5px solid var(--border)';
+    el.style.background='#fff';
+  });
+  const sel=document.getElementById('pkg-'+pkg);
+  sel.style.border='2px solid var(--g)';
+  sel.style.background='var(--gl)';
+  const names={start:'Start (29€/Monat)',wachstum:'Wachstum (49€/Monat)',pro:'Pro (89€/Monat)'};
+  document.getElementById('f-paket').value=names[pkg];
+}
 function openModal(){document.getElementById('contact-modal').classList.add('open');}
 function closeModal(){document.getElementById('contact-modal').classList.remove('open');document.getElementById('form-content').style.display='block';document.getElementById('success-msg').style.display='none';}
 document.getElementById('contact-modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
@@ -590,6 +665,7 @@ async function sendForm(){
     await emailjs.send('service_7fdqs58','template_cxvdq64',{
       name,email,
       website:document.getElementById('f-website').value||'–',
+      paket:document.getElementById('f-paket').value||'Nicht angegeben',
       branche:document.getElementById('f-branche').value||'–',
       nachricht:document.getElementById('f-nachricht').value||'Keine Nachricht'
     });
