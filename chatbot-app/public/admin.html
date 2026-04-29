@@ -212,6 +212,22 @@
     <div class="panel active" id="panel-dashboard">
       <div class="page-title" id="dash-title">Willkommen 👋</div>
       <div class="page-sub" id="dash-sub">–</div>
+      <!-- CHATBOT TOGGLE -->
+      <div style="display:flex;align-items:center;justify-content:space-between;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.25rem">
+        <div>
+          <div style="font-size:14px;font-weight:600">Chatbot Status</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:3px;font-weight:300">Schalten Sie den Chatbot auf Ihrer Website ein oder aus</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <span id="bot-status-badge" style="font-size:11px;font-weight:500;padding:4px 12px;border-radius:100px;background:var(--gl);color:var(--gd)">● Online</span>
+          <label style="position:relative;width:48px;height:26px;cursor:pointer">
+            <input type="checkbox" id="bot-toggle" checked onchange="toggleBot()" style="opacity:0;width:0;height:0;position:absolute" />
+            <span id="toggle-slider" style="position:absolute;inset:0;background:var(--g);border-radius:26px;transition:background 0.2s"></span>
+            <span id="toggle-dot" style="position:absolute;width:20px;height:20px;background:#fff;border-radius:50%;top:3px;right:3px;transition:transform 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.2)"></span>
+          </label>
+        </div>
+      </div>
+
       <div class="stat-grid">
         <div class="stat"><div class="stat-val" id="st-chats">0</div><div class="stat-label">Gespräche</div><div class="stat-change up">↑ Gesamt</div></div>
         <div class="stat"><div class="stat-val" id="st-msgs">0</div><div class="stat-label">Nachrichten</div><div class="stat-change up">↑ Gesamt</div></div>
@@ -719,6 +735,86 @@ function saveIcon(){
 
 document.getElementById('l-pw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 setTimeout(()=>{ document.getElementById('test-input')?.addEventListener('keydown',e=>{if(e.key==='Enter')sendTestMsg();}); },500);
+
+// BOT TOGGLE
+function toggleBot(){
+  const on=document.getElementById('bot-toggle').checked;
+  const badge=document.getElementById('bot-status-badge');
+  const slider=document.getElementById('toggle-slider');
+  const dot=document.getElementById('toggle-dot');
+  if(on){
+    badge.style.background='var(--gl)';badge.style.color='var(--gd)';badge.textContent='● Online';
+    slider.style.background='var(--g)';
+    dot.style.transform='translateX(0)';
+  } else {
+    badge.style.background='#FFF0F0';badge.style.color='#E24B4A';badge.textContent='● Offline';
+    slider.style.background='#E0E0E0';
+    dot.style.transform='translateX(-22px)';
+  }
+  clientData.botActive=on;
+  saveData();
+}
+
+// DOCUMENT UPLOAD
+async function handleDocUpload(event){
+  const file=event.target.files[0];
+  if(!file)return;
+  document.getElementById('doc-filename').textContent=file.name;
+  const status=document.getElementById('doc-status');
+  status.style.display='block';
+  status.style.background='var(--gl)';
+  status.style.color='var(--gd)';
+  status.textContent='📖 Dokument wird gelesen...';
+
+  try{
+    let text='';
+    if(file.type==='text/plain'){
+      text=await file.text();
+    } else {
+      // For PDF/Word - read as text (basic extraction)
+      text=await file.text();
+    }
+    // Limit text
+    text=text.substring(0,8000);
+
+    status.textContent='🤖 KI analysiert das Dokument...';
+
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-haiku-4-5-20251001',
+        max_tokens:2000,
+        messages:[{role:'user',content:`Analysiere dieses Dokument und erstelle daraus 5-8 typische Kundenfragen mit Antworten. Antworte NUR als JSON Array ohne Markdown: [{"q":"Frage","a":"Antwort"}]\n\nDokument:\n${text}`}]
+      })
+    });
+
+    const data=await res.json();
+    const rawText=data.content?.[0]?.text||'[]';
+    const faqs=JSON.parse(rawText.replace(/\`\`\`json|\`\`\`/g,'').trim());
+
+    if(faqs.length===0){
+      status.style.background='#FFF0F0';status.style.color='#E24B4A';
+      status.textContent='❌ Keine FAQ gefunden. Bitte ein anderes Dokument versuchen.';
+      return;
+    }
+
+    clientData.faqs=clientData.faqs||[];
+    faqs.forEach(f=>clientData.faqs.push(f));
+    renderFaqs();
+    await saveData();
+
+    status.style.background='var(--gl)';status.style.color='var(--gd)';
+    status.textContent=`✅ ${faqs.length} FAQ-Einträge aus dem Dokument erstellt und gespeichert!`;
+    document.getElementById('doc-input').value='';
+    document.getElementById('doc-filename').textContent='Keine Datei ausgewählt';
+
+  }catch(e){
+    status.style.background='#FFF0F0';status.style.color='#E24B4A';
+    status.textContent='❌ Fehler: '+e.message;
+  }
+}
+
 function doLogout(){location.reload();}
 </script>
 </body>
