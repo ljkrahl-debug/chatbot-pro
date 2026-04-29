@@ -302,14 +302,33 @@ footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: fle
 
 @media(max-width:768px) {
   nav .nav-links { display: none; }
-  .hero { grid-template-columns: 1fr; padding-top: 5rem; gap: 3rem; }
+  .hero { grid-template-columns: 1fr; padding-top: 5rem; gap: 2rem; }
+  .hero-visual { display: none; }
   .showcase-row, .showcase-row.reverse { grid-template-columns: 1fr; direction: ltr; }
   .steps { grid-template-columns: 1fr 1fr; }
-  .pricing-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .price-card.featured { transform: none; }
+  .price-card.featured:hover { transform: translateY(-3px); }
   .faq-grid { grid-template-columns: 1fr; }
   .form-grid { grid-template-columns: 1fr; }
+  .pkg-grid { grid-template-columns: 1fr; gap: 6px; }
+  .lang-grid { gap: 0.75rem; }
+  .lang-card { padding: 1rem 1.25rem; }
   footer { flex-direction: column; text-align: center; }
   .floating-badge, .floating-badge-2 { display: none; }
+  section { padding: 4rem 1.5rem; }
+  .how-section { padding: 4rem 0; }
+  .how-inner { padding: 0 1.5rem; }
+  .lang-inner { padding: 0 1.5rem; }
+  .platforms-strip { padding: 1.5rem; gap: 1rem; }
+  .strip-tags { gap: 1rem; }
+  h1 { font-size: 38px; }
+  .sec-title { font-size: 28px; }
+  .hero-actions { flex-direction: column; }
+  .btn-primary, .btn-secondary { width: 100%; text-align: center; }
+  .trust-strip { gap: 1rem; }
+  .modal { padding: 1.75rem 1.25rem; }
+  .faq-grid { gap: 0.75rem; }
 }
 </style>
 </head>
