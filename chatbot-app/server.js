@@ -149,7 +149,13 @@ app.post('/api/analyze-doc', async (req, res) => {
     });
     const data = await response.json();
     const rawText = data.content?.[0]?.text || '[]';
-    const faqs = JSON.parse(rawText.replace(/```json|```/g, '').trim());
+    
+    // Extract JSON array from response even if there's extra text
+    const jsonMatch = rawText.match(/\[.*\]/s);
+    if (!jsonMatch) {
+      return res.json({ faqs: [], count: 0, message: 'Keine FAQ gefunden' });
+    }
+    const faqs = JSON.parse(jsonMatch[0]);
     res.json({ faqs, count: faqs.length });
   } catch(err) {
     console.error('Doc analyze error:', err.message);
