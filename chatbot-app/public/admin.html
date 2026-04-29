@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-  :root { --g:#1D9E75; --gd:#0F6E56; --gl:#E8F8F2; --ink:#0A0A0A; --soft:#5A6472; --muted:#9AA3AD; --border:#EBEBEB; --bg:#F7F9FB; --white:#fff; }
+  :root{--g:#1D9E75;--gd:#0F6E56;--gl:#E8F8F2;--ink:#0A0A0A;--soft:#5A6472;--muted:#9AA3AD;--border:#EBEBEB;--bg:#F7F9FB;--white:#fff;--red:#E24B4A;--redl:#FFF0F0}
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--ink);font-size:14px}
   input,textarea,select,button{font-family:inherit}
@@ -17,18 +17,18 @@
   .login-box{background:var(--white);border-radius:20px;padding:2.5rem;width:100%;max-width:380px}
   .login-logo{font-size:22px;font-weight:600;color:var(--g);letter-spacing:-0.5px;margin-bottom:4px}
   .login-sub{font-size:13px;color:var(--muted);margin-bottom:2rem;font-weight:300}
-  .f{margin-bottom:1rem}
-  .f label{display:block;font-size:12px;font-weight:500;color:var(--soft);margin-bottom:5px}
-  .f input{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;background:var(--bg);color:var(--ink);transition:border-color 0.2s}
-  .f input:focus{outline:none;border-color:var(--g);background:var(--white)}
-  .login-btn{width:100%;background:var(--ink);color:var(--white);border:none;padding:13px;border-radius:10px;font-weight:500;font-size:14px;cursor:pointer;transition:opacity 0.2s;font-family:'Sora',sans-serif}
+  .lf{margin-bottom:1rem}
+  .lf label{display:block;font-size:12px;font-weight:500;color:var(--soft);margin-bottom:5px}
+  .lf input{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;background:var(--bg);color:var(--ink);transition:border-color 0.2s}
+  .lf input:focus{outline:none;border-color:var(--g);background:var(--white)}
+  .login-btn{width:100%;background:var(--ink);color:var(--white);border:none;padding:13px;border-radius:10px;font-weight:500;font-size:14px;cursor:pointer;transition:opacity 0.2s}
   .login-btn:hover{opacity:0.8}
   .login-hint{font-size:12px;color:var(--muted);margin-top:1rem;text-align:center;font-weight:300}
-  .err{color:#E24B4A;font-size:12px;margin-top:0.5rem;text-align:center}
+  .err{color:var(--red);font-size:12px;margin-top:0.5rem;text-align:center}
 
   /* LAYOUT */
   .app{display:none;min-height:100vh}
-  .sidebar{width:220px;background:var(--white);border-right:1px solid var(--border);padding:1.5rem 1rem;position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column}
+  .sidebar{width:220px;background:var(--white);border-right:1px solid var(--border);padding:1.5rem 1rem;position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;overflow-y:auto}
   .sb-logo{font-size:16px;font-weight:600;color:var(--g);padding:0 0.5rem;letter-spacing:-0.3px}
   .sb-client{font-size:12px;color:var(--muted);padding:0 0.5rem;margin-bottom:2rem;margin-top:2px;font-weight:300}
   .sb-section{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;padding:0 0.5rem;margin:1.25rem 0 0.5rem}
@@ -36,9 +36,9 @@
   .nav-item:hover{background:var(--bg);color:var(--ink)}
   .nav-item.active{background:var(--gl);color:var(--gd);font-weight:500}
   .nav-icon{font-size:15px;width:18px;text-align:center}
-  .sb-bottom{margin-top:auto}
+  .sb-bottom{margin-top:auto;padding-top:1rem}
   .logout-btn{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:8px;color:var(--muted);cursor:pointer;font-size:13px;background:none;border:none;width:100%;transition:all 0.15s}
-  .logout-btn:hover{color:#E24B4A;background:#FFF5F5}
+  .logout-btn:hover{color:var(--red);background:var(--redl)}
 
   .main{margin-left:220px;padding:2rem 2.5rem;max-width:1100px}
   .page-title{font-size:20px;font-weight:600;letter-spacing:-0.5px;margin-bottom:4px}
@@ -51,15 +51,27 @@
   .card-title{font-size:14px;font-weight:600;margin-bottom:1.25rem;letter-spacing:-0.2px}
   .card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
 
+  /* TOGGLE */
+  .toggle-row{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between}
+  .toggle-info h3{font-size:14px;font-weight:600;margin-bottom:3px}
+  .toggle-info p{font-size:12px;color:var(--muted);font-weight:300}
+  .toggle-right{display:flex;align-items:center;gap:12px}
+  .status-badge{font-size:11px;font-weight:500;padding:4px 12px;border-radius:100px}
+  .status-on{background:var(--gl);color:var(--gd)}
+  .status-off{background:var(--redl);color:var(--red)}
+  .toggle-wrap{position:relative;width:48px;height:26px;cursor:pointer;flex-shrink:0}
+  .toggle-wrap input{opacity:0;width:0;height:0;position:absolute}
+  .toggle-track{position:absolute;inset:0;border-radius:26px;transition:background 0.2s;background:var(--g)}
+  .toggle-track.off{background:#D0D0D0}
+  .toggle-knob{position:absolute;width:20px;height:20px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.2);transform:translateX(22px)}
+  .toggle-knob.off{transform:translateX(0)}
+
   /* STATS */
   .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.25rem}
   .stat{background:var(--white);border-radius:14px;padding:1.25rem;border:1px solid var(--border)}
   .stat-val{font-size:32px;font-weight:600;letter-spacing:-1.5px;line-height:1;margin-bottom:4px}
   .stat-label{font-size:12px;color:var(--muted);font-weight:300}
-  .stat-change{font-size:11px;margin-top:6px;font-weight:500}
-  .stat-change.up{color:var(--g)}
-
-  /* CHART */
+  .stat-change{font-size:11px;margin-top:6px;font-weight:500;color:var(--g)}
   .chart-wrap{position:relative;height:200px}
 
   /* FORM */
@@ -69,10 +81,13 @@
   .fi:focus{outline:none;border-color:var(--g);background:var(--white)}
   textarea.fi{resize:vertical;min-height:80px;line-height:1.6}
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-  .save-btn{background:var(--ink);color:var(--white);border:none;padding:10px 22px;border-radius:8px;font-weight:500;font-size:13px;cursor:pointer;font-family:'Sora',sans-serif;transition:opacity 0.2s}
+  .save-btn{background:var(--ink);color:var(--white);border:none;padding:10px 22px;border-radius:8px;font-weight:500;font-size:13px;cursor:pointer;transition:opacity 0.2s}
   .save-btn:hover{opacity:0.8}
+  .green-btn{background:var(--g);color:var(--white);border:none;padding:10px 22px;border-radius:8px;font-weight:500;font-size:13px;cursor:pointer;transition:opacity 0.2s}
+  .green-btn:hover{opacity:0.8}
   .toast{display:none;background:var(--g);color:#fff;padding:6px 14px;border-radius:6px;font-size:12px;margin-left:10px}
   .toast.show{display:inline-block}
+  .badge{display:inline-block;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:500;background:var(--gl);color:var(--gd)}
 
   /* FAQ */
   .faq-item{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--border)}
@@ -82,91 +97,78 @@
   .faq-q{font-weight:500;font-size:13px;margin-bottom:3px}
   .faq-a{font-size:12px;color:var(--muted);line-height:1.5;font-weight:300}
   .del-btn{background:none;border:none;color:var(--border);cursor:pointer;font-size:16px;padding:0;transition:color 0.15s}
-  .del-btn:hover{color:#E24B4A}
+  .del-btn:hover{color:var(--red)}
   .add-box{background:var(--bg);border:1.5px dashed var(--border);border-radius:12px;padding:1rem;margin-top:1rem}
-  .add-box .fi{margin-bottom:8px}
-  .add-btn{background:none;border:1.5px solid var(--g);color:var(--g);padding:7px 16px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;transition:background 0.15s;font-family:'Sora',sans-serif;margin-top:8px}
+  .add-btn{background:none;border:1.5px solid var(--g);color:var(--g);padding:7px 16px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;margin-top:8px;transition:background 0.15s}
   .add-btn:hover{background:var(--gl)}
-  .badge{display:inline-block;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:500;background:var(--gl);color:var(--gd)}
+
+  /* DOC UPLOAD */
+  .doc-upload-box{border:1.5px dashed var(--border);border-radius:12px;padding:1.5rem;background:var(--bg);margin-top:1.25rem;text-align:center}
+  .doc-upload-box:hover{border-color:var(--g);background:var(--gl)}
+  .doc-status{margin-top:1rem;padding:10px 14px;border-radius:8px;font-size:13px;display:none}
+  .doc-status.success{background:var(--gl);color:var(--gd)}
+  .doc-status.error{background:var(--redl);color:var(--red)}
+  .doc-status.loading{background:#FFF8E1;color:#8A6000}
 
   /* DESIGN */
   .color-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:6px}
   .color-chip{width:32px;height:32px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:transform 0.15s}
   .color-chip:hover{transform:scale(1.1)}
   .color-chip.selected{border-color:var(--ink)}
+  .personality-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+  .pers-card{border:1.5px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;text-align:center;transition:all 0.15s;background:var(--white)}
+  .pers-card:hover,.pers-card.selected{border-color:var(--g);background:var(--gl)}
+  .pers-icon{font-size:28px;margin-bottom:6px}
+  .pers-name{font-size:13px;font-weight:500}
+  .pers-desc{font-size:11px;color:var(--muted);margin-top:3px;font-weight:300}
+  .icon-grid{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+  .icon-btn{width:42px;height:42px;border-radius:8px;border:1.5px solid var(--border);background:var(--white);font-size:20px;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center}
+  .icon-btn:hover,.icon-btn.selected{border-color:var(--g);background:var(--gl)}
+
+  /* PREVIEW */
+  .devices-wrap{display:flex;gap:1.5rem;flex-wrap:wrap;align-items:flex-end}
+  .device-label{font-size:11px;color:var(--muted);margin-bottom:6px;font-weight:500;text-align:center}
+  .phone-frame{width:200px;height:380px;border:6px solid var(--ink);border-radius:30px;overflow:hidden;background:#f0f0f0;position:relative;box-shadow:0 12px 40px rgba(0,0,0,0.15)}
+  .tablet-frame{width:300px;height:220px;border:5px solid var(--ink);border-radius:14px;overflow:hidden;background:#f0f0f0;position:relative;box-shadow:0 12px 40px rgba(0,0,0,0.15)}
+  .desktop-frame{width:380px;height:220px;border:5px solid var(--ink);border-radius:10px;overflow:hidden;background:#f0f0f0;position:relative;box-shadow:0 12px 40px rgba(0,0,0,0.15)}
+  .screen{width:100%;height:100%;background:#f8f8f8;position:relative}
+  .screen-content{padding:12px}
+  .s-bar{height:20px;background:#fff;border-radius:4px;margin-bottom:8px}
+  .s-block{background:#fff;border-radius:4px;margin-bottom:6px}
+  .desktop-topbar{height:22px;background:#e0e0e0;display:flex;align-items:center;padding:0 8px;gap:4px}
+  .desktop-dot{width:7px;height:7px;border-radius:50%}
+  .chat-float-btn{position:absolute;bottom:12px;right:12px;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,0.2);font-size:20px;transition:background 0.3s}
+
+  /* TOPICS */
+  .topic-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--border)}
+  .topic-row:first-child{border-top:none}
+  .topic-name{font-size:13px;font-weight:400;min-width:160px}
+  .topic-bar-bg{flex:1;height:8px;background:var(--bg);border-radius:4px;overflow:hidden}
+  .topic-bar-fill{height:100%;background:var(--g);border-radius:4px;transition:width 0.5s ease}
+  .topic-count{font-size:12px;color:var(--muted);min-width:36px;text-align:right;font-weight:300}
 
   /* EMBED */
   .code-box{background:var(--ink);color:#a8f0c8;font-family:monospace;font-size:12px;padding:1.25rem;border-radius:12px;line-height:1.8;position:relative;word-break:break-all}
-  .copy-btn{position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.1);border:none;color:#fff;padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer;transition:background 0.15s;font-family:'Sora',sans-serif}
+  .copy-btn{position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.1);border:none;color:#fff;padding:5px 10px;border-radius:6px;font-size:11px;cursor:pointer}
   .copy-btn:hover{background:var(--g)}
 
   /* CHAT TEST */
   .chat-box{border:1px solid var(--border);border-radius:14px;overflow:hidden}
   .chat-top{padding:12px 16px;display:flex;align-items:center;gap:10px}
-  .chat-dot-live{width:7px;height:7px;border-radius:50%;background:#fff;opacity:0.8}
+  .chat-top-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.8)}
   .chat-name{font-size:13px;font-weight:500;color:#fff}
   .chat-msgs{padding:16px;min-height:260px;max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;background:var(--bg)}
   .cm{max-width:80%;padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.5;font-weight:300}
   .cm.bot{background:var(--white);color:var(--ink);border-bottom-left-radius:3px;align-self:flex-start;border:1px solid var(--border)}
   .cm.user{background:var(--g);color:#fff;border-bottom-right-radius:3px;align-self:flex-end}
   .cm.typing{color:var(--muted);font-style:italic;background:var(--white);border:1px solid var(--border)}
-  .chat-input{display:flex;gap:8px;padding:10px;border-top:1px solid var(--border);background:var(--white)}
-  .chat-input input{flex:1;padding:9px 13px;border-radius:8px;border:1.5px solid var(--border);font-size:13px;background:var(--bg);font-family:'Sora',sans-serif}
-  .chat-input input:focus{outline:none;border-color:var(--g)}
-  .chat-send{border:none;border-radius:8px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity 0.2s}
+  .chat-input-row{display:flex;gap:8px;padding:10px;border-top:1px solid var(--border);background:var(--white)}
+  .chat-input-row input{flex:1;padding:9px 13px;border-radius:8px;border:1.5px solid var(--border);font-size:13px;background:var(--bg)}
+  .chat-input-row input:focus{outline:none;border-color:var(--g)}
+  .chat-send{border:none;border-radius:8px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background 0.3s}
   .chat-send svg{width:14px;height:14px;fill:#fff}
   .chat-send:disabled{opacity:0.4;cursor:not-allowed}
-  .reset-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer;font-family:'Sora',sans-serif}
-  .reset-btn:hover{border-color:var(--ink);color:var(--ink)}
-
-  /* CONVERSATIONS */
-  .conv-item{padding:14px;border-radius:10px;border:1px solid var(--border);margin-bottom:8px;background:var(--white);cursor:pointer;transition:border-color 0.15s}
-  .conv-item:hover{border-color:var(--g)}
-  .conv-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
-  .conv-id{font-size:12px;font-weight:500;color:var(--g)}
-  .conv-time{font-size:11px;color:var(--muted)}
-  .conv-preview{font-size:12px;color:var(--muted);font-weight:300;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .empty{text-align:center;padding:3rem;color:var(--muted)}
-  .empty-icon{font-size:32px;margin-bottom:0.75rem}
-
-  /* QUICK BTNS */
-  .quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .quick-btn{padding:14px;border-radius:10px;border:1px solid var(--border);font-size:13px;font-weight:500;cursor:pointer;color:var(--ink);background:var(--white);text-align:left;transition:all 0.15s;font-family:'Sora',sans-serif}
-  .quick-btn:hover{border-color:var(--ink);background:var(--bg)}
-  .quick-btn .qb-icon{font-size:18px;display:block;margin-bottom:6px}
-  .quick-btn .qb-sub{font-size:11px;color:var(--muted);font-weight:300;margin-top:2px}
-
-  
-  /* PERSONALITY */
-  .personality-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
-  .personality-card{border:1.5px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;text-align:center;transition:all 0.15s;background:var(--white)}
-  .personality-card:hover{border-color:var(--g);background:var(--gl)}
-  .personality-card.selected{border-color:var(--g);background:var(--gl)}
-  .personality-icon{font-size:28px;margin-bottom:6px}
-  .personality-name{font-size:13px;font-weight:500;color:var(--ink)}
-  .personality-desc{font-size:11px;color:var(--muted);margin-top:3px;font-weight:300}
-  /* TOPICS */
-  .topic-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--border)}
-  .topic-item:first-child{border-top:none}
-  .topic-bar-wrap{flex:1;height:8px;background:var(--bg);border-radius:4px;overflow:hidden}
-  .topic-bar{height:100%;background:var(--g);border-radius:4px}
-  .topic-label{font-size:13px;font-weight:400;min-width:140px}
-  .topic-count{font-size:12px;color:var(--muted);min-width:40px;text-align:right;font-weight:300}
-  /* PREVIEW */
-  .preview-phone{width:260px;height:460px;border:8px solid var(--ink);border-radius:40px;overflow:hidden;position:relative;background:#f0f0f0;flex-shrink:0;box-shadow:0 20px 60px rgba(0,0,0,0.2)}
-  .preview-screen{width:100%;height:100%;background:#f8f8f8;position:relative}
-  .preview-website{padding:16px}
-  .preview-bar{height:32px;background:#fff;border-radius:6px;margin-bottom:10px}
-  .preview-block{background:#fff;border-radius:6px;margin-bottom:8px}
-  .preview-chat-btn{position:absolute;bottom:16px;right:16px;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.2);font-size:22px}
-  /* QR */
-  .qr-center{text-align:center;padding:1rem 0}
-  .qr-box{display:inline-block;padding:1.25rem;background:#fff;border:1px solid var(--border);border-radius:14px;margin-bottom:1rem}
-  .qr-dl{background:var(--ink);color:#fff;border:none;padding:10px 22px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Sora',sans-serif}
-  .qr-dl:hover{opacity:0.8}
-  .icon-btn{width:44px;height:44px;border-radius:10px;border:1.5px solid var(--border);background:var(--white);font-size:20px;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center}
-  .icon-btn:hover{border-color:var(--g);background:var(--gl)}
-  .icon-btn.selected{border-color:var(--g);background:var(--gl);border-width:2px}
+  .reset-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer}
 
   @media(max-width:768px){.sidebar{display:none}.main{margin-left:0;padding:1.25rem}.grid2{grid-template-columns:1fr}.stat-grid{grid-template-columns:1fr 1fr}}
 </style>
@@ -178,8 +180,8 @@
   <div class="login-box">
     <div class="login-logo">Chatbot24</div>
     <div class="login-sub">Admin-Bereich · Bitte einloggen</div>
-    <div class="f"><label>Kunden-ID</label><input id="l-id" placeholder="z.B. frida-kitchen" /></div>
-    <div class="f"><label>Passwort</label><input id="l-pw" type="password" placeholder="Ihr Passwort" /></div>
+    <div class="lf"><label>Kunden-ID</label><input id="l-id" placeholder="z.B. frida-kitchen" /></div>
+    <div class="lf"><label>Passwort</label><input id="l-pw" type="password" placeholder="Ihr Passwort" /></div>
     <button class="login-btn" onclick="doLogin()">Einloggen</button>
     <div class="err" id="login-err"></div>
     <div class="login-hint">Zugangsdaten erhalten Sie von Chatbot24</div>
@@ -194,11 +196,11 @@
     <div class="sb-section">Übersicht</div>
     <button class="nav-item active" onclick="showPanel('dashboard',this)"><span class="nav-icon">📊</span>Dashboard</button>
     <button class="nav-item" onclick="showPanel('test',this)"><span class="nav-icon">💬</span>Chatbot testen</button>
+    <button class="nav-item" onclick="showPanel('topics',this)"><span class="nav-icon">💡</span>Analyse</button>
     <div class="sb-section">Einstellungen</div>
     <button class="nav-item" onclick="showPanel('settings',this)"><span class="nav-icon">⚙️</span>Einstellungen</button>
     <button class="nav-item" onclick="showPanel('faq',this)"><span class="nav-icon">❓</span>FAQ & Wissen</button>
     <button class="nav-item" onclick="showPanel('design',this)"><span class="nav-icon">🎨</span>Design</button>
-    <button class="nav-item" onclick="showPanel('topics',this)"><span class="nav-icon">💡</span>Analyse</button>
     <button class="nav-item" onclick="showPanel('preview',this)"><span class="nav-icon">👁️</span>Vorschau</button>
     <button class="nav-item" onclick="showPanel('embed',this)"><span class="nav-icon">📋</span>Einbetten</button>
     <div class="sb-bottom">
@@ -212,53 +214,56 @@
     <div class="panel active" id="panel-dashboard">
       <div class="page-title" id="dash-title">Willkommen 👋</div>
       <div class="page-sub" id="dash-sub">–</div>
-      <!-- CHATBOT TOGGLE -->
-      <div style="display:flex;align-items:center;justify-content:space-between;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.25rem">
-        <div>
-          <div style="font-size:14px;font-weight:600">Chatbot Status</div>
-          <div style="font-size:12px;color:var(--muted);margin-top:3px;font-weight:300">Schalten Sie den Chatbot auf Ihrer Website ein oder aus</div>
+
+      <!-- BOT TOGGLE -->
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <h3>Chatbot Status</h3>
+          <p>Schalten Sie den Chatbot auf Ihrer Website ein oder aus</p>
         </div>
-        <div style="display:flex;align-items:center;gap:12px">
-          <span id="bot-status-badge" style="font-size:11px;font-weight:500;padding:4px 12px;border-radius:100px;background:var(--gl);color:var(--gd)">● Online</span>
-          <label style="position:relative;width:48px;height:26px;cursor:pointer">
-            <input type="checkbox" id="bot-toggle" checked onchange="toggleBot()" style="opacity:0;width:0;height:0;position:absolute" />
-            <span id="toggle-slider" style="position:absolute;inset:0;background:var(--g);border-radius:26px;transition:background 0.2s"></span>
-            <span id="toggle-dot" style="position:absolute;width:20px;height:20px;background:#fff;border-radius:50%;top:3px;right:3px;transition:transform 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.2)"></span>
-          </label>
+        <div class="toggle-right">
+          <span class="status-badge status-on" id="status-badge">● Online</span>
+          <div class="toggle-wrap" onclick="toggleBot()">
+            <div class="toggle-track" id="toggle-track"></div>
+            <div class="toggle-knob" id="toggle-knob"></div>
+          </div>
         </div>
       </div>
 
+      <!-- STATS -->
       <div class="stat-grid">
-        <div class="stat"><div class="stat-val" id="st-chats">0</div><div class="stat-label">Gespräche</div><div class="stat-change up">↑ Gesamt</div></div>
-        <div class="stat"><div class="stat-val" id="st-msgs">0</div><div class="stat-label">Nachrichten</div><div class="stat-change up">↑ Gesamt</div></div>
+        <div class="stat"><div class="stat-val" id="st-chats">0</div><div class="stat-label">Gespräche</div><div class="stat-change">↑ Gesamt</div></div>
+        <div class="stat"><div class="stat-val" id="st-msgs">0</div><div class="stat-label">Nachrichten</div><div class="stat-change">↑ Gesamt</div></div>
         <div class="stat"><div class="stat-val" id="st-faqs">0</div><div class="stat-label">FAQ-Einträge</div></div>
-        <div class="stat"><div class="stat-val" style="color:var(--g)">24/7</div><div class="stat-label">Online</div><div class="stat-change up">● Aktiv</div></div>
+        <div class="stat"><div class="stat-val" id="st-status" style="color:var(--g)">24/7</div><div class="stat-label" id="st-status-lbl">Verfügbarkeit</div></div>
       </div>
+
       <div class="card">
-        <div class="card-title">Aktivität (letzte 7 Tage)</div>
+        <div class="card-title">Aktivität – letzte 7 Tage</div>
         <div class="chart-wrap"><canvas id="chart-activity"></canvas></div>
       </div>
+
       <div class="card">
         <div class="card-title">Schnellzugriff</div>
-        <div class="quick-grid">
-          <button class="quick-btn" onclick="showPanel('test',null)"><span class="qb-icon">💬</span>Chatbot testen<div class="qb-sub">Direkt ausprobieren</div></button>
-          <button class="quick-btn" onclick="showPanel('faq',null)"><span class="qb-icon">❓</span>FAQ bearbeiten<div class="qb-sub">Wissen hinzufügen</div></button>
-          <button class="quick-btn" onclick="showPanel('embed',null)"><span class="qb-icon">📋</span>Einbettungs-Code<div class="qb-sub">Für Ihre Website</div></button>
-          <button class="quick-btn" onclick="showPanel('design',null)"><span class="qb-icon">🎨</span>Design anpassen<div class="qb-sub">Farbe & Name</div></button>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <button class="green-btn" onclick="showPanel('test',null)">💬 Chatbot testen</button>
+          <button class="green-btn" style="background:#378ADD" onclick="showPanel('faq',null)">❓ FAQ bearbeiten</button>
+          <button class="green-btn" style="background:#BA7517" onclick="showPanel('embed',null)">📋 Einbettungs-Code</button>
+          <button class="green-btn" style="background:#7F77DD" onclick="showPanel('design',null)">🎨 Design anpassen</button>
         </div>
       </div>
     </div>
 
-    <!-- CHAT TEST -->
+    <!-- CHATBOT TESTEN -->
     <div class="panel" id="panel-test">
       <div class="page-title">Chatbot testen</div>
       <div class="page-sub">So sehen Ihre Kunden den Chatbot</div>
       <div class="card">
         <div class="card-header"><div class="card-title">Live-Vorschau</div><button class="reset-btn" onclick="resetChat()">Neu starten</button></div>
         <div class="chat-box">
-          <div class="chat-top" id="chat-top"><div class="chat-dot-live"></div><div class="chat-name" id="test-botname">Assistent</div></div>
+          <div class="chat-top" id="chat-top"><div class="chat-top-dot"></div><div class="chat-name" id="test-botname">Assistent</div></div>
           <div class="chat-msgs" id="test-msgs"></div>
-          <div class="chat-input">
+          <div class="chat-input-row">
             <input id="test-input" placeholder="Nachricht eingeben..." />
             <button class="chat-send" id="test-send" onclick="sendTestMsg()"><svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg></button>
           </div>
@@ -266,12 +271,23 @@
       </div>
     </div>
 
-    <!-- SETTINGS -->
+    <!-- ANALYSE -->
+    <div class="panel" id="panel-topics">
+      <div class="page-title">Gesprächsanalyse</div>
+      <div class="page-sub">Über welche Themen sprechen Ihre Kunden am häufigsten</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Häufigste Themen</div><span class="badge" id="topics-badge">Noch nicht analysiert</span></div>
+        <div id="topics-list"><div style="color:var(--muted);font-size:13px;text-align:center;padding:2rem;font-weight:300">Klicken Sie auf "Analysieren" um die Themen aus echten Gesprächen zu ermitteln.</div></div>
+        <div style="margin-top:1rem"><button class="green-btn" onclick="analyzeTopics()">✨ Jetzt analysieren</button></div>
+      </div>
+    </div>
+
+    <!-- EINSTELLUNGEN -->
     <div class="panel" id="panel-settings">
       <div class="page-title">Einstellungen</div>
       <div class="page-sub">Passen Sie Ihren Chatbot an</div>
       <div class="card">
-        <div class="card-title">Firmendaten</div>
+        <div class="card-title" style="margin-bottom:1.25rem">Firmendaten</div>
         <div class="grid2">
           <div class="fl"><label>Firmenname</label><input class="fi" id="cfg-name" /></div>
           <div class="fl"><label>Branche</label><input class="fi" id="cfg-industry" /></div>
@@ -288,28 +304,31 @@
     <!-- FAQ -->
     <div class="panel" id="panel-faq">
       <div class="page-title">FAQ & Wissen</div>
-      <div class="page-sub">Fragen manuell eintragen oder Dokument hochladen – die KI erstellt FAQ automatisch</div>
+      <div class="page-sub">Fragen manuell eintragen oder Dokument hochladen</div>
+
       <div class="card">
-        <div class="card-header"><div class="card-title">Häufige Fragen</div><span class="badge" id="faq-count">0</span></div>
+        <div class="card-header"><div class="card-title">Häufige Fragen</div><span class="badge" id="faq-count">0 Einträge</span></div>
         <div id="faq-list"></div>
         <div class="add-box">
-          <div class="fl"><label>Neue Frage</label><input class="fi" id="new-q" placeholder="z.B. Haben Sie vegetarische Gerichte?" /></div>
-          <div class="fl" style="margin-bottom:0"><label>Antwort</label><textarea class="fi" id="new-a" placeholder="z.B. Ja, wir haben eine große Auswahl..." style="min-height:60px"></textarea></div>
+          <div class="fl"><label style="font-size:12px;font-weight:500;color:var(--soft)">Neue Frage</label><input class="fi" id="new-q" placeholder="z.B. Haben Sie vegetarische Gerichte?" /></div>
+          <div class="fl" style="margin-bottom:0"><label style="font-size:12px;font-weight:500;color:var(--soft)">Antwort</label><textarea class="fi" id="new-a" placeholder="z.B. Ja, wir haben eine große Auswahl..." style="min-height:60px"></textarea></div>
           <button class="add-btn" onclick="addFaq()">+ Hinzufügen</button>
         </div>
         <div style="margin-top:1rem"><button class="save-btn" onclick="saveFaq()">FAQ speichern</button><span class="toast" id="t-faq">✓ Gespeichert</span></div>
       </div>
 
-      <!-- DOCUMENT UPLOAD CARD -->
+      <!-- DOKUMENT UPLOAD -->
       <div class="card">
         <div class="card-title" style="margin-bottom:0.5rem">📄 FAQ aus Dokument erstellen</div>
-        <div style="font-size:13px;color:var(--muted);margin-bottom:1.25rem;font-weight:300">Laden Sie ein PDF, Word oder Text-Dokument hoch – die KI liest es und erstellt automatisch passende FAQ daraus.</div>
-        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:1rem">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:1.25rem;font-weight:300">PDF, Word oder Text-Datei hochladen – die KI liest das Dokument und erstellt automatisch passende FAQ daraus.</div>
+        <div class="doc-upload-box" onclick="document.getElementById('doc-input').click()" style="cursor:pointer">
+          <div style="font-size:32px;margin-bottom:8px">📎</div>
+          <div style="font-size:14px;font-weight:500;margin-bottom:4px">Datei hier ablegen oder klicken</div>
+          <div style="font-size:12px;color:var(--muted);font-weight:300">PDF, DOC, DOCX, TXT · Max. 5MB</div>
+          <div style="margin-top:10px;font-size:12px;color:var(--muted);font-weight:300" id="doc-filename"></div>
           <input type="file" id="doc-input" accept=".pdf,.doc,.docx,.txt" style="display:none" onchange="handleDocUpload(event)" />
-          <button class="save-btn" onclick="document.getElementById('doc-input').click()">📎 Datei auswählen</button>
-          <span id="doc-filename" style="font-size:13px;color:var(--muted);font-weight:300">Keine Datei ausgewählt</span>
         </div>
-        <div id="doc-status" style="display:none;padding:12px;border-radius:10px;font-size:13px;font-weight:400"></div>
+        <div class="doc-status" id="doc-status"></div>
       </div>
     </div>
 
@@ -317,6 +336,16 @@
     <div class="panel" id="panel-design">
       <div class="page-title">Design</div>
       <div class="page-sub">Passen Sie das Aussehen Ihres Chatbots an</div>
+
+      <div class="card">
+        <div class="card-title" style="margin-bottom:0.75rem">Bot-Persönlichkeit</div>
+        <div class="personality-grid">
+          <div class="pers-card selected" onclick="selectPersonality(this,'formal')"><div class="pers-icon">🎩</div><div class="pers-name">Formell</div><div class="pers-desc">Professionell & höflich</div></div>
+          <div class="pers-card" onclick="selectPersonality(this,'friendly')"><div class="pers-icon">😊</div><div class="pers-name">Freundlich</div><div class="pers-desc">Warm & nahbar</div></div>
+          <div class="pers-card" onclick="selectPersonality(this,'casual')"><div class="pers-icon">😎</div><div class="pers-name">Locker</div><div class="pers-desc">Entspannt & modern</div></div>
+        </div>
+      </div>
+
       <div class="card">
         <div class="grid2">
           <div class="fl"><label>Bot-Name</label><input class="fi" id="cfg-botname" /></div>
@@ -334,138 +363,103 @@
             <input type="color" id="custom-color" style="width:32px;height:32px;border:none;border-radius:50%;cursor:pointer;padding:0" onchange="pickColor(this.value,this)" />
           </div>
         </div>
+        <div class="fl">
+          <label>Chat-Icon</label>
+          <div class="icon-grid">
+            <button class="icon-btn selected" onclick="selectIcon(this,'💬')">💬</button>
+            <button class="icon-btn" onclick="selectIcon(this,'🤖')">🤖</button>
+            <button class="icon-btn" onclick="selectIcon(this,'💡')">💡</button>
+            <button class="icon-btn" onclick="selectIcon(this,'🙋')">🙋</button>
+            <button class="icon-btn" onclick="selectIcon(this,'⭐')">⭐</button>
+            <button class="icon-btn" onclick="selectIcon(this,'🎯')">🎯</button>
+            <button class="icon-btn" onclick="selectIcon(this,'📞')">📞</button>
+            <button class="icon-btn" onclick="selectIcon(this,'✉️')">✉️</button>
+            <button class="icon-btn" onclick="selectIcon(this,'🔔')">🔔</button>
+            <button class="icon-btn" onclick="selectIcon(this,'💎')">💎</button>
+            <button class="icon-btn" onclick="selectIcon(this,'🚀')">🚀</button>
+            <button class="icon-btn" onclick="selectIcon(this,'❓')">❓</button>
+          </div>
+        </div>
+        <div class="fl">
+          <label>Eigenes Logo als Icon</label>
+          <div style="display:flex;align-items:center;gap:12px;margin-top:4px">
+            <div style="width:48px;height:48px;border-radius:50%;border:1.5px solid var(--border);overflow:hidden;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <img id="logo-preview-img" src="" style="display:none;width:100%;height:100%;object-fit:cover" />
+              <span id="logo-placeholder">🖼️</span>
+            </div>
+            <div>
+              <input type="file" id="logo-input" accept="image/*" style="display:none" onchange="handleLogoUpload(event)" />
+              <button class="add-btn" onclick="document.getElementById('logo-input').click()">Logo hochladen</button>
+              <div style="font-size:11px;color:var(--muted);margin-top:4px;font-weight:300">PNG, JPG · Max. 1MB</div>
+            </div>
+          </div>
+        </div>
         <button class="save-btn" onclick="saveDesign()">Design speichern</button>
         <span class="toast" id="t-design">✓ Gespeichert</span>
       </div>
     </div>
 
-
-    <!-- TOPICS -->
-    <div class="panel" id="panel-topics">
-      <div class="page-title">Gesprächsanalyse</div>
-      <div class="page-sub">Über welche Themen sprechen Ihre Kunden am häufigsten</div>
-      <div class="card">
-        <div class="card-header"><div class="card-title">Häufigste Themen</div><span class="badge" id="topics-badge">Noch nicht analysiert</span></div>
-        <div id="topics-list"><div style="color:var(--muted);font-size:13px;font-weight:300;text-align:center;padding:2rem">Klicken Sie auf "Analysieren" um die häufigsten Themen zu ermitteln.</div></div>
-        <div style="margin-top:1rem"><button class="save-btn" onclick="analyzeTopics()">Jetzt analysieren</button></div>
-      </div>
-    </div>
-
-        <!-- LIVE PREVIEW -->
+    <!-- VORSCHAU -->
     <div class="panel" id="panel-preview">
       <div class="page-title">Live-Vorschau</div>
-      <div class="page-sub">So sieht Ihr Chatbot auf verschiedenen Geräten aus</div>
-
+      <div class="page-sub">So sieht Ihr Chatbot-Button auf verschiedenen Geräten aus</div>
       <div class="card">
-        <div class="card-title" style="margin-bottom:1.25rem">Chat-Icon wählen</div>
-        <div style="font-size:12px;font-weight:500;color:var(--soft);margin-bottom:8px">Emoji auswählen:</div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1.25rem">
-          <button class="icon-btn selected" onclick="selectIcon(this,'💬')">💬</button>
-          <button class="icon-btn" onclick="selectIcon(this,'🤖')">🤖</button>
-          <button class="icon-btn" onclick="selectIcon(this,'💡')">💡</button>
-          <button class="icon-btn" onclick="selectIcon(this,'🙋')">🙋</button>
-          <button class="icon-btn" onclick="selectIcon(this,'⭐')">⭐</button>
-          <button class="icon-btn" onclick="selectIcon(this,'🎯')">🎯</button>
-          <button class="icon-btn" onclick="selectIcon(this,'📞')">📞</button>
-          <button class="icon-btn" onclick="selectIcon(this,'✉️')">✉️</button>
-          <button class="icon-btn" onclick="selectIcon(this,'🔔')">🔔</button>
-          <button class="icon-btn" onclick="selectIcon(this,'💎')">💎</button>
-          <button class="icon-btn" onclick="selectIcon(this,'🚀')">🚀</button>
-          <button class="icon-btn" onclick="selectIcon(this,'❓')">❓</button>
-        </div>
-        <div style="font-size:12px;font-weight:500;color:var(--soft);margin-bottom:8px">Oder eigenes Logo hochladen:</div>
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:1.25rem">
-          <div style="width:52px;height:52px;border-radius:50%;border:1.5px solid var(--border);overflow:hidden;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-            <img id="logo-preview" src="" style="display:none;width:100%;height:100%;object-fit:cover" />
-            <span id="logo-placeholder" style="font-size:20px">🖼️</span>
+        <div class="devices-wrap">
+          <div>
+            <div class="device-label">📱 Smartphone</div>
+            <div class="phone-frame">
+              <div class="screen">
+                <div class="screen-content">
+                  <div class="s-bar"></div>
+                  <div class="s-block" style="height:50px"></div>
+                  <div class="s-block" style="height:35px"></div>
+                  <div class="s-block" style="height:60px"></div>
+                </div>
+                <div class="chat-float-btn" id="prev-phone"><span id="prev-icon-phone">💬</span></div>
+              </div>
+            </div>
           </div>
           <div>
-            <input type="file" id="logo-input" accept="image/*" style="display:none" onchange="handleLogoUpload(event)" />
-            <button class="add-btn" onclick="document.getElementById('logo-input').click()">Logo hochladen</button>
-            <div style="font-size:11px;color:var(--muted);margin-top:4px;font-weight:300">PNG, JPG · Max. 1MB · Wird als Icon angezeigt</div>
-          </div>
-        </div>
-        <div style="font-size:12px;font-weight:500;color:var(--soft);margin-bottom:8px;margin-top:1.25rem">Hintergrundfarbe des Buttons:</div>
-        <div style="display:flex;gap:10px;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap">
-          <div style="width:30px;height:30px;border-radius:50%;background:#1D9E75;cursor:pointer;border:2px solid var(--ink)" onclick="selectBgColor('#1D9E75',this)"></div>
-          <div style="width:30px;height:30px;border-radius:50%;background:#378ADD;cursor:pointer;border:2px solid transparent" onclick="selectBgColor('#378ADD',this)"></div>
-          <div style="width:30px;height:30px;border-radius:50%;background:#7F77DD;cursor:pointer;border:2px solid transparent" onclick="selectBgColor('#7F77DD',this)"></div>
-          <div style="width:30px;height:30px;border-radius:50%;background:#D85A30;cursor:pointer;border:2px solid transparent" onclick="selectBgColor('#D85A30',this)"></div>
-          <div style="width:30px;height:30px;border-radius:50%;background:#D4537E;cursor:pointer;border:2px solid transparent" onclick="selectBgColor('#D4537E',this)"></div>
-          <div style="width:30px;height:30px;border-radius:50%;background:#0A0A0A;cursor:pointer;border:2px solid transparent" onclick="selectBgColor('#0A0A0A',this)"></div>
-          <input type="color" style="width:30px;height:30px;border:none;border-radius:50%;cursor:pointer;padding:0" onchange="selectBgColor(this.value,this)" />
-        </div>
-        <button class="save-btn" onclick="saveIcon()">Icon & Farbe speichern</button>
-        <span class="toast" id="t-icon">✓ Gespeichert</span>
-      </div>
-
-      <div class="card">
-        <div class="card-title" style="margin-bottom:1.25rem">Vorschau auf verschiedenen Geräten</div>
-        <div style="display:flex;gap:2rem;flex-wrap:wrap;align-items:flex-end">
-
-          <!-- MOBILE -->
-          <div style="text-align:center">
-            <div style="font-size:12px;color:var(--muted);margin-bottom:8px;font-weight:500">📱 Smartphone</div>
-            <div class="preview-phone">
-              <div class="preview-screen">
-                <div class="preview-website">
-                  <div class="preview-bar"></div>
-                  <div class="preview-block" style="height:50px"></div>
-                  <div class="preview-block" style="height:35px"></div>
-                  <div class="preview-block" style="height:65px"></div>
+            <div class="device-label">📱 Tablet</div>
+            <div class="tablet-frame">
+              <div class="screen">
+                <div class="screen-content" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px">
+                  <div class="s-block" style="height:70px"></div>
+                  <div class="s-block" style="height:70px"></div>
+                  <div class="s-block" style="height:40px"></div>
+                  <div class="s-block" style="height:40px"></div>
                 </div>
-                <div class="preview-chat-btn" id="preview-btn-mobile" style="background:var(--g)"><span id="preview-icon-mobile">💬</span></div>
+                <div class="chat-float-btn" id="prev-tablet"><span id="prev-icon-tablet">💬</span></div>
               </div>
             </div>
           </div>
-
-          <!-- TABLET -->
-          <div style="text-align:center">
-            <div style="font-size:12px;color:var(--muted);margin-bottom:8px;font-weight:500">📱 Tablet</div>
-            <div style="width:340px;height:260px;border:6px solid var(--ink);border-radius:16px;overflow:hidden;position:relative;background:#f0f0f0;box-shadow:0 12px 40px rgba(0,0,0,0.15)">
-              <div style="width:100%;height:100%;background:#f8f8f8;position:relative">
-                <div style="padding:14px">
-                  <div style="height:26px;background:#fff;border-radius:6px;margin-bottom:8px"></div>
-                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-                    <div style="height:80px;background:#fff;border-radius:6px"></div>
-                    <div style="height:80px;background:#fff;border-radius:6px"></div>
-                  </div>
-                  <div style="height:40px;background:#fff;border-radius:6px;margin-top:8px"></div>
-                </div>
-                <div class="preview-chat-btn" id="preview-btn-tablet" style="background:var(--g);bottom:14px;right:14px;width:44px;height:44px;font-size:19px"><span id="preview-icon-tablet">💬</span></div>
+          <div>
+            <div class="device-label">💻 Desktop</div>
+            <div class="desktop-frame">
+              <div class="desktop-topbar">
+                <div class="desktop-dot" style="background:#ff5f57"></div>
+                <div class="desktop-dot" style="background:#febc2e"></div>
+                <div class="desktop-dot" style="background:#28c840"></div>
+                <div style="flex:1;height:12px;background:#fff;border-radius:4px;margin-left:6px"></div>
               </div>
-            </div>
-          </div>
-
-          <!-- DESKTOP -->
-          <div style="text-align:center">
-            <div style="font-size:12px;color:var(--muted);margin-bottom:8px;font-weight:500">💻 Desktop</div>
-            <div style="width:420px;height:260px;border:6px solid var(--ink);border-radius:12px;overflow:hidden;position:relative;background:#f0f0f0;box-shadow:0 12px 40px rgba(0,0,0,0.15)">
-              <div style="height:28px;background:#e0e0e0;display:flex;align-items:center;padding:0 10px;gap:5px">
-                <div style="width:8px;height:8px;border-radius:50%;background:#ff5f57"></div>
-                <div style="width:8px;height:8px;border-radius:50%;background:#febc2e"></div>
-                <div style="width:8px;height:8px;border-radius:50%;background:#28c840"></div>
-                <div style="flex:1;height:14px;background:#fff;border-radius:4px;margin-left:8px"></div>
-              </div>
-              <div style="background:#f8f8f8;height:calc(100% - 28px);position:relative">
-                <div style="padding:14px;display:grid;grid-template-columns:1fr 2fr;gap:10px;height:100%">
-                  <div style="background:#fff;border-radius:6px"></div>
-                  <div style="display:flex;flex-direction:column;gap:8px">
-                    <div style="height:30px;background:#fff;border-radius:6px"></div>
-                    <div style="height:60px;background:#fff;border-radius:6px"></div>
-                    <div style="height:40px;background:#fff;border-radius:6px"></div>
+              <div class="screen" style="height:calc(100% - 22px)">
+                <div style="display:grid;grid-template-columns:80px 1fr;height:100%">
+                  <div style="background:#f0f0f0;border-right:1px solid #e0e0e0"></div>
+                  <div style="padding:10px;display:flex;flex-direction:column;gap:6px">
+                    <div class="s-block" style="height:25px"></div>
+                    <div class="s-block" style="height:50px"></div>
+                    <div class="s-block" style="height:35px"></div>
                   </div>
                 </div>
-                <div class="preview-chat-btn" id="preview-btn-desktop" style="background:var(--g);bottom:14px;right:14px;width:44px;height:44px;font-size:19px"><span id="preview-icon-desktop">💬</span></div>
+                <div class="chat-float-btn" id="prev-desktop"><span id="prev-icon-desktop">💬</span></div>
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
 
-        <!-- EMBED -->
+    <!-- EINBETTEN -->
     <div class="panel" id="panel-embed">
       <div class="page-title">Einbetten</div>
       <div class="page-sub">Fügen Sie diesen Code in Ihre Website ein</div>
@@ -480,14 +474,19 @@
 </div>
 
 <script>
-let clientId='', clientData={}, selectedColor='#1D9E75', testHistory=[], chartInstance=null;
+let clientId='', clientData={}, selectedColor='#1D9E75', selectedIcon='💬', selectedLogoBase64=null, botActive=true, testHistory=[], chartInstance=null;
 
+// ── LOGIN ──────────────────────────────────────────────────
 async function doLogin(){
-  const id=document.getElementById('l-id').value.trim(), pw=document.getElementById('l-pw').value.trim();
+  const id=document.getElementById('l-id').value.trim();
+  const pw=document.getElementById('l-pw').value.trim();
+  if(!id||!pw){document.getElementById('login-err').textContent='Bitte beide Felder ausfüllen';return;}
   try{
     const res=await fetch('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({clientId:id,password:pw})});
     if(!res.ok){document.getElementById('login-err').textContent='Ungültige Zugangsdaten';return;}
-    const data=await res.json(); clientId=id; clientData=data.client; loadApp();
+    const data=await res.json();
+    clientId=id; clientData=data.client;
+    loadApp();
   }catch(e){document.getElementById('login-err').textContent='Verbindungsfehler';}
 }
 
@@ -495,7 +494,7 @@ function loadApp(){
   document.getElementById('login-screen').style.display='none';
   document.getElementById('app').style.display='flex';
   document.getElementById('sb-name').textContent=clientData.name||clientId;
-  document.getElementById('dash-title').textContent='Willkommen, '+( clientData.name||clientId)+' 👋';
+  document.getElementById('dash-title').textContent='Willkommen, '+(clientData.name||clientId)+' 👋';
   document.getElementById('dash-sub').textContent=clientData.industry||'';
   document.getElementById('st-chats').textContent=clientData.stats?.chats??0;
   document.getElementById('st-msgs').textContent=clientData.stats?.messages??0;
@@ -510,23 +509,273 @@ function loadApp(){
   document.getElementById('cfg-initials').value=clientData.initials||(clientData.name||'CB').slice(0,2).toUpperCase();
   document.getElementById('test-botname').textContent=clientData.botName||'Assistent';
   selectedColor=clientData.color||'#1D9E75';
+  selectedIcon=clientData.botIcon||'💬';
+  selectedLogoBase64=clientData.botLogoBase64||null;
+  botActive=clientData.botActive!==false;
+
+  // Apply color
   document.getElementById('chat-top').style.background=selectedColor;
   document.getElementById('test-send').style.background=selectedColor;
-  renderFaqs(); updateEmbed(); resetChat(); buildChart();
-  // Init toggle state
-  if(clientData.botActive===false){
-    document.getElementById('bot-toggle').checked=false;
-    toggleBot();
-  } selectedIcon=clientData.botIcon||'💬';
-  if(clientData.botLogoBase64){
-    selectedLogoBase64=clientData.botLogoBase64;
-    document.getElementById('logo-preview').src=selectedLogoBase64;
-    document.getElementById('logo-preview').style.display='block';
+
+  // Apply toggle state
+  updateToggleUI();
+
+  // Apply logo if saved
+  if(selectedLogoBase64){
+    document.getElementById('logo-preview-img').src=selectedLogoBase64;
+    document.getElementById('logo-preview-img').style.display='block';
     document.getElementById('logo-placeholder').style.display='none';
   }
-  setTimeout(updateAllPreviews, 100);
+
+  renderFaqs();
+  updateEmbed();
+  updateAllPreviews();
+  resetChat();
+  buildChart();
 }
 
+// ── TOGGLE ─────────────────────────────────────────────────
+function updateToggleUI(){
+  const track=document.getElementById('toggle-track');
+  const knob=document.getElementById('toggle-knob');
+  const badge=document.getElementById('status-badge');
+  const statVal=document.getElementById('st-status');
+  const statLbl=document.getElementById('st-status-lbl');
+
+  if(botActive){
+    track.className='toggle-track';
+    knob.className='toggle-knob';
+    badge.className='status-badge status-on';
+    badge.textContent='● Online';
+    statVal.textContent='24/7';
+    statVal.style.color='var(--g)';
+    statLbl.textContent='Verfügbarkeit';
+  } else {
+    track.className='toggle-track off';
+    knob.className='toggle-knob off';
+    badge.className='status-badge status-off';
+    badge.textContent='● Offline';
+    statVal.textContent='Aus';
+    statVal.style.color='var(--red)';
+    statLbl.textContent='Deaktiviert';
+  }
+}
+
+function toggleBot(){
+  botActive=!botActive;
+  clientData.botActive=botActive;
+  updateToggleUI();
+  saveData();
+}
+
+// ── PANELS ─────────────────────────────────────────────────
+function showPanel(name,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  if(btn)btn.classList.add('active');
+}
+
+// ── FAQ ────────────────────────────────────────────────────
+function renderFaqs(){
+  const list=document.getElementById('faq-list');
+  const faqs=clientData.faqs||[];
+  list.innerHTML=faqs.length?'':'<div style="color:var(--muted);padding:1rem;text-align:center;font-size:13px;font-weight:300">Noch keine Einträge</div>';
+  faqs.forEach((f,i)=>{
+    list.innerHTML+=`<div class="faq-item"><div class="faq-dot"></div><div class="faq-content"><div class="faq-q">${f.q}</div><div class="faq-a">${f.a}</div></div><button class="del-btn" onclick="delFaq(${i})">×</button></div>`;
+  });
+  document.getElementById('faq-count').textContent=faqs.length+' Einträge';
+  document.getElementById('st-faqs').textContent=faqs.length;
+}
+function addFaq(){
+  const q=document.getElementById('new-q').value.trim();
+  const a=document.getElementById('new-a').value.trim();
+  if(!q||!a)return;
+  clientData.faqs=clientData.faqs||[];
+  clientData.faqs.push({q,a});
+  document.getElementById('new-q').value='';
+  document.getElementById('new-a').value='';
+  renderFaqs();
+}
+function delFaq(i){clientData.faqs.splice(i,1);renderFaqs();}
+async function saveFaq(){await saveData();showToast('t-faq');}
+
+// ── DOCUMENT UPLOAD ─────────────────────────────────────────
+async function handleDocUpload(event){
+  const file=event.target.files[0];
+  if(!file)return;
+  const status=document.getElementById('doc-status');
+  const filename=document.getElementById('doc-filename');
+  filename.textContent=file.name;
+
+  if(file.size>5*1024*1024){
+    status.className='doc-status error';
+    status.style.display='block';
+    status.textContent='❌ Datei zu groß. Bitte max. 5MB verwenden.';
+    return;
+  }
+
+  status.className='doc-status loading';
+  status.style.display='block';
+  status.textContent='📖 Dokument wird gelesen...';
+
+  try{
+    const text=(await file.text()).substring(0,6000);
+    status.textContent='🤖 KI analysiert das Dokument...';
+
+    const res=await fetch('/api/analyze-doc',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({clientId, text})
+    });
+
+    const data=await res.json();
+    if(!data.faqs||data.faqs.length===0){
+      status.className='doc-status error';
+      status.textContent='❌ Keine FAQ gefunden. Bitte ein anderes Dokument versuchen.';
+      return;
+    }
+
+    clientData.faqs=clientData.faqs||[];
+    data.faqs.forEach(f=>clientData.faqs.push(f));
+    renderFaqs();
+    await saveData();
+
+    status.className='doc-status success';
+    status.textContent='✅ '+data.faqs.length+' FAQ-Einträge aus dem Dokument erstellt und gespeichert!';
+    document.getElementById('doc-input').value='';
+    filename.textContent='';
+  }catch(e){
+    status.className='doc-status error';
+    status.textContent='❌ Fehler: '+e.message;
+  }
+}
+
+// ── DESIGN ─────────────────────────────────────────────────
+const PERSONALITIES={
+  formal:'Du bist ein professioneller und höflicher Kundenservice-Assistent. Antworte stets förmlich mit "Sie", präzise und sachlich auf Deutsch.',
+  friendly:'Du bist ein freundlicher und warmherziger Assistent. Antworte hilfsbereit, empathisch und mit positivem Ton auf Deutsch.',
+  casual:'Du bist ein lockerer und moderner Assistent. Antworte entspannt, direkt und auf Augenhöhe auf Deutsch.'
+};
+function selectPersonality(el,type){
+  document.querySelectorAll('.pers-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  clientData.personality=type;
+  clientData.systemPrompt=PERSONALITIES[type];
+  document.getElementById('cfg-system').value=clientData.systemPrompt;
+}
+function pickColor(color,el){
+  selectedColor=color;
+  document.querySelectorAll('.color-chip').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('chat-top').style.background=color;
+  document.getElementById('test-send').style.background=color;
+  updateAllPreviews();
+}
+function selectIcon(el,icon){
+  selectedIcon=icon;
+  selectedLogoBase64=null;
+  document.querySelectorAll('.icon-btn').forEach(b=>b.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('logo-preview-img').style.display='none';
+  document.getElementById('logo-placeholder').style.display='block';
+  updateAllPreviews();
+}
+function handleLogoUpload(event){
+  const file=event.target.files[0];
+  if(!file||file.size>1024*1024){alert('Bitte ein Bild unter 1MB wählen!');return;}
+  const reader=new FileReader();
+  reader.onload=e=>{
+    selectedLogoBase64=e.target.result;
+    selectedIcon='__logo__';
+    document.getElementById('logo-preview-img').src=selectedLogoBase64;
+    document.getElementById('logo-preview-img').style.display='block';
+    document.getElementById('logo-placeholder').style.display='none';
+    document.querySelectorAll('.icon-btn').forEach(b=>b.classList.remove('selected'));
+    updateAllPreviews();
+  };
+  reader.readAsDataURL(file);
+}
+function updateAllPreviews(){
+  ['phone','tablet','desktop'].forEach(d=>{
+    const btn=document.getElementById('prev-'+d);
+    const icon=document.getElementById('prev-icon-'+d);
+    if(!btn||!icon)return;
+    btn.style.background=selectedColor;
+    if(selectedIcon==='__logo__'&&selectedLogoBase64){
+      icon.innerHTML=`<img src="${selectedLogoBase64}" style="width:65%;height:65%;object-fit:contain;border-radius:4px" />`;
+    } else {
+      icon.textContent=selectedIcon;
+    }
+  });
+}
+async function saveDesign(){
+  clientData.color=selectedColor;
+  clientData.botName=document.getElementById('cfg-botname').value;
+  clientData.initials=document.getElementById('cfg-initials').value;
+  clientData.botIcon=selectedIcon;
+  if(selectedLogoBase64)clientData.botLogoBase64=selectedLogoBase64;
+  document.getElementById('test-botname').textContent=clientData.botName||'Assistent';
+  await saveData();
+  showToast('t-design');
+  updateEmbed();
+}
+
+// ── SETTINGS ───────────────────────────────────────────────
+async function saveSettings(){
+  clientData.name=document.getElementById('cfg-name').value;
+  clientData.industry=document.getElementById('cfg-industry').value;
+  clientData.email=document.getElementById('cfg-email').value;
+  clientData.hours=document.getElementById('cfg-hours').value;
+  clientData.welcome=document.getElementById('cfg-welcome').value;
+  clientData.systemPrompt=document.getElementById('cfg-system').value;
+  await saveData();
+  showToast('t-settings');
+}
+
+// ── EMBED ──────────────────────────────────────────────────
+function updateEmbed(){
+  const base=window.location.origin;
+  document.getElementById('embed-code').innerHTML=
+    `<span style="color:#88aaff">&lt;script</span> <span style="color:#ffd700">src</span>=<span style="color:#a8f0c8">"${base}/widget.js"</span><br>&nbsp;&nbsp;<span style="color:#ffd700">data-id</span>=<span style="color:#a8f0c8">"${clientId}"</span><br>&nbsp;&nbsp;<span style="color:#ffd700">data-color</span>=<span style="color:#a8f0c8">"${selectedColor}"</span><br><span style="color:#88aaff">&gt;&lt;/script&gt;</span>`;
+}
+function copyEmbed(){
+  const base=window.location.origin;
+  navigator.clipboard.writeText(`<script src="${base}/widget.js" data-id="${clientId}" data-color="${selectedColor}"><\/script>`);
+  const btn=document.querySelector('.copy-btn');
+  btn.textContent='✓ Kopiert!';
+  setTimeout(()=>btn.textContent='Kopieren',2000);
+}
+
+// ── TOPICS ─────────────────────────────────────────────────
+async function analyzeTopics(){
+  const badge=document.getElementById('topics-badge');
+  const list=document.getElementById('topics-list');
+  badge.textContent='Analysiert...';
+  list.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:1rem">KI analysiert echte Gespräche...</div>';
+  try{
+    const res=await fetch('/api/topics/'+clientId);
+    const data=await res.json();
+    if(!data.topics||data.topics.length===0){
+      list.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:2rem">Noch keine Gespräche vorhanden.<br><span style="font-size:11px">Sobald Kunden schreiben erscheinen die Themen hier.</span></div>';
+      badge.textContent='0 Themen';
+      return;
+    }
+    const max=Math.max(...data.topics.map(t=>t.count),1);
+    list.innerHTML=data.topics.map(t=>`
+      <div class="topic-row">
+        <div class="topic-name">${t.label}</div>
+        <div class="topic-bar-bg"><div class="topic-bar-fill" style="width:${Math.round((t.count/max)*100)}%"></div></div>
+        <div class="topic-count">${t.count}x</div>
+      </div>`).join('');
+    badge.textContent=data.topics.length+' Themen · '+data.count+' Gespräche';
+  }catch(e){
+    list.innerHTML='<div style="color:var(--red);font-size:13px;text-align:center;padding:1rem">Fehler beim Analysieren.</div>';
+    badge.textContent='Fehler';
+  }
+}
+
+// ── CHART ──────────────────────────────────────────────────
 function buildChart(){
   const ctx=document.getElementById('chart-activity');
   if(!ctx)return;
@@ -541,304 +790,65 @@ function buildChart(){
   chartInstance=new Chart(ctx,{
     type:'bar',
     data:{labels:days,datasets:[{data,backgroundColor:'#1D9E75',borderRadius:6,borderSkipped:false}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{family:'Sora',size:11},color:'#9AA3AD'}},y:{grid:{color:'#F0F0F0'},ticks:{font:{family:'Sora',size:11},color:'#9AA3AD'},beginAtZero:true}}}
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{family:'Sora',size:11},color:'#9AA3AD'}},y:{grid:{color:'#F4F4F4'},ticks:{font:{family:'Sora',size:11},color:'#9AA3AD'},beginAtZero:true}}}
   });
 }
 
-function showPanel(name,btn){
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.getElementById('panel-'+name).classList.add('active');
-  if(btn)btn.classList.add('active');
-}
-
-function renderFaqs(){
-  const list=document.getElementById('faq-list'), faqs=clientData.faqs||[];
-  list.innerHTML=faqs.length?'':'<div style="color:var(--muted);padding:1rem;text-align:center;font-size:13px;font-weight:300">Noch keine Einträge</div>';
-  faqs.forEach((f,i)=>{list.innerHTML+=`<div class="faq-item"><div class="faq-dot"></div><div class="faq-content"><div class="faq-q">${f.q}</div><div class="faq-a">${f.a}</div></div><button class="del-btn" onclick="delFaq(${i})">×</button></div>`;});
-  document.getElementById('faq-count').textContent=faqs.length+' Einträge';
-  document.getElementById('st-faqs').textContent=faqs.length;
-}
-
-function addFaq(){
-  const q=document.getElementById('new-q').value.trim(), a=document.getElementById('new-a').value.trim();
-  if(!q||!a)return;
-  clientData.faqs=clientData.faqs||[];
-  clientData.faqs.push({q,a});
-  document.getElementById('new-q').value='';
-  document.getElementById('new-a').value='';
-  renderFaqs();
-}
-
-function delFaq(i){clientData.faqs.splice(i,1);renderFaqs();}
-
-function pickColor(color,el){
-  selectedColor=color;
-  document.querySelectorAll('.color-chip').forEach(c=>c.classList.remove('selected'));
-  el.classList.add('selected');
-  document.getElementById('chat-top').style.background=color;
-  document.getElementById('test-send').style.background=color;
-}
-
-function showToast(id){const t=document.getElementById(id);t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
-
-async function saveData(){await fetch('/api/admin/'+clientId,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(clientData)});}
-
-async function saveSettings(){
-  clientData.name=document.getElementById('cfg-name').value;
-  clientData.industry=document.getElementById('cfg-industry').value;
-  clientData.email=document.getElementById('cfg-email').value;
-  clientData.hours=document.getElementById('cfg-hours').value;
-  clientData.welcome=document.getElementById('cfg-welcome').value;
-  clientData.systemPrompt=document.getElementById('cfg-system').value;
-  await saveData();showToast('t-settings');
-}
-
-async function saveFaq(){await saveData();showToast('t-faq');}
-
-async function saveDesign(){
-  clientData.color=selectedColor;
-  clientData.botName=document.getElementById('cfg-botname').value;
-  clientData.initials=document.getElementById('cfg-initials').value;
-  document.getElementById('test-botname').textContent=clientData.botName||'Assistent';
-  await saveData();showToast('t-design');updateEmbed();
-}
-
-function updateEmbed(){
-  const base=window.location.origin;
-  document.getElementById('embed-code').innerHTML=`<span style="color:#88aaff">&lt;script</span> <span style="color:#ffd700">src</span>=<span style="color:#a8f0c8">"${base}/widget.js"</span><br>&nbsp;&nbsp;<span style="color:#ffd700">data-id</span>=<span style="color:#a8f0c8">"${clientId}"</span><br>&nbsp;&nbsp;<span style="color:#ffd700">data-color</span>=<span style="color:#a8f0c8">"${selectedColor}"</span><br><span style="color:#88aaff">&gt;&lt;/script&gt;</span>`;
-}
-
-function copyEmbed(){
-  const base=window.location.origin;
-  navigator.clipboard.writeText(`<script src="${base}/widget.js" data-id="${clientId}" data-color="${selectedColor}"><\/script>`);
-  const btn=document.querySelector('.copy-btn');
-  btn.textContent='✓ Kopiert!';setTimeout(()=>btn.textContent='Kopieren',2000);
-}
-
+// ── CHAT TEST ──────────────────────────────────────────────
 function addMsg(text,type){
-  const msgs=document.getElementById('test-msgs'), div=document.createElement('div');
-  div.className='cm '+type; div.textContent=text;
-  msgs.appendChild(div); msgs.scrollTop=msgs.scrollHeight; return div;
+  const msgs=document.getElementById('test-msgs');
+  const div=document.createElement('div');
+  div.className='cm '+type;
+  div.textContent=text;
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+  return div;
 }
-
 function resetChat(){
   testHistory=[];
   document.getElementById('test-msgs').innerHTML='';
   addMsg(clientData.welcome||'Hallo! Wie kann ich Ihnen helfen?','bot');
 }
-
 async function sendTestMsg(){
-  const input=document.getElementById('test-input'), send=document.getElementById('test-send');
-  const text=input.value.trim(); if(!text)return;
-  addMsg(text,'user'); testHistory.push({role:'user',content:text});
-  input.value=''; send.disabled=true;
+  const input=document.getElementById('test-input');
+  const send=document.getElementById('test-send');
+  const text=input.value.trim();
+  if(!text)return;
+  addMsg(text,'user');
+  testHistory.push({role:'user',content:text});
+  input.value='';
+  send.disabled=true;
   const typing=addMsg('Tippt…','bot typing');
   try{
     const res=await fetch('/api/chat/'+clientId,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:testHistory})});
-    const data=await res.json(); const reply=data.reply||'Fehler.';
+    const data=await res.json();
+    const reply=data.reply||'Fehler.';
     testHistory.push({role:'assistant',content:reply});
-    typing.className='cm bot'; typing.textContent=reply;
-  }catch(e){typing.className='cm bot';typing.textContent='Verbindungsfehler.';}
+    typing.className='cm bot';
+    typing.textContent=reply;
+  }catch(e){
+    typing.className='cm bot';
+    typing.textContent='Verbindungsfehler.';
+  }
   send.disabled=false;
 }
 
-
-// PERSONALITY
-const PERSONALITIES={
-  formal:'Du bist ein professioneller und höflicher Kundenservice-Assistent. Antworte stets förmlich mit "Sie", präzise und sachlich.',
-  friendly:'Du bist ein freundlicher und warmherziger Assistent. Antworte hilfsbereit, empathisch und mit positivem Ton.',
-  casual:'Du bist ein lockerer und moderner Assistent. Antworte entspannt, direkt und auf Augenhöhe.'
-};
-function selectPersonality(el,type){
-  document.querySelectorAll('.personality-card').forEach(c=>c.classList.remove('selected'));
-  el.classList.add('selected');
-  clientData.personality=type;
-  clientData.systemPrompt=PERSONALITIES[type];
-  document.getElementById('cfg-system').value=clientData.systemPrompt;
+// ── UTILS ──────────────────────────────────────────────────
+function showToast(id){
+  const t=document.getElementById(id);
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
 }
-
-// TOPICS
-async function analyzeTopics(){
-  const badge=document.getElementById('topics-badge');
-  const list=document.getElementById('topics-list');
-  badge.textContent='Analysiert...';
-  list.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:1rem">KI analysiert echte Gespräche...</div>';
-  try{
-    const res=await fetch('/api/topics/'+clientId);
-    const data=await res.json();
-    if(!data.topics||data.topics.length===0){
-      list.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:2rem">Noch keine Gespräche vorhanden.<br><span style="font-size:11px">Sobald Kunden den Chatbot nutzen erscheinen hier die Themen.</span></div>';
-      badge.textContent='0 Themen';
-      return;
-    }
-    const max=Math.max(...data.topics.map(t=>t.count),1);
-    list.innerHTML=data.topics.map(t=>`
-      <div class="topic-item">
-        <div class="topic-label">${t.label}</div>
-        <div class="topic-bar-wrap"><div class="topic-bar" style="width:${Math.round((t.count/max)*100)}%"></div></div>
-        <div class="topic-count">${t.count}x</div>
-      </div>`).join('');
-    badge.textContent=data.topics.length+' Themen · '+data.count+' Gespräche';
-  }catch(e){
-    list.innerHTML='<div style="color:#E24B4A;font-size:13px;text-align:center;padding:1rem">Fehler beim Analysieren. Bitte erneut versuchen.</div>';
-    badge.textContent='Fehler';
-  }
+async function saveData(){
+  await fetch('/api/admin/'+clientId,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(clientData)});
 }
-
-// LIVE PREVIEW
-function previewColor(color){
-  selectedColor=color;
-  updateAllPreviews();
-  document.getElementById('chat-top').style.background=color;
-  document.getElementById('test-send').style.background=color;
-}
-// ICON SELECTOR
-let selectedIcon = '💬';
-let selectedLogoBase64 = null;
-
-function handleLogoUpload(event){
-  const file=event.target.files[0];
-  if(!file||file.size>1024*1024){alert('Bitte ein Bild unter 1MB wählen!');return;}
-  const reader=new FileReader();
-  reader.onload=e=>{
-    selectedLogoBase64=e.target.result;
-    selectedIcon='__logo__';
-    document.getElementById('logo-preview').src=selectedLogoBase64;
-    document.getElementById('logo-preview').style.display='block';
-    document.getElementById('logo-placeholder').style.display='none';
-    document.querySelectorAll('.icon-btn').forEach(b=>b.classList.remove('selected'));
-    updateAllPreviews();
-  };
-  reader.readAsDataURL(file);
-}
-function selectBgColor(color, el){
-  selectedColor=color;
-  document.querySelectorAll('.color-chip').forEach(c=>c.classList.remove('selected'));
-  document.getElementById('chat-top').style.background=color;
-  document.getElementById('test-send').style.background=color;
-  updateAllPreviews();
-}
-
-function selectIcon(el, icon){
-  document.querySelectorAll('.icon-btn').forEach(b=>b.classList.remove('selected'));
-  el.classList.add('selected');
-  selectedIcon = icon;
-  updateAllPreviews();
-}
-function updateAllPreviews(){
-  ['mobile','tablet','desktop'].forEach(d=>{
-    const btn=document.getElementById('preview-btn-'+d);
-    const icon=document.getElementById('preview-icon-'+d);
-    if(btn)btn.style.background=selectedColor;
-    if(icon){
-      if(selectedIcon==='__logo__'&&selectedLogoBase64){
-        icon.innerHTML=`<img src="${selectedLogoBase64}" style="width:70%;height:70%;object-fit:contain;border-radius:4px" />`;
-      } else {
-        icon.textContent=selectedIcon;
-      }
-    }
-  });
-}
-function saveIcon(){
-  clientData.botIcon=selectedIcon;
-  if(selectedLogoBase64) clientData.botLogoBase64=selectedLogoBase64;
-  saveData();
-  showToast('t-icon');
-}
-
-
-
-
-document.getElementById('l-pw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
-setTimeout(()=>{ document.getElementById('test-input')?.addEventListener('keydown',e=>{if(e.key==='Enter')sendTestMsg();}); },500);
-
-// BOT TOGGLE
-function toggleBot(){
-  const on=document.getElementById('bot-toggle').checked;
-  const badge=document.getElementById('bot-status-badge');
-  const slider=document.getElementById('toggle-slider');
-  const dot=document.getElementById('toggle-dot');
-  const statVal=document.getElementById('st-status');
-  const statLbl=document.getElementById('st-status-lbl');
-  if(on){
-    badge.style.background='var(--gl)';badge.style.color='var(--gd)';badge.textContent='● Online';
-    slider.style.background='var(--g)';
-    dot.style.transform='translateX(0)';
-    if(statVal){statVal.textContent='24/7';statVal.style.color='var(--g)';}
-    if(statLbl)statLbl.textContent='Verfügbarkeit';
-  } else {
-    badge.style.background='#FFF0F0';badge.style.color='#E24B4A';badge.textContent='● Offline';
-    slider.style.background='#E0E0E0';
-    dot.style.transform='translateX(-22px)';
-    if(statVal){statVal.textContent='Aus';statVal.style.color='#E24B4A';}
-    if(statLbl)statLbl.textContent='Chatbot deaktiviert';
-  }
-  clientData.botActive=on;
-  saveData();
-}
-
-// DOCUMENT UPLOAD
-async function handleDocUpload(event){
-  const file=event.target.files[0];
-  if(!file)return;
-  document.getElementById('doc-filename').textContent=file.name;
-  const status=document.getElementById('doc-status');
-  status.style.display='block';
-  status.style.background='var(--gl)';
-  status.style.color='var(--gd)';
-  status.textContent='📖 Dokument wird gelesen...';
-
-  try{
-    let text='';
-    if(file.type==='text/plain'){
-      text=await file.text();
-    } else {
-      // For PDF/Word - read as text (basic extraction)
-      text=await file.text();
-    }
-    // Limit text
-    text=text.substring(0,8000);
-
-    status.textContent='🤖 KI analysiert das Dokument...';
-
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-haiku-4-5-20251001',
-        max_tokens:2000,
-        messages:[{role:'user',content:`Analysiere dieses Dokument und erstelle daraus 5-8 typische Kundenfragen mit Antworten. Antworte NUR als JSON Array ohne Markdown: [{"q":"Frage","a":"Antwort"}]\n\nDokument:\n${text}`}]
-      })
-    });
-
-    const data=await res.json();
-    const rawText=data.content?.[0]?.text||'[]';
-    const faqs=JSON.parse(rawText.replace(/\`\`\`json|\`\`\`/g,'').trim());
-
-    if(faqs.length===0){
-      status.style.background='#FFF0F0';status.style.color='#E24B4A';
-      status.textContent='❌ Keine FAQ gefunden. Bitte ein anderes Dokument versuchen.';
-      return;
-    }
-
-    clientData.faqs=clientData.faqs||[];
-    faqs.forEach(f=>clientData.faqs.push(f));
-    renderFaqs();
-    await saveData();
-
-    status.style.background='var(--gl)';status.style.color='var(--gd)';
-    status.textContent=`✅ ${faqs.length} FAQ-Einträge aus dem Dokument erstellt und gespeichert!`;
-    document.getElementById('doc-input').value='';
-    document.getElementById('doc-filename').textContent='Keine Datei ausgewählt';
-
-  }catch(e){
-    status.style.background='#FFF0F0';status.style.color='#E24B4A';
-    status.textContent='❌ Fehler: '+e.message;
-  }
-}
-
 function doLogout(){location.reload();}
+
+// ── EVENTS ─────────────────────────────────────────────────
+document.getElementById('l-pw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+setTimeout(()=>{
+  document.getElementById('test-input')?.addEventListener('keydown',e=>{if(e.key==='Enter')sendTestMsg();});
+},500);
 </script>
 </body>
 </html>
