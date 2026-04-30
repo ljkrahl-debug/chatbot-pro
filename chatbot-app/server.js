@@ -75,9 +75,11 @@ app.post('/api/chat/:clientId', async (req, res) => {
 
     // Stats updaten
     const today = new Date().toISOString().split('T')[0];
+    const thisMonth = today.substring(0, 7); // YYYY-MM
     const update = {
       $inc: {
         'stats.messages': 1,
+        'stats.monthlyMessages': 1,
         [`stats.daily.${today}`]: messages.length === 1 ? 1 : 0,
         'stats.chats': messages.length === 1 ? 1 : 0
       }
@@ -285,6 +287,64 @@ app.get('/api/topics/:clientId', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+// ── SUPERADMIN ───────────────────────────────────────────
+const SUPER_PASSWORD = process.env.SUPER_PASSWORD || 'chatbot24super2026';
+
+app.post('/api/superadmin/login', (req, res) => {
+  const { password } = req.body;
+  if (password !== SUPER_PASSWORD) return res.status(401).json({ error: 'Falsches Passwort' });
+  res.json({ success: true });
+});
+
+app.get('/api/superadmin/clients', async (req, res) => {
+  const { password } = req.query;
+  if (password !== SUPER_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
+  const clients = await db.collection('clients').find({}).toArray();
+  res.json(clients.map(c => ({
+    id: c.id,
+    name: c.name,
+    industry: c.industry,
+    plan: c.plan || 'start',
+    chats: c.stats?.chats || 0,
+    messages: c.stats?.messages || 0,
+    monthlyMessages: c.stats?.monthlyMessages || 0,
+    color: c.color,
+  })));
+});
+
+app.put('/api/superadmin/client/:clientId', async (req, res) => {
+  const { password } = req.query;
+  if (password !== SUPER_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
+  const { plan, resetMonthly } = req.body;
+  const update = {};
+  if (plan) update.plan = plan;
+  if (resetMonthly) update['stats.monthlyMessages'] = 0;
+  await db.collection('clients').updateOne({ id: req.params.clientId }, { $set: update });
+  res.json({ success: true });
+});
+
+app.post('/api/superadmin/create-client', async (req, res) => {
+  const { password } = req.query;
+  if (password !== SUPER_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
+  const { id, name, industry, clientPassword, plan, color } = req.body;
+  const existing = await db.collection('clients').findOne({ id });
+  if (existing) return res.status(400).json({ error: 'Client ID bereits vergeben' });
+  await db.collection('clients').insertOne({
+    id, name, industry, color: color || '#1D9E75',
+    plan: plan || 'start',
+    botName: 'Assistent',
+    welcome: 'Hallo! Wie kann ich Ihnen helfen?',
+    systemPrompt: 'Du bist ein freundlicher Kundenservice-Assistent. Antworte auf Deutsch.',
+    email: '', hours: '',
+    faqs: [],
+    stats: { chats: 0, messages: 0, monthlyMessages: 0, daily: {}, timeOfDay: {} },
+    password: clientPassword,
+  });
+  res.json({ success: true });
+});
+
+app.get('/superadmin', (req, res) => res.sendFile(require('path').join(__dirname, 'public', 'superadmin.html')));
 
 // ── DEBUG ─────────────────────────────────────────────────
 app.get('/api/debug', (req, res) => {
