@@ -191,44 +191,25 @@ app.post('/api/analyze-doc', upload.single('file'), async (req, res) => {
 
     if (mimetype === 'application/pdf' || filename.endsWith('.pdf')) {
       try {
-        // Use pdf-parse with options to get all text
-        const pdfData = await pdfParse(req.file.buffer, {
-          pagerender: function(pageData) {
-            return pageData.getTextContent().then(function(textContent) {
-              return textContent.items.map(item => item.str).join(' ');
-            });
-          }
-        });
+        const pdfData = await pdfParse(req.file.buffer);
         text = pdfData.text || '';
         console.log('PDF pages:', pdfData.numpages, 'text length:', text.length);
-        console.log('PDF sample:', text.substring(0, 200));
+        console.log('PDF sample:', text.substring(0, 300));
       } catch(e) {
         console.error('PDF error:', e.message);
-        return res.status(400).json({ error: 'PDF konnte nicht gelesen werden. Bitte als TXT-Datei speichern und erneut hochladen.' });
+        return res.status(400).json({ error: 'PDF konnte nicht gelesen werden. Bitte als TXT speichern.' });
       }
     } else {
       text = req.file.buffer.toString('utf-8');
     }
 
-    // Clean text
     text = text.replace(/[\x00-\x08\x0b\x0c\x0e-\x1f]/g, ' ').replace(/\s{3,}/g, '\n').trim();
-    console.log('Cleaned text length:', text.length);
-    console.log('Cleaned text sample:', text.substring(0, 300));
+    console.log('Final text length:', text.length);
+    console.log('Final sample:', text.substring(0, 300));
 
-    // Check if text has real content (not just metadata)
-    const metadataKeywords = ['pdf-', 'reportlab', 'xmp', 'xmlns', 'metadata', 'doctype', '/type', '/page', '/font'];
-    const isOnlyMetadata = text.length < 100 || metadataKeywords.filter(k => text.toLowerCase().includes(k)).length > 3;
-
-    if (isOnlyMetadata || text.length < 50) {
-      return res.status(400).json({ 
-        error: 'Der Textinhalt des PDFs konnte nicht extrahiert werden. Das PDF ist möglicherweise gescannt oder verschlüsselt. Bitte:
-1. Text aus dem PDF kopieren
-2. In eine .txt Datei einfügen
-3. Diese .txt Datei hochladen'
-      });
+    if (!text || text.length < 50) {
+      return res.status(400).json({ error: 'Kein Text gefunden. Bitte den Text kopieren und als .txt Datei hochladen.' });
     }
-
-    const textForAI = text.substring(0, 6000);
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -242,96 +223,23 @@ app.post('/api/analyze-doc', upload.single('file'), async (req, res) => {
         max_tokens: 2000,
         messages: [{
           role: 'user',
-          content: `You are a JSON API. Read this business document text and create 5-8 FAQ pairs that a customer might ask.
-
-STRICT RULES:
-- ONLY use actual business content: services offered, prices, opening hours, contact info, products, processes
-- DO NOT mention: page count, creation date, file format, fonts, PDF metadata, author, software used
-- If you find no real business information, return: []
-- Write questions and answers in German
-- Questions must be what a real customer would ask this business
-
-Return ONLY a JSON array with no other text:
-[{"q":"Frage","a":"Antwort"}]
-
-Document text:
-${textForAI}`
+          content: 'You are a JSON API. Create 5-8 customer FAQ pairs from this business document. Use ONLY real business info (services, prices, hours, contact, products). Do NOT mention pages, dates, fonts, PDF format, or metadata. Write in German. Return ONLY a JSON array: [{"q":"Frage","a":"Antwort"}]\n\nDocument:\n' + text.substring(0, 5000)
         }]
       })
     });
 
     const data = await response.json();
-    const rawText = data.content?.[0]?.text || '[]';
+    const rawText = data.content && data.content[0] ? data.content[0].text : '[]';
     console.log('AI response:', rawText.substring(0, 200));
-    
+
     const match = rawText.match(/\[.*\]/s);
     if (!match) return res.json({ faqs: [], count: 0 });
-    
+
     const faqs = JSON.parse(match[0]);
     res.json({ faqs, count: faqs.length });
 
   } catch(err) {
     console.error('Doc analyze error:', err.message);
-    res.status(500).json({ error: 'Fehler: ' + err.message });
-  }
-});
-  try{
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 2000,
-        messages: [{
-          role: 'user',
-          content: `Analysiere dieses Dokument und erstelle 5-8 typische Kundenfragen mit Antworten daraus. Antworte NUR als JSON Array: [{"q":"Frage","a":"Antwort"}]\n\nDokument:\n${text.substring(0, 5000)}`
-        }]
-      })
-    });
-    const data = await response.json();
-    const rawText = data.content?.[0]?.text || '[]';
-    
-    // Extract JSON array from response even if there's extra text
-    const jsonMatch = rawText.match(/\[.*\]/s);
-    if (!jsonMatch) {
-      return res.json({ faqs: [], count: 0, message: 'Keine FAQ gefunden' });
-    }
-    const faqs = JSON.parse(jsonMatch[0]);
-    res.json({ faqs, count: faqs.length });
-  } catch(err) {
-    console.error('Doc analyze error:', err.message);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// ── DISMISS QUESTION ─────────────────────────────────────
-app.post('/api/dismiss-question', async (req, res) => {
-  try {
-    const { clientId, question } = req.body;
-    await db.collection('conversations').updateMany(
-      { clientId, userMessage: { $regex: question.substring(0, 50), $options: 'i' }, unanswered: true },
-      { $set: { dismissed: true, unanswered: false } }
-    );
-    res.json({ success: true });
-  } catch(err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// ── UNANSWERED QUESTIONS ─────────────────────────────────
-app.get('/api/unanswered/:clientId', async (req, res) => {
-  try {
-    const convs = await db.collection('conversations')
-      .find({ clientId: req.params.clientId, unanswered: true, dismissed: { $ne: true } })
-      .sort({ createdAt: -1 })
-      .limit(20)
-      .toArray();
-    res.json({ questions: convs.map(c => ({ q: c.userMessage, date: c.date })) });
-  } catch(err) {
     res.status(500).json({ error: err.message });
   }
 });
