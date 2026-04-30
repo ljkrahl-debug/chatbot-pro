@@ -180,7 +180,7 @@ app.put('/api/admin/:clientId', async (req, res) => {
 });
 
 // ── DOCUMENT ANALYZE ─────────────────────────────────────
-app.post('/api/analyze-doc', async (req, res) => {
+app.post('/api/analyze-doc', upload.single('file'), async (req, res) => {
   const { clientId, text } = req.body;
   if(!text) return res.status(400).json({ error: 'No text provided' });
   try{
