@@ -181,8 +181,100 @@ app.put('/api/admin/:clientId', async (req, res) => {
 
 // ── DOCUMENT ANALYZE ─────────────────────────────────────
 app.post('/api/analyze-doc', upload.single('file'), async (req, res) => {
-  const { clientId, text } = req.body;
-  if(!text) return res.status(400).json({ error: 'No text provided' });
+  try {
+    console.log('analyze-doc called, file:', req.file ? req.file.originalname : 'NONE');
+    if (!req.file) return res.status(400).json({ error: 'Keine Datei hochgeladen' });
+
+    let text = '';
+    const filename = req.file.originalname.toLowerCase();
+    const mimetype = req.file.mimetype;
+
+    if (mimetype === 'application/pdf' || filename.endsWith('.pdf')) {
+      try {
+        // Use pdf-parse with options to get all text
+        const pdfData = await pdfParse(req.file.buffer, {
+          pagerender: function(pageData) {
+            return pageData.getTextContent().then(function(textContent) {
+              return textContent.items.map(item => item.str).join(' ');
+            });
+          }
+        });
+        text = pdfData.text || '';
+        console.log('PDF pages:', pdfData.numpages, 'text length:', text.length);
+        console.log('PDF sample:', text.substring(0, 200));
+      } catch(e) {
+        console.error('PDF error:', e.message);
+        return res.status(400).json({ error: 'PDF konnte nicht gelesen werden. Bitte als TXT-Datei speichern und erneut hochladen.' });
+      }
+    } else {
+      text = req.file.buffer.toString('utf-8');
+    }
+
+    // Clean text
+    text = text.replace(/[\x00-\x08\x0b\x0c\x0e-\x1f]/g, ' ').replace(/\s{3,}/g, '\n').trim();
+    console.log('Cleaned text length:', text.length);
+    console.log('Cleaned text sample:', text.substring(0, 300));
+
+    // Check if text has real content (not just metadata)
+    const metadataKeywords = ['pdf-', 'reportlab', 'xmp', 'xmlns', 'metadata', 'doctype', '/type', '/page', '/font'];
+    const isOnlyMetadata = text.length < 100 || metadataKeywords.filter(k => text.toLowerCase().includes(k)).length > 3;
+
+    if (isOnlyMetadata || text.length < 50) {
+      return res.status(400).json({ 
+        error: 'Der Textinhalt des PDFs konnte nicht extrahiert werden. Das PDF ist möglicherweise gescannt oder verschlüsselt. Bitte:
+1. Text aus dem PDF kopieren
+2. In eine .txt Datei einfügen
+3. Diese .txt Datei hochladen'
+      });
+    }
+
+    const textForAI = text.substring(0, 6000);
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 2000,
+        messages: [{
+          role: 'user',
+          content: `You are a JSON API. Read this business document text and create 5-8 FAQ pairs that a customer might ask.
+
+STRICT RULES:
+- ONLY use actual business content: services offered, prices, opening hours, contact info, products, processes
+- DO NOT mention: page count, creation date, file format, fonts, PDF metadata, author, software used
+- If you find no real business information, return: []
+- Write questions and answers in German
+- Questions must be what a real customer would ask this business
+
+Return ONLY a JSON array with no other text:
+[{"q":"Frage","a":"Antwort"}]
+
+Document text:
+${textForAI}`
+        }]
+      })
+    });
+
+    const data = await response.json();
+    const rawText = data.content?.[0]?.text || '[]';
+    console.log('AI response:', rawText.substring(0, 200));
+    
+    const match = rawText.match(/\[.*\]/s);
+    if (!match) return res.json({ faqs: [], count: 0 });
+    
+    const faqs = JSON.parse(match[0]);
+    res.json({ faqs, count: faqs.length });
+
+  } catch(err) {
+    console.error('Doc analyze error:', err.message);
+    res.status(500).json({ error: 'Fehler: ' + err.message });
+  }
+});
   try{
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
