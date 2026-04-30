@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Chatbot24 – Super Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{--g:#1D9E75;--gd:#0F6E56;--gl:#E8F8F2;--ink:#0A0A0A;--soft:#5A6472;--muted:#9AA3AD;--border:#EBEBEB;--bg:#F7F9FB;--white:#fff;--red:#E24B4A;--redl:#FFF0F0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Sora',sans-serif;background:var(--ink);color:var(--ink);min-height:100vh;display:flex;align-items:center;justify-content:center}
+  input,button,select{font-family:inherit}
+
+  /* LOGIN */
+  .login-box{background:var(--white);border-radius:20px;padding:2.5rem;width:100%;max-width:360px}
+  .login-logo{font-size:18px;font-weight:600;color:var(--g);margin-bottom:4px}
+  .login-sub{font-size:12px;color:var(--muted);margin-bottom:2rem;font-weight:300}
+  .fi{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;background:var(--bg);margin-bottom:1rem}
+  .fi:focus{outline:none;border-color:var(--g)}
+  .btn{width:100%;background:var(--ink);color:#fff;border:none;padding:12px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer}
+  .btn:hover{opacity:0.8}
+  .btn-g{background:var(--g)}
+  .btn-sm{width:auto;padding:6px 14px;font-size:12px;border-radius:7px}
+  .err{color:var(--red);font-size:12px;margin-top:0.5rem;text-align:center}
+
+  /* APP */
+  .app{display:none;min-height:100vh;background:var(--bg);width:100%}
+  .top-bar{background:var(--ink);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between}
+  .top-logo{font-size:16px;font-weight:600;color:var(--g)}
+  .top-badge{font-size:11px;color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.1);padding:3px 10px;border-radius:100px}
+  .main{max-width:1100px;margin:0 auto;padding:2rem}
+  .page-title{font-size:22px;font-weight:600;letter-spacing:-0.5px;margin-bottom:4px}
+  .page-sub{font-size:13px;color:var(--muted);margin-bottom:2rem;font-weight:300}
+
+  /* STATS */
+  .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+  .stat{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.25rem}
+  .stat-num{font-size:28px;font-weight:600;letter-spacing:-1px;color:var(--g)}
+  .stat-lbl{font-size:12px;color:var(--muted);font-weight:300;margin-top:2px}
+
+  /* CLIENTS TABLE */
+  .card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.5rem;margin-bottom:1.5rem}
+  .card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+  .card-title{font-size:15px;font-weight:600}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;padding:10px 12px;border-bottom:1.5px solid var(--border);font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em}
+  td{padding:12px;border-bottom:1px solid var(--border);vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:var(--bg)}
+  .badge{display:inline-block;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:500}
+  .badge-start{background:#EEF2FF;color:#4338CA}
+  .badge-wachstum{background:var(--gl);color:var(--gd)}
+  .badge-pro{background:#FFF7ED;color:#C2410C}
+  .progress-wrap{background:var(--bg);border-radius:100px;height:6px;width:120px;overflow:hidden}
+  .progress-bar{height:100%;border-radius:100px;background:var(--g);transition:width 0.3s}
+  .progress-bar.warn{background:#F59E0B}
+  .progress-bar.danger{background:var(--red)}
+  select.plan-sel{border:1.5px solid var(--border);border-radius:7px;padding:5px 8px;font-size:12px;background:var(--white);cursor:pointer}
+  select.plan-sel:focus{outline:none;border-color:var(--g)}
+
+  /* NEW CLIENT */
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  .fl{margin-bottom:1rem}
+  .fl label{display:block;font-size:12px;font-weight:500;color:var(--soft);margin-bottom:5px}
+  .fl input,.fl select{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:13px;background:var(--bg)}
+  .fl input:focus,.fl select:focus{outline:none;border-color:var(--g)}
+  .toast{display:none;background:var(--g);color:#fff;padding:8px 18px;border-radius:8px;font-size:12px;margin-left:10px}
+  .toast.show{display:inline-block}
+
+  /* RESET BTN */
+  .reset-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer}
+  .reset-btn:hover{border-color:var(--red);color:var(--red)}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">Chatbot24</div>
+    <div class="login-sub">Super Admin · Nur für interne Nutzung</div>
+    <input class="fi" id="l-pw" type="password" placeholder="Super-Passwort" />
+    <button class="btn" onclick="doLogin()">Einloggen</button>
+    <div class="err" id="login-err"></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="app">
+  <div class="top-bar">
+    <div class="top-logo">Chatbot24</div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <span class="top-badge">Super Admin</span>
+      <button class="btn btn-sm" style="background:rgba(255,255,255,0.1);color:#fff;border:none" onclick="location.reload()">Abmelden</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="page-title">Alle Kunden verwalten</div>
+    <div class="page-sub">Pakete zuweisen, Limits einsehen, neue Kunden anlegen</div>
+
+    <!-- STATS -->
+    <div class="stat-row">
+      <div class="stat"><div class="stat-num" id="s-total">0</div><div class="stat-lbl">Kunden gesamt</div></div>
+      <div class="stat"><div class="stat-num" id="s-chats">0</div><div class="stat-lbl">Gespräche gesamt</div></div>
+      <div class="stat"><div class="stat-num" id="s-msgs">0</div><div class="stat-lbl">Nachrichten gesamt</div></div>
+      <div class="stat"><div class="stat-num" id="s-monthly">0</div><div class="stat-lbl">Nachrichten diesen Monat</div></div>
+    </div>
+
+    <!-- CLIENTS -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Kunden & Pakete</div>
+        <button class="btn btn-g btn-sm" onclick="loadClients()">🔄 Aktualisieren</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Kunde</th>
+            <th>Branche</th>
+            <th>Paket</th>
+            <th>Limit</th>
+            <th>Diesen Monat</th>
+            <th>Gesamt</th>
+            <th>Aktionen</th>
+          </tr>
+        </thead>
+        <tbody id="clients-table">
+          <tr><td colspan="7" style="text-align:center;color:var(--muted);padding:2rem">Lädt...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- NEW CLIENT -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Neuen Kunden anlegen</div>
+        <span class="toast" id="t-new">✓ Angelegt!</span>
+      </div>
+      <div class="form-grid">
+        <div class="fl"><label>Kunden-ID (lowercase, keine Leerzeichen)</label><input id="n-id" placeholder="z.B. restaurant-mueller" /></div>
+        <div class="fl"><label>Firmenname</label><input id="n-name" placeholder="Restaurant Müller" /></div>
+        <div class="fl"><label>Branche</label><input id="n-industry" placeholder="Restaurant" /></div>
+        <div class="fl"><label>Passwort für Kunden</label><input id="n-pw" placeholder="Sicheres Passwort" /></div>
+        <div class="fl"><label>Paket</label>
+          <select id="n-plan">
+            <option value="start">Start (500 Nachrichten)</option>
+            <option value="wachstum">Wachstum (2.000 Nachrichten)</option>
+            <option value="pro">Pro (10.000 Nachrichten)</option>
+          </select>
+        </div>
+        <div class="fl"><label>Akzentfarbe</label><input id="n-color" type="color" value="#1D9E75" style="height:41px;cursor:pointer" /></div>
+      </div>
+      <button class="btn btn-g" style="width:auto;padding:10px 24px" onclick="createClient()">+ Kunden anlegen</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const LIMITS = { start: 500, wachstum: 2000, pro: 10000 };
+let pw = '';
+
+document.getElementById('l-pw').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+
+async function doLogin(){
+  const p = document.getElementById('l-pw').value.trim();
+  try {
+    const res = await fetch('/api/superadmin/login', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ password: p })
+    });
+    if (!res.ok) { document.getElementById('login-err').textContent = 'Falsches Passwort'; return; }
+    pw = p;
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    document.body.style.alignItems = 'flex-start';
+    loadClients();
+  } catch(e) {
+    document.getElementById('login-err').textContent = 'Verbindungsfehler';
+  }
+}
+
+async function loadClients(){
+  const res = await fetch(`/api/superadmin/clients?password=${pw}`);
+  const clients = await res.json();
+
+  // Stats
+  document.getElementById('s-total').textContent = clients.length;
+  document.getElementById('s-chats').textContent = clients.reduce((a,c)=>a+(c.chats||0),0);
+  document.getElementById('s-msgs').textContent = clients.reduce((a,c)=>a+(c.messages||0),0);
+  document.getElementById('s-monthly').textContent = clients.reduce((a,c)=>a+(c.monthlyMessages||0),0);
+
+  // Table
+  const tbody = document.getElementById('clients-table');
+  if (!clients.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:2rem">Keine Kunden vorhanden</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = clients.map(c => {
+    const limit = LIMITS[c.plan] || 500;
+    const used = c.monthlyMessages || 0;
+    const pct = Math.min(100, Math.round((used/limit)*100));
+    const barClass = pct >= 90 ? 'danger' : pct >= 70 ? 'warn' : '';
+    const badgeClass = c.plan === 'pro' ? 'badge-pro' : c.plan === 'wachstum' ? 'badge-wachstum' : 'badge-start';
+    const planLabel = c.plan === 'pro' ? 'Pro' : c.plan === 'wachstum' ? 'Wachstum' : 'Start';
+
+    return `<tr>
+      <td>
+        <div style="font-weight:500">${c.name || c.id}</div>
+        <div style="font-size:11px;color:var(--muted)">${c.id}</div>
+      </td>
+      <td style="color:var(--soft)">${c.industry || '–'}</td>
+      <td>
+        <select class="plan-sel" onchange="setPlan('${c.id}', this.value)">
+          <option value="start" ${c.plan==='start'?'selected':''}>Start</option>
+          <option value="wachstum" ${c.plan==='wachstum'?'selected':''}>Wachstum</option>
+          <option value="pro" ${c.plan==='pro'?'selected':''}>Pro</option>
+        </select>
+      </td>
+      <td style="color:var(--muted);font-size:12px">${limit.toLocaleString()}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="progress-wrap"><div class="progress-bar ${barClass}" style="width:${pct}%"></div></div>
+          <span style="font-size:12px;color:${pct>=90?'var(--red)':'var(--soft)'}">${used} / ${limit}</span>
+        </div>
+      </td>
+      <td style="color:var(--soft);font-size:12px">${(c.messages||0).toLocaleString()}</td>
+      <td>
+        <button class="reset-btn" onclick="resetMonthly('${c.id}')">Reset Monat</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+async function setPlan(clientId, plan){
+  await fetch(`/api/superadmin/client/${clientId}?password=${pw}`, {
+    method: 'PUT',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ plan })
+  });
+  loadClients();
+}
+
+async function resetMonthly(clientId){
+  if (!confirm(`Monatliche Nachrichten für ${clientId} zurücksetzen?`)) return;
+  await fetch(`/api/superadmin/client/${clientId}?password=${pw}`, {
+    method: 'PUT',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ resetMonthly: true })
+  });
+  loadClients();
+}
+
+async function createClient(){
+  const id = document.getElementById('n-id').value.trim();
+  const name = document.getElementById('n-name').value.trim();
+  const industry = document.getElementById('n-industry').value.trim();
+  const clientPassword = document.getElementById('n-pw').value.trim();
+  const plan = document.getElementById('n-plan').value;
+  const color = document.getElementById('n-color').value;
+
+  if (!id || !name || !clientPassword) { alert('Bitte ID, Name und Passwort ausfüllen!'); return; }
+
+  const res = await fetch(`/api/superadmin/create-client?password=${pw}`, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ id, name, industry, clientPassword, plan, color })
+  });
+  const data = await res.json();
+  if (data.error) { alert('Fehler: ' + data.error); return; }
+
+  // Clear form
+  ['n-id','n-name','n-industry','n-pw'].forEach(f => document.getElementById(f).value = '');
+  document.getElementById('n-plan').value = 'start';
+
+  // Show toast
+  const t = document.getElementById('t-new');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+
+  loadClients();
+}
+</script>
+</body>
+</html>
