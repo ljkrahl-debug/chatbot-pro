@@ -183,8 +183,17 @@ async function doLogin(){
 }
 
 async function loadClients(){
-  const res = await fetch(`/api/superadmin/clients?password=${pw}`);
-  const clients = await res.json();
+  const tbody = document.getElementById('clients-table');
+  tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:2rem">Lädt...</td></tr>';
+  let clients;
+  try {
+    const res = await fetch(`/api/superadmin/clients?password=${pw}`);
+    if (!res.ok) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--red);padding:2rem">Fehler beim Laden (' + res.status + ')</td></tr>'; return; }
+    clients = await res.json();
+  } catch(e) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--red);padding:2rem">Verbindungsfehler: ' + e.message + '</td></tr>';
+    return;
+  }
 
   // Stats
   document.getElementById('s-total').textContent = clients.length;
@@ -193,7 +202,6 @@ async function loadClients(){
   document.getElementById('s-monthly').textContent = clients.reduce((a,c)=>a+(c.monthlyMessages||0),0);
 
   // Table
-  const tbody = document.getElementById('clients-table');
   if (!clients.length) {
     tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:2rem">Keine Kunden vorhanden</td></tr>';
     return;
