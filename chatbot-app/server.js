@@ -246,6 +246,34 @@ app.post('/api/analyze-doc', upload.single('file'), async (req, res) => {
   }
 });
 
+// ── UNANSWERED QUESTIONS ─────────────────────────────────
+app.get('/api/unanswered/:clientId', async (req, res) => {
+  try {
+    const convs = await db.collection('conversations')
+      .find({ clientId: req.params.clientId, unanswered: true, dismissed: { $ne: true } })
+      .sort({ createdAt: -1 })
+      .limit(20)
+      .toArray();
+    res.json({ questions: convs.map(c => ({ q: c.userMessage, date: c.date })) });
+  } catch(err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ── DISMISS QUESTION ──────────────────────────────────────
+app.post('/api/dismiss-question', async (req, res) => {
+  try {
+    const { clientId, question } = req.body;
+    await db.collection('conversations').updateMany(
+      { clientId, userMessage: { $regex: question.substring(0, 50), $options: 'i' }, unanswered: true },
+      { $set: { dismissed: true, unanswered: false } }
+    );
+    res.json({ success: true });
+  } catch(err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ── TOPICS ANALYSIS ──────────────────────────────────────
 app.get('/api/topics/:clientId', async (req, res) => {
   try {
