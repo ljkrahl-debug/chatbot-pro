@@ -306,6 +306,8 @@ app.get('/api/superadmin/clients', async (req, res) => {
     name: c.name,
     industry: c.industry,
     plan: c.plan || 'start',
+    password: c.password || '–',
+    rechnungsnr: c.rechnungsnr || '–',
     chats: c.stats?.chats || 0,
     messages: c.stats?.messages || 0,
     monthlyMessages: c.stats?.monthlyMessages || 0,
@@ -327,11 +329,12 @@ app.put('/api/superadmin/client/:clientId', async (req, res) => {
 app.post('/api/superadmin/create-client', async (req, res) => {
   const { password } = req.query;
   if (password !== SUPER_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
-  const { id, name, industry, clientPassword, plan, color } = req.body;
+  const { id, name, industry, clientPassword, rechnungsnr, plan, color } = req.body;
   const existing = await db.collection('clients').findOne({ id });
   if (existing) return res.status(400).json({ error: 'Client ID bereits vergeben' });
   await db.collection('clients').insertOne({
     id, name, industry, color: color || '#1D9E75',
+    rechnungsnr: rechnungsnr || '',
     plan: plan || 'start',
     botName: 'Assistent',
     welcome: 'Hallo! Wie kann ich Ihnen helfen?',
