@@ -630,14 +630,14 @@ footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: fle
   <div style="max-width:800px;margin:0 auto">
     <div style="font-size:12px;font-weight:600;color:var(--g);text-transform:uppercase;letter-spacing:0.15em;margin-bottom:1.5rem" class="fade-up">Preisversprechen</div>
     <div style="font-family:'DM Serif Display',serif;font-size:clamp(32px,5vw,58px);color:#fff;line-height:1.1;letter-spacing:-1.5px;margin-bottom:1.5rem" class="fade-up">
-      Volle KI. Volle Features.<br><span style="color:var(--g)">Ab 14,100€ im Monat.</span>
+      Volle KI. Volle Features.<br><span style="color:var(--g)">Ab 14,99€ im Monat.</span>
     </div>
     <p style="font-size:16px;color:rgba(255,255,255,0.45);font-weight:300;line-height:1.8;max-width:520px;margin:0 auto 2.5rem" class="fade-up">
       Tidio verlangt 29€ – ohne KI. Crisp startet bei 45€ – KI erst ab 95€. Intercom kostet 74€ pro Person. <strong style="color:rgba(255,255,255,0.75);font-weight:400">Wir machen das anders:</strong> alles inklusive, vollständig eingerichtet, für jeden der ein kleines Unternehmen betreibt.
     </p>
     <div style="display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap" class="fade-up">
       <div style="text-align:center">
-        <div style="font-size:38px;font-weight:700;color:var(--g);letter-spacing:-1px">14,100€</div>
+        <div style="font-size:38px;font-weight:700;color:var(--g);letter-spacing:-1px">14,99€</div>
         <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:4px;font-weight:300">statt 29–95€ bei der Konkurrenz</div>
       </div>
       <div style="width:1px;background:rgba(255,255,255,0.1)"></div>
@@ -674,7 +674,7 @@ footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: fle
         <li>E-Mail-Support</li>
         <li>In 48h live</li>
       </ul>
-      <button class="price-btn" onclick="openModal('Start (14,100€/Monat)')">Jetzt bestellen →</button>
+      <button class="price-btn" onclick="openModal('Start (14,99€/Monat)')">Jetzt bestellen →</button>
     </div>
 
     <div class="price-card featured fade-up">
@@ -692,7 +692,7 @@ footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: fle
         <li>E-Mail-Support</li>
         <li>In 48h live</li>
       </ul>
-      <button class="price-btn" onclick="openModal('Wachstum (24,100€/Monat)')">Jetzt bestellen →</button>
+      <button class="price-btn" onclick="openModal('Wachstum (24,99€/Monat)')">Jetzt bestellen →</button>
       <div class="price-note">Zahlung erst nach Einrichtung</div>
     </div>
 
@@ -710,7 +710,7 @@ footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: fle
         <li>E-Mail-Support</li>
         <li>In 48h live</li>
       </ul>
-      <button class="price-btn" onclick="openModal('Pro (39,100€/Monat)')">Jetzt bestellen →</button>
+      <button class="price-btn" onclick="openModal('Pro (39,99€/Monat)')">Jetzt bestellen →</button>
     </div>
 
   </div>
@@ -784,11 +784,11 @@ footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: fle
       <div class="modal-title">Jetzt bestellen</div>
       <p class="modal-sub">Wir melden uns innerhalb von 24 Stunden mit der Rechnung!</p>
       <div class="pkg-grid">
-        <div class="pkg-card" id="pkg-start" onclick="selectPkg('start')"><div class="pkg-name">Start</div><div class="pkg-price">14,100€</div><div class="pkg-msgs">500 Nachrichten</div></div>
-        <div class="pkg-card selected" id="pkg-wachstum" onclick="selectPkg('wachstum')"><div class="pkg-name">Wachstum ⭐</div><div class="pkg-price">24,100€</div><div class="pkg-msgs">2.000 Nachrichten</div></div>
-        <div class="pkg-card" id="pkg-pro" onclick="selectPkg('pro')"><div class="pkg-name">Pro</div><div class="pkg-price">39,100€</div><div class="pkg-msgs">10.000 Nachrichten</div></div>
+        <div class="pkg-card" id="pkg-start" onclick="selectPkg('start')"><div class="pkg-name">Start</div><div class="pkg-price">14,99€</div><div class="pkg-msgs">500 Nachrichten</div></div>
+        <div class="pkg-card selected" id="pkg-wachstum" onclick="selectPkg('wachstum')"><div class="pkg-name">Wachstum ⭐</div><div class="pkg-price">24,99€</div><div class="pkg-msgs">2.000 Nachrichten</div></div>
+        <div class="pkg-card" id="pkg-pro" onclick="selectPkg('pro')"><div class="pkg-name">Pro</div><div class="pkg-price">39,99€</div><div class="pkg-msgs">10.000 Nachrichten</div></div>
       </div>
-      <input type="hidden" id="f-paket" value="Wachstum (24,100€/Monat)" />
+      <input type="hidden" id="f-paket" value="Wachstum (24,99€/Monat)" />
       <div class="form-grid">
         <div class="fg"><label>Ihr Name *</label><input id="f-name" placeholder="Max Mustermann" /></div>
         <div class="fg"><label>E-Mail *</label><input id="f-email" type="email" placeholder="max@firma.de" /></div>
@@ -830,7 +830,7 @@ document.getElementById('contact-modal').addEventListener('click',function(e){if
 function selectPkg(pkg){
   ['start','wachstum','pro'].forEach(p=>document.getElementById('pkg-'+p).classList.remove('selected'));
   document.getElementById('pkg-'+pkg).classList.add('selected');
-  const names={start:'Start (14,100€/Monat)',wachstum:'Wachstum (24,100€/Monat)',pro:'Pro (39,100€/Monat)'};
+  const names={start:'Start (14,99€/Monat)',wachstum:'Wachstum (24,99€/Monat)',pro:'Pro (39,99€/Monat)'};
   document.getElementById('f-paket').value=names[pkg];
 }
 
