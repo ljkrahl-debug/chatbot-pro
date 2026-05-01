@@ -117,9 +117,9 @@
         <thead>
           <tr>
             <th>Kunde</th>
-            <th>Branche</th>
+            <th>Rechnung-Nr.</th>
+            <th>Passwort</th>
             <th>Paket</th>
-            <th>Limit</th>
             <th>Diesen Monat</th>
             <th>Gesamt</th>
             <th>Aktionen</th>
@@ -142,6 +142,7 @@
         <div class="fl"><label>Firmenname</label><input id="n-name" placeholder="Restaurant Müller" /></div>
         <div class="fl"><label>Branche</label><input id="n-industry" placeholder="Restaurant" /></div>
         <div class="fl"><label>Passwort für Kunden</label><input id="n-pw" placeholder="Sicheres Passwort" /></div>
+        <div class="fl"><label>Rechnungsnummer</label><input id="n-rechnungsnr" placeholder="z.B. 2026-001" /></div>
         <div class="fl"><label>Paket</label>
           <select id="n-plan">
             <option value="start">Start (500 Nachrichten)</option>
@@ -210,8 +211,17 @@ async function loadClients(){
       <td>
         <div style="font-weight:500">${c.name || c.id}</div>
         <div style="font-size:11px;color:var(--muted)">${c.id}</div>
+        <div style="font-size:11px;color:var(--g)">${c.industry || ''}</div>
       </td>
-      <td style="color:var(--soft)">${c.industry || '–'}</td>
+      <td>
+        <div style="font-size:12px;font-weight:500;color:var(--ink)">${c.rechnungsnr || '–'}</div>
+      </td>
+      <td>
+        <div style="display:flex;align-items:center;gap:6px">
+          <code style="font-size:11px;background:var(--bg);padding:3px 8px;border-radius:5px;border:1px solid var(--border);letter-spacing:0.02em">${c.password || '–'}</code>
+          <button onclick="navigator.clipboard.writeText('${c.password||''}');this.textContent='✓';setTimeout(()=>this.textContent='📋',1500)" style="background:none;border:none;cursor:pointer;font-size:12px;color:var(--muted)">📋</button>
+        </div>
+      </td>
       <td>
         <select class="plan-sel" onchange="setPlan('${c.id}', this.value)">
           <option value="start" ${c.plan==='start'?'selected':''}>Start</option>
@@ -219,7 +229,6 @@ async function loadClients(){
           <option value="pro" ${c.plan==='pro'?'selected':''}>Pro</option>
         </select>
       </td>
-      <td style="color:var(--muted);font-size:12px">${limit.toLocaleString()}</td>
       <td>
         <div style="display:flex;align-items:center;gap:8px">
           <div class="progress-wrap"><div class="progress-bar ${barClass}" style="width:${pct}%"></div></div>
@@ -228,7 +237,7 @@ async function loadClients(){
       </td>
       <td style="color:var(--soft);font-size:12px">${(c.messages||0).toLocaleString()}</td>
       <td>
-        <button class="reset-btn" onclick="resetMonthly('${c.id}')">Reset Monat</button>
+        <button class="reset-btn" onclick="resetMonthly('${c.id}')">Reset</button>
       </td>
     </tr>`;
   }).join('');
@@ -258,6 +267,7 @@ async function createClient(){
   const name = document.getElementById('n-name').value.trim();
   const industry = document.getElementById('n-industry').value.trim();
   const clientPassword = document.getElementById('n-pw').value.trim();
+  const rechnungsnr = document.getElementById('n-rechnungsnr').value.trim();
   const plan = document.getElementById('n-plan').value;
   const color = document.getElementById('n-color').value;
 
@@ -266,13 +276,13 @@ async function createClient(){
   const res = await fetch(`/api/superadmin/create-client?password=${pw}`, {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({ id, name, industry, clientPassword, plan, color })
+    body: JSON.stringify({ id, name, industry, clientPassword, rechnungsnr, plan, color })
   });
   const data = await res.json();
   if (data.error) { alert('Fehler: ' + data.error); return; }
 
   // Clear form
-  ['n-id','n-name','n-industry','n-pw'].forEach(f => document.getElementById(f).value = '');
+  ['n-id','n-name','n-industry','n-pw','n-rechnungsnr'].forEach(f => document.getElementById(f).value = '');
   document.getElementById('n-plan').value = 'start';
 
   // Show toast
