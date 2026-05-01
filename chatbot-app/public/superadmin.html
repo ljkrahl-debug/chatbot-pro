@@ -236,8 +236,9 @@ async function loadClients(){
         </div>
       </td>
       <td style="color:var(--soft);font-size:12px">${(c.messages||0).toLocaleString()}</td>
-      <td>
+      <td style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
         <button class="reset-btn" onclick="resetMonthly('${c.id}')">Reset</button>
+        <button onclick="deleteClient('${c.id}','${(c.name||c.id).replace(/'/g,\'\')}')" style="background:none;border:1px solid var(--border);color:var(--red);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer" onmouseover="this.style.background='var(--redl)'" onmouseout="this.style.background='none'">🗑 Löschen</button>
       </td>
     </tr>`;
   }).join('');
@@ -259,6 +260,17 @@ async function resetMonthly(clientId){
     headers: {'Content-Type':'application/json'},
     body: JSON.stringify({ resetMonthly: true })
   });
+  loadClients();
+}
+
+async function deleteClient(clientId, name){
+  if (!confirm(`Kunden "${name}" wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden!`)) return;
+  const res = await fetch(`/api/superadmin/client/${clientId}?password=${pw}`, {
+    method: 'DELETE',
+    headers: {'Content-Type':'application/json'},
+  });
+  const data = await res.json();
+  if (data.error) { alert('Fehler: ' + data.error); return; }
   loadClients();
 }
 
