@@ -80,8 +80,10 @@
     <div class="login-logo">Chatbot24</div>
     <div class="login-sub">Super Admin · Nur für interne Nutzung</div>
     <input class="fi" id="l-pw" type="password" placeholder="Super-Passwort" />
-    <button class="btn" onclick="doLogin()">Einloggen</button>
+    <button class="btn" id="login-btn" onclick="doLogin()">Einloggen</button>
     <div class="err" id="login-err"></div>
+    <div id="login-status" style="font-size:11px;color:var(--muted);margin-top:0.5rem;text-align:center"></div>
+    <div style="font-size:11px;color:var(--muted);margin-top:1rem;text-align:center;border-top:1px solid var(--border);padding-top:0.75rem">Standard: chatbot24super2026</div>
   </div>
 </div>
 
@@ -165,20 +167,39 @@ document.getElementById('l-pw').addEventListener('keydown', e => { if(e.key==='E
 
 async function doLogin(){
   const p = document.getElementById('l-pw').value.trim();
+  const btn = document.getElementById('login-btn');
+  const err = document.getElementById('login-err');
+  const status = document.getElementById('login-status');
+  if(!p){ err.textContent = 'Bitte Passwort eingeben'; return; }
+  btn.textContent = 'Lädt...';
+  btn.disabled = true;
+  err.textContent = '';
+  status.textContent = 'Verbinde...';
   try {
     const res = await fetch('/api/superadmin/login', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({ password: p })
     });
-    if (!res.ok) { document.getElementById('login-err').textContent = 'Falsches Passwort'; return; }
+    status.textContent = 'Status: ' + res.status;
+    if (!res.ok) {
+      err.textContent = 'Falsches Passwort (Status ' + res.status + ')';
+      btn.textContent = 'Einloggen';
+      btn.disabled = false;
+      return;
+    }
     pw = p;
+    status.textContent = 'Erfolgreich – lade Daten...';
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
+    document.body.style.background = 'var(--bg)';
     document.body.style.alignItems = 'flex-start';
     loadClients();
   } catch(e) {
-    document.getElementById('login-err').textContent = 'Verbindungsfehler';
+    err.textContent = 'Verbindungsfehler: ' + e.message;
+    status.textContent = '';
+    btn.textContent = 'Einloggen';
+    btn.disabled = false;
   }
 }
 
