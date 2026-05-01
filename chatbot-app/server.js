@@ -375,6 +375,18 @@ app.post('/api/superadmin/create-client', async (req, res) => {
   res.json({ success: true });
 });
 
+app.delete('/api/superadmin/client/:clientId', async (req, res) => {
+  const { password } = req.query;
+  if (password !== SUPER_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
+  try {
+    await db.collection('clients').deleteOne({ id: req.params.clientId });
+    await db.collection('conversations').deleteMany({ clientId: req.params.clientId });
+    res.json({ success: true });
+  } catch(err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.get('/superadmin', (req, res) => res.sendFile(require('path').join(__dirname, 'public', 'superadmin.html')));
 
 // ── DEBUG ─────────────────────────────────────────────────
