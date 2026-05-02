@@ -112,7 +112,30 @@ app.post('/api/chat/:clientId', async (req, res) => {
                        replyLower.includes('leider ist mir') ||
                        replyLower.includes('i cannot') ||
                        replyLower.includes("i don't know") ||
-                       replyLower.includes('unfortunately');
+                       replyLower.includes('unfortunately') ||
+                       replyLower.includes('hab ich keine') ||
+                       replyLower.includes('habe ich keine') ||
+                       replyLower.includes('keine auskunft') ||
+                       replyLower.includes('nicht vorliegen') ||
+                       replyLower.includes('leider fehlen') ||
+                       replyLower.includes('fehlen mir') ||
+                       replyLower.includes('nicht bekannt') ||
+                       replyLower.includes('bedauerlicherweise') ||
+                       replyLower.includes('keine kenntnis') ||
+                       replyLower.includes('nicht mitteilen') ||
+                       replyLower.includes('weiß ich nicht') ||
+                       replyLower.includes('keine ahnung') ||
+                       replyLower.includes('nicht im system') ||
+                       replyLower.includes('nicht hinterlegt') ||
+                       replyLower.includes('direkt anfragen') ||
+                       replyLower.includes('direkt fragen') ||
+                       replyLower.includes('direkt kontaktieren') ||
+                       replyLower.includes('telefonisch') ||
+                       replyLower.includes('per e-mail anfragen') ||
+                       replyLower.includes('leider außerhalb') ||
+                       replyLower.includes('nicht in meinen') ||
+                       replyLower.includes('keine infos') ||
+                       replyLower.includes('keine daten');
 
     // Immer die aktuelle Frage speichern wenn sie nicht beantwortet wurde
     // Nur erste Nachricht speichern wenn beantwortet (für Gesprächs-Statistik)
