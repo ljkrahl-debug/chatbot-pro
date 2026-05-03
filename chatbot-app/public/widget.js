@@ -108,7 +108,7 @@
     btn.addEventListener('click', toggleBox);
 
     // Auto popup
-    if (cfg && cfg.widgetAutoPopup && cfg.welcome) {
+    if (cfg && cfg.widgetAutoPopup === true && cfg.welcome) {
       const delay = (cfg.widgetAutoDelay || 3) * 1000;
       setTimeout(function() {
         if (box.classList.contains('open')) return;
