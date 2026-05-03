@@ -446,7 +446,7 @@
                   <div class="s-block" style="height:35px"></div>
                   <div class="s-block" style="height:60px"></div>
                 </div>
-                <div class="chat-float-btn" id="prev-phone"><span id="prev-icon-phone">💬</span></div>
+                <div id="prev-container-phone" style="position:absolute;inset:0;pointer-events:none"></div>
               </div>
             </div>
           </div>
@@ -460,7 +460,7 @@
                   <div class="s-block" style="height:40px"></div>
                   <div class="s-block" style="height:40px"></div>
                 </div>
-                <div class="chat-float-btn" id="prev-tablet"><span id="prev-icon-tablet">💬</span></div>
+                <div id="prev-container-tablet" style="position:absolute;inset:0;pointer-events:none"></div>
               </div>
             </div>
           </div>
@@ -482,7 +482,7 @@
                     <div class="s-block" style="height:35px"></div>
                   </div>
                 </div>
-                <div class="chat-float-btn" id="prev-desktop"><span id="prev-icon-desktop">💬</span></div>
+                <div id="prev-container-desktop" style="position:absolute;inset:0;pointer-events:none"></div>
               </div>
             </div>
           </div>
@@ -585,6 +585,7 @@ function loadApp(){
   // Widget style
   selectWidgetStyle(clientData.widgetStyle||'round');
   document.getElementById('cfg-widget-text').value=clientData.widgetButtonText||'Wie kann ich helfen?';
+  document.getElementById('cfg-widget-text').addEventListener('input', updateAllPreviews);
   const autoPopup=clientData.widgetAutoPopup||false;
   document.getElementById('cfg-auto-popup').checked=autoPopup;
   document.getElementById('auto-delay-wrap').style.display=autoPopup?'block':'none';
@@ -772,6 +773,7 @@ function selectWidgetStyle(style){
   const sel=document.getElementById('ws-'+style);
   if(sel){sel.style.border='2px solid var(--g)';sel.style.background='var(--gl)';}
   clientData.widgetStyle=style;
+  updateAllPreviews();
 }
 
 function selectIcon(el,icon){
@@ -990,7 +992,7 @@ async function buildChart(){
   chartInstance=new Chart(ctx,{
     type:'bar',
     data:{labels:days,datasets:[{data,backgroundColor:'#1D9E75',borderRadius:6,borderSkipped:false}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{family:'Sora',size:11},color:'#9AA3AD'}},y:{grid:{color:'#F4F4F4'},ticks:{font:{family:'Sora',size:11},color:'#9AA3AD'},beginAtZero:true}}}
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{family:'Sora',size:11},color:'#9AA3AD'}},y:{grid:{color:'#F4F4F4'},ticks:{font:{family:'Sora',size:11},color:'#9AA3AD',precision:0},beginAtZero:true,suggestedMax:function(ctx){const max=Math.max(...ctx.chart.data.datasets[0].data,5);return Math.ceil(max*1.2);}}}}
   });
 }
 
