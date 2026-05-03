@@ -798,6 +798,16 @@ footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: fle
         <div class="fg"><label>Branche</label><input id="f-branche" placeholder="z.B. Restaurant" /></div>
       </div>
       <div class="fg"><label>Nachricht (optional)</label><textarea id="f-nachricht" placeholder="Gibt es etwas Besonderes das wir wissen sollten?"></textarea></div>
+      <div class="form-grid">
+        <div class="fg">
+          <label>Wunsch-Passwort für Ihr Dashboard *</label>
+          <input id="f-passwort" type="password" placeholder="Mindestens 6 Zeichen" />
+        </div>
+        <div class="fg">
+          <label>Passwort bestätigen *</label>
+          <input id="f-passwort2" type="password" placeholder="Passwort wiederholen" />
+        </div>
+      </div>
       <div class="fg"><label>Wer hat dich empfohlen? (optional – für 25 Euro Rabatt)</label><input id="f-empfehlung" placeholder="Name oder Kunden-ID des Empfehlers" /></div>
       <button class="submit-btn" id="submit-btn" onclick="sendForm()">Jetzt bestellen & Rechnung erhalten →</button>
       <p class="modal-note">Kein Risiko · Zahlung erst nach Einrichtung · Keine Vertragsbindung</p>
@@ -837,7 +847,11 @@ function selectPkg(pkg){
 async function sendForm(){
   const name=document.getElementById('f-name').value.trim();
   const email=document.getElementById('f-email').value.trim();
+  const passwort = document.getElementById('f-passwort').value.trim();
+  const passwort2 = document.getElementById('f-passwort2').value.trim();
   if(!name||!email){alert('Bitte Name und E-Mail ausfüllen!');return;}
+  if(!passwort||passwort.length<6){alert('Bitte ein Passwort mit mindestens 6 Zeichen wählen!');return;}
+  if(passwort!==passwort2){alert('Die Passwörter stimmen nicht überein!');return;}
   const btn=document.getElementById('submit-btn');
   btn.disabled=true;btn.textContent='Wird gesendet...';
   try{
@@ -847,6 +861,7 @@ async function sendForm(){
       branche:document.getElementById('f-branche').value||'–',
       nachricht:document.getElementById('f-nachricht').value||'Keine Nachricht',
       paket:document.getElementById('f-paket').value,
+      passwort:document.getElementById('f-passwort').value,
       empfehlung:document.getElementById('f-empfehlung').value||'Keine'
     });
     document.getElementById('form-content').style.display='none';
@@ -870,6 +885,5 @@ const observer=new IntersectionObserver(entries=>{
 },{threshold:0.12});
 document.querySelectorAll('.fade-up,.fade-left,.fade-right').forEach(el=>observer.observe(el));
 </script>
-<script src="https://chatbot24.chat/widget.js" data-id="frida-kitchen" data-color="#7F77DD"></script>
 </body>
 </html>
