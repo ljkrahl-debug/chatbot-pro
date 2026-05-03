@@ -287,8 +287,14 @@ app.get('/api/unanswered/:clientId', async (req, res) => {
 app.post('/api/dismiss-question', async (req, res) => {
   try {
     const { clientId, question } = req.body;
+    // Use exact match instead of regex to avoid special character issues
     await db.collection('conversations').updateMany(
-      { clientId, userMessage: { $regex: question.substring(0, 50), $options: 'i' }, unanswered: true },
+      { clientId, userMessage: question, unanswered: true },
+      { $set: { dismissed: true, unanswered: false } }
+    );
+    // Also try partial match as fallback
+    await db.collection('conversations').updateMany(
+      { clientId, userMessage: { $regex: question.substring(0, 30).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: 'i' }, unanswered: true, dismissed: { $ne: true } },
       { $set: { dismissed: true, unanswered: false } }
     );
     res.json({ success: true });
