@@ -228,8 +228,12 @@ app.post('/api/analyze-doc', upload.single('file'), async (req, res) => {
       text = req.file.buffer.toString('utf-8');
     }
 
-    text = text.replace(/[\x00-\x08\x0b\x0c\x0e-\x1f]/g, ' ').replace(/\s{3,}/g, '\n').trim();
-    console.log('Final text length:', text.length);
+    text = text
+      .replace(/[\x00-\x08\x0b\x0c\x0e-\x1f]/g, ' ')  // remove control chars
+      .replace(/[ \t]{3,}/g, ' ')                         // collapse spaces but keep newlines
+      .replace(/\n{4,}/g, '\n\n')                         // max 2 blank lines
+      .trim();
+    console.log('Final text length:', text.length, '/ pages extracted');
     console.log('Final sample:', text.substring(0, 300));
 
     if (!text || text.length < 50) {
@@ -245,10 +249,10 @@ app.post('/api/analyze-doc', upload.single('file'), async (req, res) => {
       },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 2000,
+        max_tokens: 8000,
         messages: [{
           role: 'user',
-          content: 'You are a JSON API. Create 5-8 customer FAQ pairs from this business document. Use ONLY real business info (services, prices, hours, contact, products). Do NOT mention pages, dates, fonts, PDF format, or metadata. Write in German. Return ONLY a JSON array: [{"q":"Frage","a":"Antwort"}]\n\nDocument:\n' + text.substring(0, 5000)
+          content: 'You are a JSON API that extracts customer FAQ from business documents. Extract ALL useful business information and create up to 25 FAQ pairs in German. Cover ALL topics found: services, prices, opening hours, contact, products, processes, team, location, payment, delivery, warranties, special offers, etc. Use ONLY real content from the document. Do NOT mention pages, dates, fonts, PDF format or metadata. Return ONLY a valid JSON array: [{"q":"Konkrete Kundenfrage auf Deutsch","a":"Detaillierte Antwort auf Deutsch"}]\n\nDocument text:\n' + text.substring(0, 20000)
         }]
       })
     });
