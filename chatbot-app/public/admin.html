@@ -699,11 +699,15 @@ function loadApp(){
   selectWidgetStyle(clientData.widgetStyle||'round');
   document.getElementById('cfg-widget-text').value=clientData.widgetButtonText||'Wie kann ich helfen?';
   document.getElementById('cfg-widget-text').addEventListener('input', updateAllPreviews);
-  const autoPopup=clientData.widgetAutoPopup||false;
+  const autoPopup=clientData.widgetAutoPopup===true;
   document.getElementById('cfg-auto-popup').checked=autoPopup;
   document.getElementById('auto-delay-wrap').style.display=autoPopup?'block':'none';
   document.getElementById('cfg-auto-delay').value=clientData.widgetAutoDelay||3;
-  document.getElementById('cfg-auto-popup').addEventListener('change',function(){
+  // Remove old listener to avoid duplicates
+  const cb=document.getElementById('cfg-auto-popup');
+  const newCb=cb.cloneNode(true);
+  cb.parentNode.replaceChild(newCb,cb);
+  newCb.addEventListener('change',function(){
     document.getElementById('auto-delay-wrap').style.display=this.checked?'block':'none';
   });
   selectedLogoBase64=clientData.botLogoBase64||null;
@@ -936,7 +940,7 @@ async function saveDesign(){
   clientData.color=selectedColor;
   clientData.widgetStyle=clientData.widgetStyle||'round';
   clientData.widgetButtonText=document.getElementById('cfg-widget-text').value||'Wie kann ich helfen?';
-  clientData.widgetAutoPopup=document.getElementById('cfg-auto-popup').checked;
+  clientData.widgetAutoPopup=document.getElementById('cfg-auto-popup').checked===true;
   clientData.widgetAutoDelay=parseInt(document.getElementById('cfg-auto-delay').value)||3;
   clientData.botName=document.getElementById('cfg-botname').value;
   clientData.initials=document.getElementById('cfg-initials').value;
