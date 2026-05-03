@@ -535,12 +535,125 @@
     <div class="panel" id="panel-embed">
       <div class="page-title">Einbetten</div>
       <div class="page-sub">Fügen Sie diesen Code in Ihre Website ein</div>
+
       <div class="card">
+        <div class="card-title" style="margin-bottom:0.75rem">Ihr Einbettungs-Code</div>
         <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;font-weight:300">Einmalig vor dem schließenden <code style="background:var(--bg);padding:2px 6px;border-radius:4px;font-size:12px">&lt;/body&gt;</code> Tag einfügen:</p>
         <div class="code-box"><button class="copy-btn" onclick="copyEmbed()">Kopieren</button><span id="embed-code"></span></div>
         <p style="font-size:12px;color:var(--muted);margin-top:0.75rem;font-weight:300">Der Chatbot erscheint als Button unten rechts auf Ihrer Website.</p>
       </div>
+
+      <div class="card">
+        <div class="card-title" style="margin-bottom:1.25rem">📋 Schritt-für-Schritt Anleitung</div>
+
+        <!-- WORDPRESS -->
+        <div style="border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1rem">
+          <div style="background:var(--bg);padding:12px 16px;display:flex;align-items:center;gap:10px;cursor:pointer" onclick="toggleGuide('wp')">
+            <span style="font-size:20px">🔵</span>
+            <div style="font-weight:600;font-size:14px">WordPress</div>
+            <span style="margin-left:auto;color:var(--muted);font-size:18px" id="wp-arrow">+</span>
+          </div>
+          <div id="guide-wp" style="display:none;padding:14px 16px;border-top:1px solid var(--border)">
+            <ol style="font-size:13px;color:var(--soft);line-height:2;padding-left:1.25rem;font-weight:300">
+              <li>WordPress Admin öffnen → <strong>Design</strong> → <strong>Theme-Editor</strong></li>
+              <li>Rechts die Datei <strong>footer.php</strong> auswählen</li>
+              <li>Den Code direkt vor <code style="background:var(--bg);padding:1px 5px;border-radius:4px">&lt;/body&gt;</code> einfügen</li>
+              <li><strong>Datei aktualisieren</strong> klicken – fertig!</li>
+            </ol>
+            <p style="font-size:12px;color:var(--muted);margin-top:8px;font-weight:300">💡 Alternativ: Plugin "Insert Headers and Footers" installieren → Footer-Bereich → Code einfügen</p>
+          </div>
+        </div>
+
+        <!-- WIX -->
+        <div style="border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1rem">
+          <div style="background:var(--bg);padding:12px 16px;display:flex;align-items:center;gap:10px;cursor:pointer" onclick="toggleGuide('wix')">
+            <span style="font-size:20px">🟡</span>
+            <div style="font-weight:600;font-size:14px">Wix</div>
+            <span style="margin-left:auto;color:var(--muted);font-size:18px" id="wix-arrow">+</span>
+          </div>
+          <div id="guide-wix" style="display:none;padding:14px 16px;border-top:1px solid var(--border)">
+            <ol style="font-size:13px;color:var(--soft);line-height:2;padding-left:1.25rem;font-weight:300">
+              <li>Wix Dashboard → <strong>Einstellungen</strong> → <strong>Erweitert</strong></li>
+              <li><strong>Custom Code</strong> auswählen</li>
+              <li><strong>+ Code hinzufügen</strong> klicken</li>
+              <li>Code einfügen → Ort: <strong>"Body – Ende"</strong> auswählen</li>
+              <li><strong>Anwenden</strong> klicken – fertig!</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- WEBFLOW -->
+        <div style="border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1rem">
+          <div style="background:var(--bg);padding:12px 16px;display:flex;align-items:center;gap:10px;cursor:pointer" onclick="toggleGuide('webflow')">
+            <span style="font-size:20px">🔷</span>
+            <div style="font-weight:600;font-size:14px">Webflow</div>
+            <span style="margin-left:auto;color:var(--muted);font-size:18px" id="webflow-arrow">+</span>
+          </div>
+          <div id="guide-webflow" style="display:none;padding:14px 16px;border-top:1px solid var(--border)">
+            <ol style="font-size:13px;color:var(--soft);line-height:2;padding-left:1.25rem;font-weight:300">
+              <li>Webflow → <strong>Projekteinstellungen</strong> (Zahnrad-Icon)</li>
+              <li>Tab <strong>Custom Code</strong> öffnen</li>
+              <li>Den Code im Bereich <strong>"Before &lt;/body&gt; tag"</strong> einfügen</li>
+              <li><strong>Speichern</strong> → Website neu veröffentlichen – fertig!</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- SHOPIFY -->
+        <div style="border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1rem">
+          <div style="background:var(--bg);padding:12px 16px;display:flex;align-items:center;gap:10px;cursor:pointer" onclick="toggleGuide('shopify')">
+            <span style="font-size:20px">🟢</span>
+            <div style="font-weight:600;font-size:14px">Shopify</div>
+            <span style="margin-left:auto;color:var(--muted);font-size:18px" id="shopify-arrow">+</span>
+          </div>
+          <div id="guide-shopify" style="display:none;padding:14px 16px;border-top:1px solid var(--border)">
+            <ol style="font-size:13px;color:var(--soft);line-height:2;padding-left:1.25rem;font-weight:300">
+              <li>Shopify Admin → <strong>Online-Shop</strong> → <strong>Themes</strong></li>
+              <li>Beim aktiven Theme auf <strong>"..."</strong> → <strong>Code bearbeiten</strong></li>
+              <li>Datei <strong>theme.liquid</strong> öffnen</li>
+              <li>Den Code direkt vor <code style="background:var(--bg);padding:1px 5px;border-radius:4px">&lt;/body&gt;</code> einfügen</li>
+              <li><strong>Speichern</strong> klicken – fertig!</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- SQUARESPACE -->
+        <div style="border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1rem">
+          <div style="background:var(--bg);padding:12px 16px;display:flex;align-items:center;gap:10px;cursor:pointer" onclick="toggleGuide('squarespace')">
+            <span style="font-size:20px">⬛</span>
+            <div style="font-weight:600;font-size:14px">Squarespace</div>
+            <span style="margin-left:auto;color:var(--muted);font-size:18px" id="squarespace-arrow">+</span>
+          </div>
+          <div id="guide-squarespace" style="display:none;padding:14px 16px;border-top:1px solid var(--border)">
+            <ol style="font-size:13px;color:var(--soft);line-height:2;padding-left:1.25rem;font-weight:300">
+              <li>Squarespace → <strong>Design</strong> → <strong>Code-Injektion</strong></li>
+              <li>Den Code im Bereich <strong>"Fußzeile"</strong> einfügen</li>
+              <li><strong>Speichern</strong> klicken – fertig!</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- HTML -->
+        <div style="border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1rem">
+          <div style="background:var(--bg);padding:12px 16px;display:flex;align-items:center;gap:10px;cursor:pointer" onclick="toggleGuide('html')">
+            <span style="font-size:20px">🌐</span>
+            <div style="font-weight:600;font-size:14px">Normales HTML</div>
+            <span style="margin-left:auto;color:var(--muted);font-size:18px" id="html-arrow">+</span>
+          </div>
+          <div id="guide-html" style="display:none;padding:14px 16px;border-top:1px solid var(--border)">
+            <ol style="font-size:13px;color:var(--soft);line-height:2;padding-left:1.25rem;font-weight:300">
+              <li>HTML-Datei in einem Texteditor öffnen</li>
+              <li>Am Ende der Datei <code style="background:var(--bg);padding:1px 5px;border-radius:4px">&lt;/body&gt;</code> suchen</li>
+              <li>Den Code direkt davor einfügen</li>
+              <li>Datei speichern und hochladen – fertig!</li>
+            </ol>
+          </div>
+        </div>
+
+        <p style="font-size:12px;color:var(--muted);font-weight:300;margin-top:0.5rem">Bei Fragen hilft Chatbot24 gerne weiter: <strong>chatbot24service@gmail.com</strong></p>
+      </div>
     </div>
+
 
   </div>
 </div>
@@ -1050,6 +1163,14 @@ function showToast(id){
 async function saveData(){
   await fetch('/api/admin/'+clientId,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(clientData)});
 }
+function toggleGuide(id){
+  const el=document.getElementById('guide-'+id);
+  const arrow=document.getElementById(id+'-arrow');
+  const open=el.style.display==='block';
+  el.style.display=open?'none':'block';
+  arrow.textContent=open?'+':'–';
+}
+
 function doLogout(){location.reload();}
 
 // ── EVENTS ─────────────────────────────────────────────────
@@ -1058,6 +1179,5 @@ setTimeout(()=>{
   document.getElementById('test-input')?.addEventListener('keydown',e=>{if(e.key==='Enter')sendTestMsg();});
 },500);
 </script>
-<script src="https://chatbot24.chat/widget.js" data-id="frida-kitchen" data-color="#7F77DD"></script>
 </body>
 </html>
