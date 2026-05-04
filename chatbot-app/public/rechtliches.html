@@ -6,172 +6,317 @@
 <title>Chatbot24 – Impressum, Datenschutz & AGB</title>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
 <style>
-  :root{--g:#1D9E75;--gd:#0F6E56;--ink:#0A0A0A;--soft:#5A6472;--muted:#9AA3AD;--border:#EBEBEB;--bg:#F7F9FB}
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Sora',sans-serif;background:#fff;color:var(--ink);line-height:1.8}
-  nav{position:fixed;top:0;left:0;right:0;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:100}
-  .logo{font-size:18px;font-weight:600;color:var(--g);letter-spacing:-0.3px}
-  .nav-back{font-size:13px;color:var(--muted);text-decoration:none}
-  .nav-back:hover{color:var(--ink)}
-  .tabs{display:flex;gap:4px;padding:0 2.5rem;margin-top:80px;border-bottom:1px solid var(--border);max-width:800px;margin-left:auto;margin-right:auto}
-  .tab{padding:12px 20px;font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;transition:all 0.15s;font-family:'Sora',sans-serif}
-  .tab:hover{color:var(--ink)}
-  .tab.active{color:var(--g);border-bottom-color:var(--g)}
-  .content{max-width:800px;margin:0 auto;padding:3rem 2.5rem}
-  .section{display:none}
-  .section.active{display:block}
-  h1{font-size:28px;font-weight:600;letter-spacing:-1px;margin-bottom:0.5rem}
-  h2{font-size:16px;font-weight:600;margin-top:2rem;margin-bottom:0.5rem;color:var(--ink)}
-  p{font-size:14px;color:var(--soft);font-weight:300;margin-bottom:1rem}
-  .updated{font-size:12px;color:var(--muted);margin-bottom:2rem;font-weight:300}
-  a{color:var(--g)}
-  ul{padding-left:1.5rem;margin-bottom:1rem}
-  ul li{font-size:14px;color:var(--soft);font-weight:300;margin-bottom:4px}
+:root{--g:#1D9E75;--gd:#0F6E56;--ink:#0A0A0A;--soft:#5A6472;--muted:#9AA3AD;--border:#EBEBEB;--bg:#F7F9FB}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Sora',sans-serif;background:#fff;color:var(--ink);line-height:1.8}
+nav{position:fixed;top:0;left:0;right:0;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:100}
+.logo{font-size:18px;font-weight:600;color:var(--g);letter-spacing:-0.3px}
+.nav-back{font-size:13px;color:var(--muted);text-decoration:none}
+.nav-back:hover{color:var(--ink)}
+.tabs{display:flex;gap:4px;padding:0 2.5rem;margin-top:80px;border-bottom:1px solid var(--border);max-width:800px;margin-left:auto;margin-right:auto;overflow-x:auto}
+.tab{padding:12px 20px;font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;transition:all 0.15s;font-family:'Sora',sans-serif;white-space:nowrap}
+.tab:hover{color:var(--ink)}
+.tab.active{color:var(--g);border-bottom-color:var(--g)}
+.content{max-width:800px;margin:0 auto;padding:3rem 2.5rem}
+.section{display:none}
+.section.active{display:block}
+h1{font-size:28px;font-weight:600;letter-spacing:-1px;margin-bottom:0.5rem}
+h2{font-size:16px;font-weight:600;margin-top:2rem;margin-bottom:0.5rem;color:var(--ink)}
+h3{font-size:14px;font-weight:600;margin-top:1.25rem;margin-bottom:0.4rem;color:var(--ink)}
+p{font-size:14px;color:var(--soft);font-weight:300;margin-bottom:1rem}
+.updated{font-size:12px;color:var(--muted);margin-bottom:2rem;font-weight:300}
+a{color:var(--g)}
+ul{padding-left:1.5rem;margin-bottom:1rem}
+ul li{font-size:14px;color:var(--soft);font-weight:300;margin-bottom:4px}
+.box{background:var(--bg);border-left:3px solid var(--g);padding:14px 18px;border-radius:6px;margin:1rem 0}
+.box p{margin-bottom:0.4rem}
 </style>
 </head>
 <body>
 
 <nav>
   <div class="logo">Chatbot24</div>
-  <a href="/" class="nav-back">← Zurück zur Website</a>
+  <a href="/" class="nav-back">← Zurück zur Startseite</a>
 </nav>
 
 <div class="tabs">
-  <button class="tab active" onclick="showTab('impressum')">Impressum</button>
-  <button class="tab" onclick="showTab('datenschutz')">Datenschutz</button>
-  <button class="tab" onclick="showTab('agb')">AGB</button>
+  <button class="tab active" onclick="showTab('impressum',event)">Impressum</button>
+  <button class="tab" onclick="showTab('datenschutz',event)">Datenschutz</button>
+  <button class="tab" onclick="showTab('agb',event)">AGB</button>
+  <button class="tab" onclick="showTab('haftung',event)">Haftungsausschluss</button>
 </div>
 
 <div class="content">
 
-  <!-- IMPRESSUM -->
-  <div class="section active" id="tab-impressum">
-    <h1>Impressum</h1>
-    <div class="updated">Angaben gemäß § 5 TMG</div>
+<!-- IMPRESSUM -->
+<div class="section active" id="tab-impressum">
+  <h1>Impressum</h1>
+  <div class="updated">Angaben gemäß § 5 DDG (Digitale-Dienste-Gesetz)</div>
 
-    <h2>Anbieter</h2>
-    <p>Luis Krahl – vertreten durch Jennifer Krahl<br>Marburger Straße 19<br>40229 Düsseldorf<br>Deutschland</p>
-    <h2>Gewerbliche Angaben</h2>
-    <p>Kleingewerbe gemäß §19 UStG<br>
-    Inhaberin: Jennifer Krahl<br>
-    Steuernummer: 81 526 397 845<br>
-    Zuständige Behörde: Landeshauptstadt Düsseldorf<br>
-    Gewerbeanmeldung vom: 01.10.2022</p>
+  <h2>Anbieter</h2>
+  <p>Jennifer Krahl<br>
+  Marburger Straße 19<br>
+  40229 Düsseldorf<br>
+  Deutschland</p>
 
-    <h2>Kontakt</h2>
-    <p>E-Mail: <a href="mailto:chatbot24service@gmail.com">chatbot24service@gmail.com</a><br>
-    Website: <a href="https://chatbot24.chat">chatbot24.chat</a></p>
-
-    <h2>Hinweis zur Person</h2>
-    <p>Der Anbieter ist minderjährig. Für die geschäftliche Tätigkeit liegt die Einwilligung der gesetzlichen Vertreter vor.</p>
-
-    <h2>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
-    <p>Luis Krahl (vertreten durch Jennifer Krahl)<br>Marburger Straße 19<br>40229 Düsseldorf<br>Steuernummer: 81 526 397 845</p>
-
-    <h2>Streitschlichtung</h2>
-    <p>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: <a href="https://ec.europa.eu/consumers/odr" target="_blank">https://ec.europa.eu/consumers/odr</a>. Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
-
-    <h2>Haftungsausschluss</h2>
-
-    <h2>Haftung für Inhalte</h2>
-    <p>Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich.</p>
-
-    <h2>Haftung für KI-generierte Antworten</h2>
-    <p>Der bereitgestellte Chatbot-Service nutzt künstliche Intelligenz zur Beantwortung von Fragen. Chatbot24 übernimmt keine Haftung für die Richtigkeit, Vollständigkeit oder Aktualität der vom KI-System generierten Antworten. Der Betreiber der Website ist selbst dafür verantwortlich, die Inhalte des Chatbots zu überprüfen und gegebenenfalls zu korrigieren.</p>
-
-    <h2>Haftung für Links</h2>
-    <p>Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.</p>
-
-    <h2>Urheberrecht</h2>
-    <p>Die durch den Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.</p>
+  <div class="box">
+    <p><strong>Hinweis:</strong> Chatbot24 wird als Kleingewerbe von Jennifer Krahl betrieben. Luis Krahl (16) ist als Gründer und operativer Inhaber tätig, vertreten durch seine Mutter Jennifer Krahl als gesetzliche Vertreterin.</p>
   </div>
 
-  <!-- DATENSCHUTZ -->
-  <div class="section" id="tab-datenschutz">
-    <h1>Datenschutzerklärung</h1>
-    <div class="updated">Stand: April 2026</div>
+  <h2>Kontakt</h2>
+  <p>E-Mail: <a href="mailto:chatbot24service@gmail.com">chatbot24service@gmail.com</a><br>
+  Website: <a href="https://chatbot24.chat">chatbot24.chat</a></p>
 
-    <h2>1. Verantwortlicher</h2>
-    <p>Luis Krahl – vertreten durch Jennifer Krahl, Marburger Straße 19, 40229 Düsseldorf<br>
-    E-Mail: chatbot24service@gmail.com</p>
+  <h2>Umsatzsteuer</h2>
+  <p>Gemäß § 19 UStG (Kleinunternehmerregelung) wird keine Umsatzsteuer berechnet und ausgewiesen.</p>
 
-    <h2>2. Welche Daten wir erheben</h2>
-    <p>Bei der Nutzung unseres Chatbot-Services werden folgende Daten verarbeitet:</p>
-    <ul>
-      <li>Inhalte der Chat-Gespräche (Fragen und Antworten)</li>
-      <li>Technische Verbindungsdaten (IP-Adresse, Browser, Betriebssystem)</li>
-      <li>Zeitpunkt der Nutzung</li>
-    </ul>
+  <h2>Steuernummer</h2>
+  <p>81 526 397 845 (Finanzamt Düsseldorf)</p>
 
-    <h2>3. Zweck der Datenverarbeitung</h2>
-    <p>Die Daten werden ausschließlich zur Bereitstellung des Chatbot-Services und zur Verbesserung der Antwortqualität verwendet. Eine Weitergabe an Dritte erfolgt nicht, außer soweit dies zur Leistungserbringung notwendig ist (z.B. Anthropic als KI-Anbieter).</p>
+  <h2>Gewerbeanmeldung</h2>
+  <p>Landeshauptstadt Düsseldorf, Gewerbeanmeldung vom 01.10.2022</p>
 
-    <h2>4. Drittanbieter – Anthropic</h2>
-    <p>Für die KI-Funktionalität nutzen wir Anthropic, Inc. (USA). Ihre Gesprächseingaben werden zur Verarbeitung an Anthropic übermittelt. Weitere Informationen finden Sie unter: <a href="https://www.anthropic.com/privacy" target="_blank">anthropic.com/privacy</a></p>
+  <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+  <p>Jennifer Krahl<br>Marburger Straße 19<br>40229 Düsseldorf</p>
 
-    <h2>5. Speicherdauer</h2>
-    <p>Chat-Daten werden für maximal 90 Tage gespeichert und anschließend automatisch gelöscht.</p>
+  <h2>EU-Streitschlichtung</h2>
+  <p>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:
+  <a href="https://ec.europa.eu/consumers/odr" target="_blank">https://ec.europa.eu/consumers/odr</a><br>
+  Unsere E-Mail-Adresse finden Sie oben im Impressum.</p>
 
-    <h2>6. Ihre Rechte</h2>
-    <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer Daten. Wenden Sie sich dazu an: chatbot24service@gmail.com</p>
+  <h2>Verbraucherstreitbeilegung / Universalschlichtungsstelle</h2>
+  <p>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+</div>
 
-    <h2>7. Hosting</h2>
-    <p>Diese Website wird gehostet bei Render Services, Inc., 525 Brannan St, San Francisco, CA 94107, USA. Render verarbeitet Verbindungsdaten zum Betrieb des Dienstes.</p>
+<!-- DATENSCHUTZ -->
+<div class="section" id="tab-datenschutz">
+  <h1>Datenschutzerklärung</h1>
+  <div class="updated">Stand: Mai 2026 · Gemäß DSGVO und BDSG</div>
 
-    <h2>8. Cookies</h2>
-    <p>Diese Website verwendet keine Tracking-Cookies. Es werden ausschließlich technisch notwendige Daten verarbeitet.</p>
+  <h2>1. Verantwortlicher im Sinne der DSGVO</h2>
+  <p>Jennifer Krahl<br>
+  Marburger Straße 19<br>
+  40229 Düsseldorf<br>
+  E-Mail: <a href="mailto:chatbot24service@gmail.com">chatbot24service@gmail.com</a></p>
+
+  <h2>2. Geltungsbereich</h2>
+  <p>Diese Datenschutzerklärung gilt für die Website chatbot24.chat sowie für die Nutzung des Chatbot-Services, wenn dieser in Websites unserer Kunden eingebunden ist.</p>
+
+  <h2>3. Welche Daten wir verarbeiten</h2>
+
+  <h3>3.1 Beim Besuch der Website</h3>
+  <p>Beim Aufruf von chatbot24.chat werden automatisch folgende Daten verarbeitet:</p>
+  <ul>
+    <li>IP-Adresse (anonymisiert nach 7 Tagen)</li>
+    <li>Datum und Uhrzeit des Zugriffs</li>
+    <li>Aufgerufene Seiten</li>
+    <li>Browser-Typ und -Version</li>
+    <li>Betriebssystem</li>
+  </ul>
+  <p><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse am sicheren Betrieb der Website).<br>
+  <strong>Speicherdauer:</strong> 7 Tage, danach automatische Löschung.</p>
+
+  <h3>3.2 Bei Nutzung des Chatbots</h3>
+  <p>Wenn Sie mit dem Chatbot auf einer Kundenwebsite interagieren, werden verarbeitet:</p>
+  <ul>
+    <li>Inhalte Ihrer Nachrichten an den Chatbot</li>
+    <li>Antworten des Chatbots</li>
+    <li>Zeitpunkt der Konversation</li>
+    <li>Eindeutige Konversations-ID (kein Personenbezug)</li>
+  </ul>
+  <p><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung) bzw. lit. f DSGVO (Verbesserung des Dienstes).<br>
+  <strong>Speicherdauer:</strong> Maximal 90 Tage, danach automatische Löschung.</p>
+
+  <h3>3.3 Bei Bestellung / Kontaktanfrage</h3>
+  <p>Bei einer Bestellung oder Kontaktaufnahme verarbeiten wir:</p>
+  <ul>
+    <li>Name</li>
+    <li>E-Mail-Adresse</li>
+    <li>Website-URL</li>
+    <li>Branche</li>
+    <li>Selbst gewähltes Passwort (verschlüsselt gespeichert)</li>
+    <li>Optional: Nachricht und Empfehler-Name</li>
+  </ul>
+  <p><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b DSGVO (Vertragsanbahnung und -erfüllung).<br>
+  <strong>Speicherdauer:</strong> Bis zur Vertragsbeendigung plus gesetzliche Aufbewahrungsfristen (HGB/AO: bis zu 10 Jahre für Rechnungen).</p>
+
+  <h2>4. Empfänger / Auftragsverarbeiter</h2>
+  <p>Wir geben Daten nur weiter, soweit dies zur Leistungserbringung erforderlich ist. Folgende Auftragsverarbeiter setzen wir ein:</p>
+
+  <h3>Anthropic, PBC (USA)</h3>
+  <p>Verarbeitet Chat-Inhalte zur Generierung von Antworten. Datenübermittlung in die USA erfolgt auf Grundlage der EU-Standardvertragsklauseln (Art. 46 DSGVO). Anthropic speichert API-Anfragen für maximal 30 Tage zur Missbrauchserkennung.<br>
+  Datenschutzerklärung: <a href="https://www.anthropic.com/legal/privacy" target="_blank">anthropic.com/legal/privacy</a></p>
+
+  <h3>MongoDB Inc. – Cluster Frankfurt (Deutschland)</h3>
+  <p>Datenbank-Hosting in Frankfurt am Main, Deutschland. Vertrag zur Auftragsverarbeitung gemäß Art. 28 DSGVO besteht.<br>
+  Datenschutzerklärung: <a href="https://www.mongodb.com/legal/privacy-policy" target="_blank">mongodb.com/legal/privacy-policy</a></p>
+
+  <h3>Render Services, Inc. (USA)</h3>
+  <p>Hosting der Server-Anwendung. Datenübermittlung in die USA auf Grundlage der EU-Standardvertragsklauseln.<br>
+  Datenschutzerklärung: <a href="https://render.com/privacy" target="_blank">render.com/privacy</a></p>
+
+  <h3>EmailJS Inc. (USA)</h3>
+  <p>Verarbeitet Bestellformulardaten zur E-Mail-Zustellung. Datenübermittlung in die USA auf Grundlage der EU-Standardvertragsklauseln.<br>
+  Datenschutzerklärung: <a href="https://www.emailjs.com/legal/privacy-policy/" target="_blank">emailjs.com/legal/privacy-policy</a></p>
+
+  <h3>IONOS SE (Deutschland)</h3>
+  <p>Domain-Verwaltung. Sitz: Montabaur, Deutschland.</p>
+
+  <h2>5. Cookies</h2>
+  <p>Diese Website verwendet ausschließlich technisch notwendige Cookies, die für den Betrieb der Website erforderlich sind. Es werden keine Tracking-, Marketing- oder Analyse-Cookies eingesetzt. Eine Einwilligung gemäß § 25 TDDDG ist daher nicht erforderlich.</p>
+
+  <h2>6. Ihre Rechte als betroffene Person</h2>
+  <p>Sie haben jederzeit das Recht auf:</p>
+  <ul>
+    <li><strong>Auskunft</strong> (Art. 15 DSGVO) über die zu Ihrer Person gespeicherten Daten</li>
+    <li><strong>Berichtigung</strong> (Art. 16 DSGVO) unrichtiger Daten</li>
+    <li><strong>Löschung</strong> (Art. 17 DSGVO – „Recht auf Vergessenwerden")</li>
+    <li><strong>Einschränkung der Verarbeitung</strong> (Art. 18 DSGVO)</li>
+    <li><strong>Datenübertragbarkeit</strong> (Art. 20 DSGVO)</li>
+    <li><strong>Widerspruch</strong> gegen die Verarbeitung (Art. 21 DSGVO)</li>
+    <li><strong>Widerruf einer Einwilligung</strong> (Art. 7 Abs. 3 DSGVO)</li>
+  </ul>
+  <p>Zur Ausübung Ihrer Rechte wenden Sie sich an: <a href="mailto:chatbot24service@gmail.com">chatbot24service@gmail.com</a></p>
+
+  <h2>7. Beschwerderecht bei einer Aufsichtsbehörde</h2>
+  <p>Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde über die Verarbeitung Ihrer personenbezogenen Daten zu beschweren. Zuständig ist:</p>
+  <p>Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen<br>
+  Kavalleriestraße 2-4<br>
+  40213 Düsseldorf<br>
+  Telefon: 0211 / 38424-0<br>
+  Web: <a href="https://www.ldi.nrw.de" target="_blank">ldi.nrw.de</a></p>
+
+  <h2>8. Datensicherheit</h2>
+  <p>Wir verwenden eine SSL/TLS-Verschlüsselung (HTTPS) zur Absicherung der Datenübertragung. Passwörter werden ausschließlich in verschlüsselter Form (Hash) gespeichert.</p>
+
+  <h2>9. Automatisierte Entscheidungsfindung</h2>
+  <p>Die Antworten des Chatbots werden durch ein KI-System (Anthropic Claude) generiert. Diese Antworten haben keine rechtliche Wirkung gegenüber den Nutzern und stellen keine automatisierte Entscheidung im Sinne des Art. 22 DSGVO dar.</p>
+
+  <h2>10. Änderung dieser Datenschutzerklärung</h2>
+  <p>Wir passen diese Datenschutzerklärung an, wenn sich rechtliche Anforderungen oder unsere Datenverarbeitungsprozesse ändern. Die jeweils aktuelle Version ist unter chatbot24.chat/rechtliches abrufbar.</p>
+
+  <div class="box">
+    <p><strong>Hinweis für Kunden von Chatbot24:</strong> Wenn Sie Chatbot24 auf Ihrer Website einsetzen, sind Sie nach Art. 4 Nr. 7 DSGVO der Verantwortliche für die Verarbeitung der Endnutzerdaten. Sie sind verpflichtet, Ihre Endnutzer in Ihrer eigenen Datenschutzerklärung über den Einsatz von Chatbot24 zu informieren. Wir stellen Ihnen auf Anfrage einen Auftragsverarbeitungsvertrag (AVV) gemäß Art. 28 DSGVO zur Verfügung.</p>
   </div>
+</div>
 
-  <!-- AGB -->
-  <div class="section" id="tab-agb">
-    <h1>Allgemeine Geschäftsbedingungen</h1>
-    <div class="updated">Stand: April 2026</div>
+<!-- AGB -->
+<div class="section" id="tab-agb">
+  <h1>Allgemeine Geschäftsbedingungen</h1>
+  <div class="updated">Stand: Mai 2026</div>
 
-    <h2>1. Geltungsbereich</h2>
-    <p>Diese AGB gelten für alle Verträge zwischen Chatbot24 (Luis Krahl – vertreten durch Jennifer Krahl, Marburger Straße 19, 40229 Düsseldorf) und dem Auftraggeber über die Bereitstellung von KI-Chatbot-Diensten.</p>
+  <h2>§ 1 Geltungsbereich</h2>
+  <p>(1) Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für alle Verträge zwischen Jennifer Krahl, Marburger Straße 19, 40229 Düsseldorf (nachfolgend „Chatbot24") und dem Auftraggeber (nachfolgend „Kunde") über die Bereitstellung von KI-Chatbot-Diensten.</p>
+  <p>(2) Abweichende Bedingungen des Kunden gelten nicht, es sei denn, sie wurden ausdrücklich schriftlich anerkannt.</p>
+  <p>(3) Der Vertrag richtet sich ausschließlich an Unternehmer im Sinne von § 14 BGB. Verbrauchergeschäfte sind ausgeschlossen.</p>
 
-    <h2>2. Leistungsumfang</h2>
-    <p>Chatbot24 stellt dem Kunden einen KI-gestützten Chatbot für die Integration auf dessen Website zur Verfügung. Der Leistungsumfang ergibt sich aus dem individuellen Angebot. Inbegriffen sind:</p>
-    <ul>
-      <li>Einrichtung und Konfiguration des Chatbots</li>
-      <li>Bereitstellung des Admin-Dashboards</li>
-      <li>Technischer Betrieb und Wartung</li>
-      <li>E-Mail-Support</li>
-    </ul>
+  <h2>§ 2 Vertragsgegenstand</h2>
+  <p>(1) Chatbot24 stellt dem Kunden einen KI-gestützten Chatbot zur Einbindung in dessen Website zur Verfügung.</p>
+  <p>(2) Der Leistungsumfang umfasst:</p>
+  <ul>
+    <li>Einrichtung und Konfiguration des Chatbots</li>
+    <li>Bereitstellung eines Admin-Dashboards</li>
+    <li>Technischer Betrieb und Wartung der Infrastruktur</li>
+    <li>E-Mail-Support während gewöhnlicher Geschäftszeiten</li>
+    <li>Hosting der Anwendung und Daten</li>
+  </ul>
+  <p>(3) Die genaue Funktionalität und das gewählte Paket ergeben sich aus dem individuellen Angebot.</p>
 
-    <h2>3. Preise und Zahlung</h2>
-    <p>Die einmalige Einrichtungsgebühr beträgt 199 € und ist nach erfolgter Einrichtung fällig. Die monatliche Nutzungsgebühr beträgt 29 € und ist jeweils zu Beginn des Monats fällig. Die Zahlung erfolgt per Banküberweisung.</p>
+  <h2>§ 3 Vertragsschluss</h2>
+  <p>(1) Die Darstellung der Leistungen auf chatbot24.chat stellt kein verbindliches Angebot dar.</p>
+  <p>(2) Mit dem Absenden des Bestellformulars gibt der Kunde ein verbindliches Angebot zum Vertragsschluss ab.</p>
+  <p>(3) Der Vertrag kommt durch ausdrückliche Annahme oder durch Beginn der Einrichtung durch Chatbot24 zustande.</p>
 
-    <h2>4. Vertragslaufzeit und Kündigung</h2>
-    <p>Der Vertrag läuft auf unbestimmte Zeit und kann von beiden Seiten mit einer Frist von 14 Tagen zum Monatsende gekündigt werden. Eine außerordentliche Kündigung bleibt vorbehalten.</p>
+  <h2>§ 4 Preise und Zahlungsbedingungen</h2>
+  <p>(1) Folgende Preise gelten (gemäß § 19 UStG keine Umsatzsteuer):</p>
+  <ul>
+    <li>Einrichtungsgebühr: 100,00 € (einmalig)</li>
+    <li>Paket Start: 14,99 € / Monat (500 Nachrichten)</li>
+    <li>Paket Wachstum: 24,99 € / Monat (2.000 Nachrichten)</li>
+    <li>Paket Pro: 39,99 € / Monat (10.000 Nachrichten)</li>
+  </ul>
+  <p>(2) Die Einrichtungsgebühr wird erst nach erfolgreicher Live-Schaltung des Chatbots fällig.</p>
+  <p>(3) Die monatliche Gebühr ist jeweils zu Beginn des Abrechnungsmonats per Banküberweisung fällig. Zahlungsziel: 14 Tage nach Rechnungsdatum.</p>
+  <p>(4) Bei Zahlungsverzug behält sich Chatbot24 vor, den Service zu pausieren bis zum Ausgleich der offenen Forderung.</p>
 
-    <h2>5. Pflichten des Kunden</h2>
-    <p>Der Kunde ist verpflichtet, wahrheitsgemäße Angaben zu machen und den Chatbot ausschließlich für legale Zwecke zu nutzen. Der Einbettungs-Code darf nicht verändert oder an Dritte weitergegeben werden.</p>
+  <h2>§ 5 Empfehlungsprogramm</h2>
+  <p>(1) Bestehende Kunden, die einen Neukunden vermitteln, erhalten einmalig 25,00 € Gutschrift auf die nächste Monatsrechnung.</p>
+  <p>(2) Der vermittelte Neukunde erhält 25,00 € Rabatt auf die Einrichtungsgebühr (zahlt 75,00 € statt 100,00 €).</p>
+  <p>(3) Die Gutschrift wird nur ausbezahlt, wenn der vermittelte Kunde die Einrichtungsgebühr vollständig bezahlt hat.</p>
 
-    <h2>6. Verfügbarkeit</h2>
-    <p>Chatbot24 strebt eine Verfügbarkeit von 99% an. Geplante Wartungsarbeiten werden rechtzeitig angekündigt. Ein Anspruch auf ständige Verfügbarkeit besteht nicht.</p>
+  <h2>§ 6 Pflichten des Kunden</h2>
+  <p>(1) Der Kunde ist verpflichtet, wahrheitsgemäße Angaben zu machen.</p>
+  <p>(2) Der Kunde nutzt den Chatbot ausschließlich für legale Zwecke. Die Nutzung für rechtswidrige, sittenwidrige oder die Persönlichkeitsrechte Dritter verletzende Zwecke ist untersagt.</p>
+  <p>(3) Der Einbettungs-Code darf nicht verändert oder an Dritte weitergegeben werden.</p>
+  <p>(4) Der Kunde ist verpflichtet, seine Endnutzer datenschutzrechtlich über den Einsatz von Chatbot24 zu informieren.</p>
 
-    <h2>7. Haftung</h2>
-    <p>Chatbot24 haftet nicht für Schäden, die durch fehlerhafte oder unvollständige Antworten des KI-Systems entstehen. Der Kunde ist selbst dafür verantwortlich, die Inhalte des Chatbots zu überprüfen und aktuell zu halten.</p>
+  <h2>§ 7 Vertragslaufzeit und Kündigung</h2>
+  <p>(1) Der Vertrag läuft auf unbestimmte Zeit.</p>
+  <p>(2) Beide Parteien können den Vertrag mit einer Frist von 14 Tagen zum Monatsende ordentlich kündigen.</p>
+  <p>(3) Das Recht zur außerordentlichen Kündigung aus wichtigem Grund bleibt unberührt.</p>
+  <p>(4) Kündigungen bedürfen der Textform (E-Mail genügt).</p>
+  <p>(5) Nach Vertragsende werden alle kundenbezogenen Daten innerhalb von 30 Tagen gelöscht – mit Ausnahme von Daten, die gesetzlichen Aufbewahrungsfristen unterliegen (Rechnungen, Buchhaltung).</p>
 
-    <h2>8. Minderjährigkeit</h2>
-    <p>Da der Anbieter minderjährig ist, erfolgt der Vertragsabschluss unter Zustimmung der gesetzlichen Vertreter. Verträge werden erst nach Bestätigung durch die Erziehungsberechtigten rechtswirksam.</p>
+  <h2>§ 8 Verfügbarkeit</h2>
+  <p>(1) Chatbot24 strebt eine Verfügbarkeit von 99 % im Jahresmittel an.</p>
+  <p>(2) Hiervon ausgenommen sind geplante Wartungsarbeiten, die nach Möglichkeit ausserhalb gewöhnlicher Geschäftszeiten durchgeführt werden, sowie Ausfälle, die durch höhere Gewalt oder Drittanbieter verursacht werden.</p>
 
-    <h2>9. Datenschutz</h2>
-    <p>Die Verarbeitung personenbezogener Daten erfolgt gemäß unserer Datenschutzerklärung und den geltenden Datenschutzgesetzen (DSGVO).</p>
+  <h2>§ 9 Nachrichtenlimit</h2>
+  <p>(1) Jedes Paket beinhaltet ein monatliches Nachrichtenlimit (500 / 2.000 / 10.000).</p>
+  <p>(2) Bei Erreichen des Limits informiert der Bot Endnutzer höflich, dass das Limit erreicht ist. Eine automatische Heraufstufung erfolgt nicht.</p>
+  <p>(3) Der Kunde kann jederzeit auf ein höheres Paket wechseln. Die Anpassung gilt ab dem folgenden Abrechnungsmonat.</p>
 
-    <h2>10. Anwendbares Recht</h2>
-    <p>Es gilt das Recht der Bundesrepublik Deutschland. Gerichtsstand ist Düsseldorf.</p>
-  </div>
+  <h2>§ 10 Haftung</h2>
+  <p>(1) Chatbot24 haftet uneingeschränkt für Schäden aus der Verletzung des Lebens, des Körpers oder der Gesundheit sowie für vorsätzlich oder grob fahrlässig verursachte Schäden.</p>
+  <p>(2) Bei einfacher Fahrlässigkeit haftet Chatbot24 nur bei Verletzung wesentlicher Vertragspflichten und in der Höhe begrenzt auf den vorhersehbaren, vertragstypischen Schaden.</p>
+  <p>(3) Chatbot24 haftet nicht für inhaltliche Richtigkeit der KI-generierten Antworten. Der Kunde ist verpflichtet, die Antworten zu überprüfen und FAQ entsprechend zu pflegen.</p>
+  <p>(4) Eine Haftung für entgangenen Gewinn oder mittelbare Schäden ist ausgeschlossen, soweit gesetzlich zulässig.</p>
+
+  <h2>§ 11 Datenschutz</h2>
+  <p>(1) Die Verarbeitung personenbezogener Daten erfolgt gemäß unserer Datenschutzerklärung und den geltenden Datenschutzgesetzen (DSGVO, BDSG).</p>
+  <p>(2) Auf Anfrage stellen wir einen Auftragsverarbeitungsvertrag (AVV) gemäß Art. 28 DSGVO zur Verfügung.</p>
+
+  <h2>§ 12 Vertretung Minderjähriger</h2>
+  <p>(1) Luis Krahl ist als Gründer minderjährig. Sämtliche Verträge werden formal von seiner Mutter Jennifer Krahl als gesetzliche Vertreterin geschlossen.</p>
+  <p>(2) Sämtliche Rechnungen und rechtsverbindlichen Erklärungen werden im Namen von Jennifer Krahl ausgestellt.</p>
+
+  <h2>§ 13 Schlussbestimmungen</h2>
+  <p>(1) Es gilt das Recht der Bundesrepublik Deutschland unter Ausschluss des UN-Kaufrechts.</p>
+  <p>(2) Gerichtsstand ist Düsseldorf, soweit der Kunde Kaufmann ist.</p>
+  <p>(3) Sollten einzelne Bestimmungen dieser AGB unwirksam sein, bleibt der Vertrag im Übrigen wirksam.</p>
+  <p>(4) Änderungen dieser AGB werden dem Kunden mindestens 4 Wochen vor Inkrafttreten per E-Mail mitgeteilt. Widerspricht der Kunde nicht innerhalb von 14 Tagen, gelten die Änderungen als angenommen.</p>
+</div>
+
+<!-- HAFTUNG -->
+<div class="section" id="tab-haftung">
+  <h1>Haftungsausschluss</h1>
+  <div class="updated">Stand: Mai 2026</div>
+
+  <h2>Haftung für Inhalte</h2>
+  <p>Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs. 1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.</p>
+
+  <h2>Haftung für KI-generierte Antworten</h2>
+  <p>Der bereitgestellte Chatbot-Service nutzt künstliche Intelligenz (Anthropic Claude). Chatbot24 übernimmt keine Haftung für die Richtigkeit, Vollständigkeit oder Aktualität der vom KI-System generierten Antworten. Der Betreiber der einbettenden Website ist selbst dafür verantwortlich, die Inhalte und FAQ-Daten des Chatbots zu pflegen und gegebenenfalls zu korrigieren.</p>
+  <p>KI-Antworten ersetzen keine professionelle Beratung (rechtlich, medizinisch, finanziell). Endnutzer sollten wichtige Informationen stets unabhängig überprüfen.</p>
+
+  <h2>Haftung für Links</h2>
+  <p>Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.</p>
+
+  <h2>Urheberrecht</h2>
+  <p>Die durch den Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet.</p>
+
+  <h2>Bildnachweise</h2>
+  <p>Sämtliche auf chatbot24.chat verwendeten Grafiken, Icons und Designelemente wurden eigens erstellt oder stammen aus lizenzfreien Quellen.</p>
+</div>
 
 </div>
 
 <script>
-function showTab(name) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+function showTab(name, evt) {
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('.section').forEach(function(s){ s.classList.remove('active'); });
   document.getElementById('tab-' + name).classList.add('active');
-  event.target.classList.add('active');
+  if(evt && evt.target) evt.target.classList.add('active');
 }
 </script>
 </body>
