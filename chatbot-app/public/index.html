@@ -1019,9 +1019,11 @@ function setLang(lang) {
   try { localStorage.setItem('chatbot24_lang', lang); } catch(e) {}
 }
 
-function toggleLang() {
+window.toggleLang = function() {
   setLang(currentLang === 'de' ? 'en' : 'de');
 }
+
+window.setLang = setLang;
 
 // Init on load
 document.addEventListener('DOMContentLoaded', function() {
