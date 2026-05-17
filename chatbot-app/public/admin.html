@@ -277,7 +277,7 @@
     <div class="panel" id="panel-topics">
       <div class="page-title">Gesprächsanalyse</div>
       <div class="page-sub">Über welche Themen sprechen Ihre Kunden am häufigsten</div>
-      <p style="font-size:11px;color:var(--muted);margin-bottom:1rem;font-weight:300">📅 Basierend auf den letzten 90 Tagen · maximal 200 Gespräche</p>
+      <p style="font-size:11px;color:var(--muted);margin-bottom:1rem;font-weight:300">📅 Basierend auf den letzten 90 Tagen</p>
       <div class="card">
         <div class="card-header"><div class="card-title">Häufigste Themen</div><span class="badge" id="topics-badge">Noch nicht analysiert</span></div>
         <div id="topics-list"><div style="color:var(--muted);font-size:13px;text-align:center;padding:2rem;font-weight:300">Klicken Sie auf "Analysieren" um die Themen aus echten Gesprächen zu ermitteln.</div></div>
@@ -1209,17 +1209,16 @@ async function analyzeTopics(){
 async function buildChart(){
   const ctx=document.getElementById('chart-activity');
   if(!ctx)return;
-  // Fetch fresh data from server
+  let fresh=null;
   try{
     const res=await fetch('/api/admin/'+clientId);
-    const fresh=await res.json();
-    if(fresh.stats) clientData.stats=fresh.stats;
+    fresh=await res.json();
+    if(fresh&&fresh.stats) clientData.stats=fresh.stats;
   }catch(e){}
   const days=['Mo','Di','Mi','Do','Fr','Sa','So'];
-  const now90=new Date();
-    const cutoff90=new Date(now90.getTime()-90*24*60*60*1000);
-    const allDaily=fresh.stats?.daily||clientData.stats?.daily||{};
-    const daily=Object.fromEntries(Object.entries(allDaily).filter(([d])=>new Date(d)>=cutoff90));
+  const cutoff90=new Date(Date.now()-90*24*60*60*1000);
+  const allDaily=(fresh&&fresh.stats&&fresh.stats.daily)||clientData.stats?.daily||{};
+  const daily=Object.fromEntries(Object.entries(allDaily).filter(([d])=>new Date(d)>=cutoff90));
   const data=days.map((_,i)=>{
     const d=new Date();
     d.setDate(d.getDate()-(6-i));
