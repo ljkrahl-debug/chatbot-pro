@@ -433,37 +433,73 @@
     <!-- VORSCHAU -->
     <div class="panel" id="panel-preview">
       <div class="page-title">Live-Vorschau</div>
-      <div class="page-sub">So sieht Ihr Chatbot-Button auf verschiedenen Geräten aus</div>
+      <div class="page-sub">So sieht und fühlt sich Ihr Chatbot an – klicken Sie auf den Button!</div>
+
       <div class="card">
         <div class="devices-wrap">
+
+          <!-- PHONE -->
           <div>
             <div class="device-label">📱 Smartphone</div>
             <div class="phone-frame">
-              <div class="screen">
+              <div class="screen" style="overflow:hidden">
+                <!-- Fake website content -->
                 <div class="screen-content">
                   <div class="s-bar"></div>
                   <div class="s-block" style="height:50px"></div>
                   <div class="s-block" style="height:35px"></div>
                   <div class="s-block" style="height:60px"></div>
                 </div>
-                <div id="prev-container-phone" style="position:absolute;inset:0;pointer-events:none"></div>
+                <!-- Chat overlay -->
+                <div id="prev-chat-phone" style="display:none;position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;border-radius:12px;overflow:hidden;">
+                  <div id="prev-header-phone" style="padding:8px 10px;display:flex;align-items:center;gap:7px;">
+                    <div id="prev-avatar-phone" style="width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;flex-shrink:0;overflow:hidden;"></div>
+                    <div style="flex:1">
+                      <div id="prev-botname-phone" style="font-size:10px;font-weight:600;color:#fff;"></div>
+                      <div style="font-size:8px;color:rgba(255,255,255,0.8);display:flex;align-items:center;gap:3px"><span style="width:5px;height:5px;border-radius:50%;background:#4ade80;display:inline-block"></span>Online</div>
+                    </div>
+                    <button onclick="closePrevChat('phone')" style="background:none;border:none;color:rgba(255,255,255,0.8);font-size:12px;cursor:pointer;padding:0">✕</button>
+                  </div>
+                  <div id="prev-msgs-phone" style="flex:1;overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:6px;background:#f9f9f9;font-size:9px;line-height:1.5;"></div>
+                  <div style="display:flex;gap:4px;padding:6px;background:#fff;border-top:1px solid #eee;">
+                    <input id="prev-input-phone" placeholder="Nachricht..." style="flex:1;padding:5px 8px;border-radius:12px;border:1px solid #e0e0e0;font-size:9px;outline:none;" onkeydown="if(event.key==='Enter')sendPrevMsg('phone')" />
+                    <button id="prev-send-phone" onclick="sendPrevMsg('phone')" style="border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg></button>
+                  </div>
+                </div>
+                <div id="prev-container-phone" style="position:absolute;inset:0;pointer-events:auto;cursor:pointer" onclick="openPrevChat('phone')"></div>
               </div>
             </div>
           </div>
+
+          <!-- TABLET -->
           <div>
             <div class="device-label">📱 Tablet</div>
             <div class="tablet-frame">
-              <div class="screen">
+              <div class="screen" style="overflow:hidden">
                 <div class="screen-content" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px">
                   <div class="s-block" style="height:70px"></div>
                   <div class="s-block" style="height:70px"></div>
                   <div class="s-block" style="height:40px"></div>
                   <div class="s-block" style="height:40px"></div>
                 </div>
-                <div id="prev-container-tablet" style="position:absolute;inset:0;pointer-events:none"></div>
+                <div id="prev-chat-tablet" style="display:none;position:absolute;bottom:0;right:0;width:200px;height:220px;background:#fff;border-radius:12px 12px 0 0;overflow:hidden;box-shadow:0 -4px 20px rgba(0,0,0,0.15);flex-direction:column;">
+                  <div id="prev-header-tablet" style="padding:8px 10px;display:flex;align-items:center;gap:7px;">
+                    <div id="prev-avatar-tablet" style="width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#fff;flex-shrink:0;overflow:hidden;"></div>
+                    <div style="flex:1"><div id="prev-botname-tablet" style="font-size:10px;font-weight:600;color:#fff;"></div></div>
+                    <button onclick="closePrevChat('tablet')" style="background:none;border:none;color:rgba(255,255,255,0.8);font-size:11px;cursor:pointer;padding:0">✕</button>
+                  </div>
+                  <div id="prev-msgs-tablet" style="flex:1;overflow-y:auto;padding:7px;display:flex;flex-direction:column;gap:5px;background:#f9f9f9;font-size:8.5px;line-height:1.5;"></div>
+                  <div style="display:flex;gap:4px;padding:5px;background:#fff;border-top:1px solid #eee;">
+                    <input id="prev-input-tablet" placeholder="Nachricht..." style="flex:1;padding:4px 7px;border-radius:12px;border:1px solid #e0e0e0;font-size:8.5px;outline:none;" onkeydown="if(event.key==='Enter')sendPrevMsg('tablet')" />
+                    <button id="prev-send-tablet" onclick="sendPrevMsg('tablet')" style="border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="9" height="9" viewBox="0 0 24 24" fill="#fff"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg></button>
+                  </div>
+                </div>
+                <div id="prev-container-tablet" style="position:absolute;inset:0;pointer-events:auto;cursor:pointer" onclick="openPrevChat('tablet')"></div>
               </div>
             </div>
           </div>
+
+          <!-- DESKTOP -->
           <div>
             <div class="device-label">💻 Desktop</div>
             <div class="desktop-frame">
@@ -473,7 +509,7 @@
                 <div class="desktop-dot" style="background:#28c840"></div>
                 <div style="flex:1;height:12px;background:#fff;border-radius:4px;margin-left:6px"></div>
               </div>
-              <div class="screen" style="height:calc(100% - 22px)">
+              <div class="screen" style="height:calc(100% - 22px);overflow:hidden">
                 <div style="display:grid;grid-template-columns:80px 1fr;height:100%">
                   <div style="background:#f0f0f0;border-right:1px solid #e0e0e0"></div>
                   <div style="padding:10px;display:flex;flex-direction:column;gap:6px">
@@ -482,13 +518,31 @@
                     <div class="s-block" style="height:35px"></div>
                   </div>
                 </div>
-                <div id="prev-container-desktop" style="position:absolute;inset:0;pointer-events:none"></div>
+                <div id="prev-chat-desktop" style="display:none;position:absolute;bottom:0;right:0;width:220px;height:260px;background:#fff;border-radius:14px 14px 0 0;overflow:hidden;box-shadow:0 -4px 24px rgba(0,0,0,0.15);flex-direction:column;">
+                  <div id="prev-header-desktop" style="padding:10px 12px;display:flex;align-items:center;gap:8px;">
+                    <div id="prev-avatar-desktop" style="width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;flex-shrink:0;overflow:hidden;"></div>
+                    <div style="flex:1">
+                      <div id="prev-botname-desktop" style="font-size:11px;font-weight:600;color:#fff;"></div>
+                      <div style="font-size:8.5px;color:rgba(255,255,255,0.8);display:flex;align-items:center;gap:3px"><span style="width:5px;height:5px;border-radius:50%;background:#4ade80;display:inline-block"></span>Online</div>
+                    </div>
+                    <button onclick="closePrevChat('desktop')" style="background:none;border:none;color:rgba(255,255,255,0.8);font-size:13px;cursor:pointer;padding:0">✕</button>
+                  </div>
+                  <div id="prev-msgs-desktop" style="flex:1;overflow-y:auto;padding:9px;display:flex;flex-direction:column;gap:6px;background:#f9f9f9;font-size:9.5px;line-height:1.55;"></div>
+                  <div style="display:flex;gap:5px;padding:7px;background:#fff;border-top:1px solid #eee;">
+                    <input id="prev-input-desktop" placeholder="Nachricht eingeben..." style="flex:1;padding:5px 9px;border-radius:14px;border:1px solid #e0e0e0;font-size:9.5px;outline:none;" onkeydown="if(event.key==='Enter')sendPrevMsg('desktop')" />
+                    <button id="prev-send-desktop" onclick="sendPrevMsg('desktop')" style="border:none;border-radius:50%;width:24px;height:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg></button>
+                  </div>
+                </div>
+                <div id="prev-container-desktop" style="position:absolute;inset:0;pointer-events:auto;cursor:pointer" onclick="openPrevChat('desktop')"></div>
               </div>
             </div>
           </div>
+
         </div>
+        <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:1rem;font-weight:300">👆 Klicken Sie auf den Button um den Chat zu öffnen und zu testen</p>
       </div>
     </div>
+
 
     <!-- EINBLICKE -->
     <div class="panel" id="panel-insights">
@@ -1186,6 +1240,93 @@ function toggleGuide(id){
   const open=el.style.display==='block';
   el.style.display=open?'none':'block';
   arrow.textContent=open?'+':'–';
+}
+
+// ── PREVIEW CHAT ──────────────────────────────────────────
+const prevHistory = {phone:[], tablet:[], desktop:[]};
+
+function openPrevChat(d) {
+  const chat = document.getElementById('prev-chat-'+d);
+  if (!chat) return;
+  chat.style.display = 'flex';
+
+  // Style header with current color
+  const header = document.getElementById('prev-header-'+d);
+  if (header) header.style.background = selectedColor;
+
+  // Set send button color
+  const sendBtn = document.getElementById('prev-send-'+d);
+  if (sendBtn) sendBtn.style.background = selectedColor;
+
+  // Set avatar
+  const avatar = document.getElementById('prev-avatar-'+d);
+  if (avatar) {
+    if (selectedIcon === '__logo__' && selectedLogoBase64) {
+      avatar.innerHTML = `<img src="${selectedLogoBase64}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" />`;
+    } else {
+      avatar.style.background = 'rgba(255,255,255,0.25)';
+      avatar.textContent = selectedIcon === '__logo__' ? '💬' : selectedIcon;
+    }
+  }
+
+  // Set bot name
+  const botname = document.getElementById('prev-botname-'+d);
+  if (botname) botname.textContent = clientData.botName || 'Assistent';
+
+  // Add welcome message if empty
+  const msgs = document.getElementById('prev-msgs-'+d);
+  if (msgs && msgs.children.length === 0) {
+    addPrevMsg(d, clientData.welcome || 'Hallo! Wie kann ich Ihnen helfen?', 'bot');
+  }
+
+  // Hide button
+  const container = document.getElementById('prev-container-'+d);
+  if (container) container.style.display = 'none';
+}
+
+function closePrevChat(d) {
+  const chat = document.getElementById('prev-chat-'+d);
+  if (chat) chat.style.display = 'none';
+  const container = document.getElementById('prev-container-'+d);
+  if (container) container.style.display = 'block';
+}
+
+function addPrevMsg(d, text, type) {
+  const msgs = document.getElementById('prev-msgs-'+d);
+  if (!msgs) return;
+  const div = document.createElement('div');
+  div.style.cssText = type === 'user'
+    ? `align-self:flex-end;background:${selectedColor};color:#fff;padding:5px 8px;border-radius:10px 10px 3px 10px;max-width:80%;word-wrap:break-word;`
+    : 'align-self:flex-start;background:#fff;color:#1a1a1a;padding:5px 8px;border-radius:10px 10px 10px 3px;max-width:80%;box-shadow:0 1px 3px rgba(0,0,0,0.08);word-wrap:break-word;';
+  div.textContent = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+
+async function sendPrevMsg(d) {
+  const input = document.getElementById('prev-input-'+d);
+  const sendBtn = document.getElementById('prev-send-'+d);
+  const text = input.value.trim();
+  if (!text) return;
+  addPrevMsg(d, text, 'user');
+  prevHistory[d].push({role:'user', content:text});
+  input.value = '';
+  sendBtn.disabled = true;
+  const typing = addPrevMsg(d, '…', 'bot');
+  try {
+    const res = await fetch('/api/chat/'+clientId, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({messages: prevHistory[d]})
+    });
+    const data = await res.json();
+    const reply = data.reply || 'Entschuldigung, bitte erneut versuchen.';
+    prevHistory[d].push({role:'assistant', content:reply});
+    typing.textContent = reply;
+  } catch(e) {
+    typing.textContent = 'Verbindungsfehler.';
+  }
+  sendBtn.disabled = false;
 }
 
 function doLogout(){location.reload();}
