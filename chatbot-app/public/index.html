@@ -7,6 +7,13 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("7jMm9AcOIMM_Hzyu4");</script>
+
+<style>
+.lang-btn{display:flex;align-items:center;gap:6px;background:var(--bg);border:1.5px solid var(--border);border-radius:100px;padding:5px 14px;font-size:13px;font-weight:500;cursor:pointer;color:var(--ink);font-family:'Sora',sans-serif;transition:all 0.15s}
+.lang-btn:hover{border-color:var(--g);color:var(--g)}
+.lang-flag{font-size:16px}
+[data-lang]{transition:opacity 0.2s}
+</style>
 <style>
 :root {
   --g: #1D9E75;
@@ -340,9 +347,10 @@ footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: fle
   <div class="nav-links">
     <a href="#dashboard">Dashboard</a>
     <a href="#how">Ablauf</a>
-    <a href="#pricing">Preise</a>
-    <a href="#faq">FAQ</a>
+    <a href="#pricing" data-lang="nav_pricing">Preise</a>
+    <a href="#faq" data-lang="nav_faq" data-lang="faq_eyebrow">FAQ</a>
   </div>
+  <button id="lang-toggle" class="lang-btn" onclick="toggleLang()"><span class="lang-flag">🇬🇧</span> EN</button>
   <button class="nav-cta" onclick="openModal()">Jetzt bestellen</button>
 </nav>
 
@@ -693,7 +701,7 @@ footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: fle
         <li>In 48h live</li>
       </ul>
       <button class="price-btn" onclick="openModal('Wachstum (24,99€/Monat)')">Jetzt bestellen →</button>
-      <div class="price-note">Zahlung erst nach Einrichtung</div>
+      <div class="price-note" data-lang="form_note">Zahlung erst nach Einrichtung</div>
     </div>
 
     <div class="price-card fade-up">
@@ -728,7 +736,7 @@ footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: fle
 <!-- REFERRAL -->
 <section style="background:var(--ink);max-width:none;padding:6rem 0">
   <div style="max-width:1100px;margin:0 auto;padding:0 2.5rem">
-    <div class="sec-eyebrow fade-up" style="color:var(--g)">Empfehlungsprogramm</div>
+    <div class="sec-eyebrow fade-up" style="color:var(--g)" data-lang="referral_eyebrow">Empfehlungsprogramm</div>
     <div class="sec-title fade-up" style="color:#fff">Empfehle uns weiter –<br>und beide profitieren.</div>
     <p style="font-size:16px;color:rgba(255,255,255,0.5);font-weight:300;margin-bottom:3rem;max-width:500px;line-height:1.75" class="fade-up">Jeder der Chatbot24 weiterempfiehlt wird belohnt – und der neue Kunde startet günstiger.</p>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
@@ -885,5 +893,144 @@ const observer=new IntersectionObserver(entries=>{
 },{threshold:0.12});
 document.querySelectorAll('.fade-up,.fade-left,.fade-right').forEach(el=>observer.observe(el));
 </script>
+
+<script>
+// ── TRANSLATIONS ──────────────────────────────────────────
+const LANG = {
+  de: {
+    nav_features: "Features",
+    nav_pricing: "Preise",
+    nav_faq: "FAQ",
+    nav_order: "Jetzt bestellen",
+    hero_eyebrow: "KI-Chatbot für Ihr Unternehmen",
+    hero_title: "Ihr Chatbot.<br>48 Stunden bis live.",
+    hero_sub: "Wir richten Ihrem Unternehmen einen professionellen KI-Chatbot ein – vollständig angepasst, in 48 Stunden live, ab 14,99 € im Monat.",
+    hero_cta1: "Jetzt bestellen →",
+    hero_cta2: "Demo ansehen",
+    features_eyebrow: "Features",
+    features_title: "Alles was Ihr Chatbot braucht.",
+    features_sub: "Alle Features in jedem Paket – kein Unterschied.",
+    pricing_eyebrow: "Preise",
+    pricing_title: "Einfach. Transparent. Fair.",
+    pricing_setup: "Einrichtung",
+    pricing_month: "/Monat",
+    pricing_setup_fee: "einmalig 100 €",
+    pricing_cta: "Jetzt bestellen →",
+    pricing_note: "<span data-lang="pricing_note">Ab 14,99€/Monat · Einrichtung 100€ · Zahlung erst nach Fertigstellung · Keine Vertragsbindung</span>",
+    referral_eyebrow: "Empfehlungsprogramm",
+    referral_title: "Empfehle uns weiter –<br>und beide profitieren.",
+    referral_sub: "Jeder der Chatbot24 weiterempfiehlt wird belohnt – und der neue Kunde startet günstiger.",
+    referral_you: "Du empfiehlst uns",
+    referral_you_desc: "Einmalige Gutschrift auf deine nächste Monatsrechnung.",
+    referral_new: "Dein Kontakt startet",
+    referral_new_desc: "Einrichtung statt 100€ – 25€ Rabatt für jeden der über dich zu uns kommt.",
+    referral_hint: "Einfach bei der Bestellung angeben wer dich empfohlen hat – wir kümmern uns um den Rest.",
+    faq_eyebrow: "FAQ",
+    faq_title: "Häufige Fragen.",
+    form_eyebrow: "Jetzt starten",
+    form_title: "In 48 Stunden live.",
+    form_name: "Ihr Name *",
+    form_email: "E-Mail-Adresse *",
+    form_website: "Ihre Website *",
+    form_industry: "Branche *",
+    form_package: "Paket wählen",
+    form_message: "Nachricht (optional)",
+    form_pw: "Wunsch-Passwort für Ihr Dashboard *",
+    form_pw2: "Passwort bestätigen *",
+    form_referral: "Wer hat dich empfohlen? (optional – für 25 € Rabatt)",
+    form_submit: "Jetzt bestellen & Rechnung erhalten →",
+    form_note: "Zahlung erst nach Einrichtung",
+    footer_legal: "Impressum & Datenschutz",
+  },
+  en: {
+    nav_features: "Features",
+    nav_pricing: "Pricing",
+    nav_faq: "FAQ",
+    nav_order: "Order now",
+    hero_eyebrow: "AI Chatbot for your business",
+    hero_title: "Your Chatbot.<br>Live in 48 hours.",
+    hero_sub: "We set up a professional AI chatbot for your business – fully customized, live in 48 hours, starting at €14.99 per month.",
+    hero_cta1: "Order now →",
+    hero_cta2: "View demo",
+    features_eyebrow: "Features",
+    features_title: "Everything your chatbot needs.",
+    features_sub: "All features in every plan – no exceptions.",
+    pricing_eyebrow: "Pricing",
+    pricing_title: "Simple. Transparent. Fair.",
+    pricing_setup: "Setup",
+    pricing_month: "/month",
+    pricing_setup_fee: "one-time €100",
+    pricing_cta: "Order now →",
+    pricing_note: "From €14.99/month · Setup €100 · Payment after delivery · No contract",
+    referral_eyebrow: "Referral Program",
+    referral_title: "Refer us –<br>and both benefit.",
+    referral_sub: "Everyone who refers Chatbot24 gets rewarded – and the new customer starts cheaper.",
+    referral_you: "You refer us",
+    referral_you_desc: "One-time credit on your next monthly invoice.",
+    referral_new: "Your contact starts at",
+    referral_new_desc: "Setup fee instead of €100 – €25 discount for everyone referred by you.",
+    referral_hint: "Simply mention who referred you when ordering – we'll take care of the rest.",
+    faq_eyebrow: "FAQ",
+    faq_title: "Frequently asked questions.",
+    form_eyebrow: "Get started",
+    form_title: "Live in 48 hours.",
+    form_name: "Your name *",
+    form_email: "Email address *",
+    form_website: "Your website *",
+    form_industry: "Industry *",
+    form_package: "Choose plan",
+    form_message: "Message (optional)",
+    form_pw: "Desired dashboard password *",
+    form_pw2: "Confirm password *",
+    form_referral: "Who referred you? (optional – for €25 discount)",
+    form_submit: "Order now & receive invoice →",
+    form_note: "Payment after setup",
+    footer_legal: "Legal & Privacy",
+  }
+};
+
+let currentLang = 'de';
+
+function setLang(lang) {
+  currentLang = lang;
+  const t = LANG[lang];
+
+  // Update all data-lang elements
+  document.querySelectorAll('[data-lang]').forEach(el => {
+    const key = el.getAttribute('data-lang');
+    if (t[key] !== undefined) {
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+        el.placeholder = t[key];
+      } else {
+        el.innerHTML = t[key];
+      }
+    }
+  });
+
+  // Update button
+  const btn = document.getElementById('lang-toggle');
+  if (btn) {
+    btn.innerHTML = lang === 'de'
+      ? '<span class="lang-flag">🇬🇧</span> EN'
+      : '<span class="lang-flag">🇩🇪</span> DE';
+  }
+
+  // Save preference
+  try { localStorage.setItem('chatbot24_lang', lang); } catch(e) {}
+}
+
+function toggleLang() {
+  setLang(currentLang === 'de' ? 'en' : 'de');
+}
+
+// Init on load
+document.addEventListener('DOMContentLoaded', function() {
+  try {
+    const saved = localStorage.getItem('chatbot24_lang');
+    if (saved) setLang(saved);
+  } catch(e) {}
+});
+</script>
+
 </body>
 </html>
