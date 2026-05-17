@@ -345,24 +345,24 @@ footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: fle
 <nav>
   <div class="logo">Chatbot24</div>
   <div class="nav-links">
-    <a href="#dashboard">Dashboard</a>
+    <a href="#dashboard" data-lang="nav_features">Dashboard</a>
     <a href="#how">Ablauf</a>
     <a href="#pricing" data-lang="nav_pricing">Preise</a>
     <a href="#faq" data-lang="nav_faq" data-lang="faq_eyebrow">FAQ</a>
   </div>
   <button id="lang-toggle" class="lang-btn" onclick="toggleLang()"><span class="lang-flag">🇬🇧</span> EN</button>
-  <button class="nav-cta" onclick="openModal()">Jetzt bestellen</button>
+  <button class="nav-cta" onclick="openModal()" data-lang="nav_order">Jetzt bestellen</button>
 </nav>
 
 <!-- HERO -->
 <div style="max-width:1100px;margin:0 auto">
 <div class="hero">
   <div>
-    <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>KI-Chatbot als Service</div>
+    <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span><span data-lang="hero_eyebrow">KI-Chatbot als Service</span></div>
     <h1>Deine Kunden<br>fragen. <em>Dein Bot</em><br>antwortet.</h1>
-    <p class="hero-desc">Ein intelligenter KI-Assistent auf deiner Website der rund um die Uhr Kundenfragen beantwortet – auf Deutsch, Englisch, Türkisch und mehr.</p>
+    <p class="hero-desc" data-lang="hero_sub">Ein intelligenter KI-Assistent auf deiner Website der rund um die Uhr Kundenfragen beantwortet – auf Deutsch, Englisch, Türkisch und mehr.</p>
     <div class="hero-actions">
-      <button class="btn-primary" onclick="openModal()">Jetzt bestellen →</button>
+      <button class="btn-primary" onclick="openModal()" data-lang="hero_cta1">Jetzt bestellen →</button>
       <button class="btn-secondary" onclick="document.getElementById('dashboard').scrollIntoView({behavior:'smooth'})">Was bekomme ich?</button>
     </div>
     <div class="hero-note">
@@ -663,7 +663,7 @@ footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: fle
 </div>
 
 <section id="pricing">
-  <div class="sec-eyebrow fade-up">Preise</div>
+  <div class="sec-eyebrow fade-up" data-lang="pricing_eyebrow">Preise</div>
   <div class="sec-title fade-up">Das richtige Paket<br>für jedes Unternehmen.</div>
   <p class="sec-sub fade-up">Alle Pakete enthalten <strong>exakt dieselben Funktionen</strong> – der einzige Unterschied ist die Anzahl der Nachrichten pro Monat. Keine versteckten Kosten, keine Vertragsbindung.</p>
   <div class="pricing-grid">
@@ -742,13 +742,13 @@ footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: fle
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
       <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:2rem" class="fade-up">
         <div style="font-size:32px;margin-bottom:1rem">🎁</div>
-        <div style="font-size:18px;font-weight:600;color:#fff;margin-bottom:0.5rem">Du empfiehlst uns</div>
+        <div style="font-size:18px;font-weight:600;color:#fff;margin-bottom:0.5rem"><span data-lang="referral_you">Du empfiehlst uns</span></div>
         <div style="font-size:36px;font-weight:700;color:var(--g);margin-bottom:0.5rem">25 €</div>
         <div style="font-size:14px;color:rgba(255,255,255,0.5);font-weight:300;line-height:1.7">Einmalige Gutschrift auf deine nächste Monatsrechnung.</div>
       </div>
       <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:2rem" class="fade-up">
         <div style="font-size:32px;margin-bottom:1rem">🤝</div>
-        <div style="font-size:18px;font-weight:600;color:#fff;margin-bottom:0.5rem">Dein Kontakt startet</div>
+        <div style="font-size:18px;font-weight:600;color:#fff;margin-bottom:0.5rem"><span data-lang="referral_new">Dein Kontakt startet</span></div>
         <div style="font-size:36px;font-weight:700;color:var(--g);margin-bottom:0.5rem">75,00€</div>
         <div style="font-size:14px;color:rgba(255,255,255,0.5);font-weight:300;line-height:1.7">Einrichtung statt 100€ – 25 Euro Rabatt für jeden der über dich zu uns kommt.</div>
       </div>
@@ -798,26 +798,26 @@ footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: fle
       </div>
       <input type="hidden" id="f-paket" value="Wachstum (24,99€/Monat)" />
       <div class="form-grid">
-        <div class="fg"><label>Ihr Name *</label><input id="f-name" placeholder="Max Mustermann" /></div>
-        <div class="fg"><label>E-Mail *</label><input id="f-email" type="email" placeholder="max@firma.de" /></div>
+        <div class="fg"><label>Ihr Name *</label><input id="f-name" placeholder="Max Mustermann" data-lang="form_name" /></div>
+        <div class="fg"><label>E-Mail *</label><input id="f-email" type="email" placeholder="max@firma.de" data-lang="form_email" /></div>
       </div>
       <div class="form-grid">
-        <div class="fg"><label>Ihre Website</label><input id="f-website" placeholder="www.ihre-website.de" /></div>
-        <div class="fg"><label>Branche</label><input id="f-branche" placeholder="z.B. Restaurant" /></div>
+        <div class="fg"><label>Ihre Website</label><input id="f-website" placeholder="www.ihre-website.de" data-lang="form_website" /></div>
+        <div class="fg"><label>Branche</label><input id="f-branche" placeholder="z.B. Restaurant" data-lang="form_industry" /></div>
       </div>
-      <div class="fg"><label>Nachricht (optional)</label><textarea id="f-nachricht" placeholder="Gibt es etwas Besonderes das wir wissen sollten?"></textarea></div>
+      <div class="fg"><label>Nachricht (optional)</label><textarea id="f-nachricht" data-lang="form_message" placeholder="Gibt es etwas Besonderes das wir wissen sollten?"></textarea></div>
       <div class="form-grid">
         <div class="fg">
           <label>Wunsch-Passwort für Ihr Dashboard *</label>
-          <input id="f-passwort" type="password" placeholder="Mindestens 6 Zeichen" />
+          <input id="f-passwort" type="password" data-lang="form_pw" placeholder="Mindestens 6 Zeichen" />
         </div>
         <div class="fg">
           <label>Passwort bestätigen *</label>
-          <input id="f-passwort2" type="password" placeholder="Passwort wiederholen" />
+          <input id="f-passwort2" type="password" data-lang="form_pw2" placeholder="Passwort wiederholen" />
         </div>
       </div>
-      <div class="fg"><label>Wer hat dich empfohlen? (optional – für 25 Euro Rabatt)</label><input id="f-empfehlung" placeholder="Name oder Kunden-ID des Empfehlers" /></div>
-      <button class="submit-btn" id="submit-btn" onclick="sendForm()">Jetzt bestellen & Rechnung erhalten →</button>
+      <div class="fg"><label>Wer hat dich empfohlen? (optional – für 25 Euro Rabatt)</label><input id="f-empfehlung" data-lang="form_referral" placeholder="Name oder Kunden-ID des Empfehlers" /></div>
+      <button class="submit-btn" id="submit-btn" data-lang="form_submit" onclick="sendForm()">Jetzt bestellen & Rechnung erhalten →</button>
       <p class="modal-note">Kein Risiko · Zahlung erst nach Einrichtung · Keine Vertragsbindung</p>
     </div>
     <div class="success-msg" id="success-msg">
@@ -898,7 +898,7 @@ document.querySelectorAll('.fade-up,.fade-left,.fade-right').forEach(el=>observe
 // ── TRANSLATIONS ──────────────────────────────────────────
 const LANG = {
   de: {
-    nav_features: "Features",
+    nav_features: "Dashboard",
     nav_pricing: "Preise",
     nav_faq: "FAQ",
     nav_order: "Jetzt bestellen",
@@ -929,9 +929,9 @@ const LANG = {
     faq_title: "Häufige Fragen.",
     form_eyebrow: "Jetzt starten",
     form_title: "In 48 Stunden live.",
-    form_name: "Ihr Name *",
-    form_email: "E-Mail-Adresse *",
-    form_website: "Ihre Website *",
+    form_name: "Max Mustermann",
+    form_email: "max@firma.de",
+    form_website: "www.ihre-website.de",
     form_industry: "Branche *",
     form_package: "Paket wählen",
     form_message: "Nachricht (optional)",
@@ -943,7 +943,7 @@ const LANG = {
     footer_legal: "Impressum & Datenschutz",
   },
   en: {
-    nav_features: "Features",
+    nav_features: "Dashboard",
     nav_pricing: "Pricing",
     nav_faq: "FAQ",
     nav_order: "Order now",
@@ -974,9 +974,9 @@ const LANG = {
     faq_title: "Frequently asked questions.",
     form_eyebrow: "Get started",
     form_title: "Live in 48 hours.",
-    form_name: "Your name *",
-    form_email: "Email address *",
-    form_website: "Your website *",
+    form_name: "Your name",
+    form_email: "your@company.com",
+    form_website: "www.your-website.com",
     form_industry: "Industry *",
     form_package: "Choose plan",
     form_message: "Message (optional)",
