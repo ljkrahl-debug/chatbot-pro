@@ -8,12 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("7jMm9AcOIMM_Hzyu4");</script>
 
-<style>
-.lang-btn{display:flex;align-items:center;gap:6px;background:var(--bg);border:1.5px solid var(--border);border-radius:100px;padding:5px 14px;font-size:13px;font-weight:500;cursor:pointer;color:var(--ink);font-family:'Sora',sans-serif;transition:all 0.15s}
-.lang-btn:hover{border-color:var(--g);color:var(--g)}
-.lang-flag{font-size:16px}
-[data-lang]{transition:opacity 0.2s}
-</style>
+
 <style>
 :root {
   --g: #1D9E75;
@@ -338,6 +333,98 @@ footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: fle
   .faq-grid { gap: 0.75rem; }
 }
 </style>
+
+  <style>
+  .cb-lang-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.3);border-radius:100px;padding:5px 14px;font-size:13px;font-weight:500;cursor:pointer;color:#fff;font-family:inherit;transition:all 0.15s;vertical-align:middle;}
+  .cb-lang-btn:hover{background:rgba(255,255,255,0.2);}
+  </style>
+
+  <script>
+  // Chatbot24 Language System
+  (function(){
+    var L = {
+      de: {
+        btn: '🇬🇧 EN',
+        texts: {
+          'nav_order': 'Jetzt bestellen',
+          'hero_sub': 'Ein intelligenter KI-Assistent auf deiner Website der rund um die Uhr Kundenfragen beantwortet – auf Deutsch, Englisch, Türkisch und mehr.',
+          'form_name': 'Max Mustermann',
+          'form_email': 'max@firma.de',
+          'form_website': 'www.ihre-website.de',
+          'form_industry': 'z.B. Restaurant',
+          'form_message': 'Gibt es etwas Besonderes das wir wissen sollten?',
+          'form_pw': 'Mindestens 6 Zeichen',
+          'form_pw2': 'Passwort wiederholen',
+          'form_referral': 'Name oder Kunden-ID des Empfehlers',
+          'form_submit': 'Jetzt bestellen & Rechnung erhalten →',
+          'form_note': 'Zahlung erst nach Einrichtung',
+        }
+      },
+      en: {
+        btn: '🇩🇪 DE',
+        texts: {
+          'nav_order': 'Order now',
+          'hero_sub': 'An intelligent AI assistant on your website that answers customer questions around the clock – in German, English, Turkish and more.',
+          'form_name': 'John Smith',
+          'form_email': 'john@company.com',
+          'form_website': 'www.your-website.com',
+          'form_industry': 'e.g. Restaurant',
+          'form_message': 'Is there anything special we should know?',
+          'form_pw': 'Minimum 6 characters',
+          'form_pw2': 'Repeat password',
+          'form_referral': 'Name or customer ID of referrer',
+          'form_submit': 'Order now & receive invoice →',
+          'form_note': 'Payment after setup',
+        }
+      }
+    };
+
+    var cur = 'de';
+
+    function applyLang(lang) {
+      cur = lang;
+      var t = L[lang].texts;
+      // Placeholders
+      var fields = {
+        'form_name': document.querySelector('input[id="f-name"], input[name="name"]'),
+        'form_email': document.querySelector('input[id="f-email"], input[type="email"]'),
+        'form_website': document.querySelector('input[id="f-website"]'),
+        'form_industry': document.querySelector('input[id="f-industry"]'),
+        'form_message': document.querySelector('textarea[id="f-nachricht"]'),
+        'form_pw': document.querySelector('input[id="f-passwort"]'),
+        'form_pw2': document.querySelector('input[id="f-passwort2"]'),
+        'form_referral': document.querySelector('input[id="f-empfehlung"]'),
+      };
+      Object.keys(fields).forEach(function(k){
+        if(fields[k] && t[k]) fields[k].placeholder = t[k];
+      });
+      // Submit button
+      var submit = document.getElementById('submit-btn');
+      if(submit && t['form_submit']) submit.textContent = t['form_submit'];
+      // Nav order button
+      var navBtn = document.querySelector('.nav-cta');
+      if(navBtn && t['nav_order']) navBtn.textContent = t['nav_order'];
+      // Form note
+      var note = document.querySelector('.price-note');
+      if(note && t['form_note']) note.textContent = t['form_note'];
+      // Lang button
+      var btn = document.getElementById('cb-lang-btn');
+      if(btn) btn.textContent = L[lang].btn;
+      try{ localStorage.setItem('cb24lang', lang); }catch(e){}
+    }
+
+    window.toggleCBLang = function(){
+      applyLang(cur === 'de' ? 'en' : 'de');
+    };
+
+    document.addEventListener('DOMContentLoaded', function(){
+      try{
+        var s = localStorage.getItem('cb24lang');
+        if(s && s !== 'de') applyLang(s);
+      }catch(e){}
+    });
+  })();
+  </script>
 </head>
 <body>
 
@@ -350,7 +437,7 @@ footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: fle
     <a href="#pricing" data-lang="nav_pricing">Preise</a>
     <a href="#faq" data-lang="nav_faq" data-lang="faq_eyebrow">FAQ</a>
   </div>
-  <button id="lang-toggle" class="lang-btn" onclick="toggleLang()"><span class="lang-flag">🇬🇧</span> EN</button>
+  <button id="cb-lang-btn" class="cb-lang-btn" onclick="toggleCBLang()">🇬🇧 EN</button>
   <button class="nav-cta" onclick="openModal()" data-lang="nav_order">Jetzt bestellen</button>
 </nav>
 
@@ -894,145 +981,8 @@ const observer=new IntersectionObserver(entries=>{
 document.querySelectorAll('.fade-up,.fade-left,.fade-right').forEach(el=>observer.observe(el));
 </script>
 
-<script>
-// ── TRANSLATIONS ──────────────────────────────────────────
-const LANG = {
-  de: {
-    nav_features: "Dashboard",
-    nav_pricing: "Preise",
-    nav_faq: "FAQ",
-    nav_order: "Jetzt bestellen",
-    hero_eyebrow: "KI-Chatbot für Ihr Unternehmen",
-    hero_title: "Ihr Chatbot.<br>48 Stunden bis live.",
-    hero_sub: "Wir richten Ihrem Unternehmen einen professionellen KI-Chatbot ein – vollständig angepasst, in 48 Stunden live, ab 14,99 € im Monat.",
-    hero_cta1: "Jetzt bestellen →",
-    hero_cta2: "Demo ansehen",
-    features_eyebrow: "Features",
-    features_title: "Alles was Ihr Chatbot braucht.",
-    features_sub: "Alle Features in jedem Paket – kein Unterschied.",
-    pricing_eyebrow: "Preise",
-    pricing_title: "Einfach. Transparent. Fair.",
-    pricing_setup: "Einrichtung",
-    pricing_month: "/Monat",
-    pricing_setup_fee: "einmalig 100 €",
-    pricing_cta: "Jetzt bestellen →",
-    pricing_note: "<span data-lang="pricing_note">Ab 14,99€/Monat · Einrichtung 100€ · Zahlung erst nach Fertigstellung · Keine Vertragsbindung</span>",
-    referral_eyebrow: "Empfehlungsprogramm",
-    referral_title: "Empfehle uns weiter –<br>und beide profitieren.",
-    referral_sub: "Jeder der Chatbot24 weiterempfiehlt wird belohnt – und der neue Kunde startet günstiger.",
-    referral_you: "Du empfiehlst uns",
-    referral_you_desc: "Einmalige Gutschrift auf deine nächste Monatsrechnung.",
-    referral_new: "Dein Kontakt startet",
-    referral_new_desc: "Einrichtung statt 100€ – 25€ Rabatt für jeden der über dich zu uns kommt.",
-    referral_hint: "Einfach bei der Bestellung angeben wer dich empfohlen hat – wir kümmern uns um den Rest.",
-    faq_eyebrow: "FAQ",
-    faq_title: "Häufige Fragen.",
-    form_eyebrow: "Jetzt starten",
-    form_title: "In 48 Stunden live.",
-    form_name: "Max Mustermann",
-    form_email: "max@firma.de",
-    form_website: "www.ihre-website.de",
-    form_industry: "Branche *",
-    form_package: "Paket wählen",
-    form_message: "Nachricht (optional)",
-    form_pw: "Wunsch-Passwort für Ihr Dashboard *",
-    form_pw2: "Passwort bestätigen *",
-    form_referral: "Wer hat dich empfohlen? (optional – für 25 € Rabatt)",
-    form_submit: "Jetzt bestellen & Rechnung erhalten →",
-    form_note: "Zahlung erst nach Einrichtung",
-    footer_legal: "Impressum & Datenschutz",
-  },
-  en: {
-    nav_features: "Dashboard",
-    nav_pricing: "Pricing",
-    nav_faq: "FAQ",
-    nav_order: "Order now",
-    hero_eyebrow: "AI Chatbot for your business",
-    hero_title: "Your Chatbot.<br>Live in 48 hours.",
-    hero_sub: "We set up a professional AI chatbot for your business – fully customized, live in 48 hours, starting at €14.99 per month.",
-    hero_cta1: "Order now →",
-    hero_cta2: "View demo",
-    features_eyebrow: "Features",
-    features_title: "Everything your chatbot needs.",
-    features_sub: "All features in every plan – no exceptions.",
-    pricing_eyebrow: "Pricing",
-    pricing_title: "Simple. Transparent. Fair.",
-    pricing_setup: "Setup",
-    pricing_month: "/month",
-    pricing_setup_fee: "one-time €100",
-    pricing_cta: "Order now →",
-    pricing_note: "From €14.99/month · Setup €100 · Payment after delivery · No contract",
-    referral_eyebrow: "Referral Program",
-    referral_title: "Refer us –<br>and both benefit.",
-    referral_sub: "Everyone who refers Chatbot24 gets rewarded – and the new customer starts cheaper.",
-    referral_you: "You refer us",
-    referral_you_desc: "One-time credit on your next monthly invoice.",
-    referral_new: "Your contact starts at",
-    referral_new_desc: "Setup fee instead of €100 – €25 discount for everyone referred by you.",
-    referral_hint: "Simply mention who referred you when ordering – we'll take care of the rest.",
-    faq_eyebrow: "FAQ",
-    faq_title: "Frequently asked questions.",
-    form_eyebrow: "Get started",
-    form_title: "Live in 48 hours.",
-    form_name: "Your name",
-    form_email: "your@company.com",
-    form_website: "www.your-website.com",
-    form_industry: "Industry *",
-    form_package: "Choose plan",
-    form_message: "Message (optional)",
-    form_pw: "Desired dashboard password *",
-    form_pw2: "Confirm password *",
-    form_referral: "Who referred you? (optional – for €25 discount)",
-    form_submit: "Order now & receive invoice →",
-    form_note: "Payment after setup",
-    footer_legal: "Legal & Privacy",
-  }
-};
 
-let currentLang = 'de';
 
-function setLang(lang) {
-  currentLang = lang;
-  const t = LANG[lang];
-
-  // Update all data-lang elements
-  document.querySelectorAll('[data-lang]').forEach(el => {
-    const key = el.getAttribute('data-lang');
-    if (t[key] !== undefined) {
-      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-        el.placeholder = t[key];
-      } else {
-        el.innerHTML = t[key];
-      }
-    }
-  });
-
-  // Update button
-  const btn = document.getElementById('lang-toggle');
-  if (btn) {
-    btn.innerHTML = lang === 'de'
-      ? '<span class="lang-flag">🇬🇧</span> EN'
-      : '<span class="lang-flag">🇩🇪</span> DE';
-  }
-
-  // Save preference
-  try { localStorage.setItem('chatbot24_lang', lang); } catch(e) {}
-}
-
-window.toggleLang = function() {
-  setLang(currentLang === 'de' ? 'en' : 'de');
-}
-
-window.setLang = setLang;
-
-// Init on load
-document.addEventListener('DOMContentLoaded', function() {
-  try {
-    const saved = localStorage.getItem('chatbot24_lang');
-    if (saved) setLang(saved);
-  } catch(e) {}
-});
-</script>
 
 </body>
 </html>
