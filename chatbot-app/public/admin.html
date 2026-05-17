@@ -194,16 +194,16 @@
     <div class="sb-logo">Chatbot24</div>
     <div class="sb-client" id="sb-name">–</div>
     <div class="sb-section">Übersicht</div>
-    <button class="nav-item active" onclick="showPanel('dashboard',this)"><span class="nav-icon">📊</span>Dashboard</button>
+    <button class="nav-item active" onclick="showPanel('dashboard',this)"><span class="nav-icon">📊</span data-admin-lang="nav_dashboard">Dashboard</button>
     <button class="nav-item" onclick="showPanel('test',this)"><span class="nav-icon">💬</span>Chatbot testen</button>
-    <button class="nav-item" onclick="showPanel('topics',this)"><span class="nav-icon">💡</span>Analyse</button>
-    <button class="nav-item" onclick="showPanel('insights',this)"><span class="nav-icon">🔍</span>Einblicke</button>
+    <button class="nav-item" onclick="showPanel('topics',this)"><span class="nav-icon">💡</span data-admin-lang="nav_analyse">Analyse</button>
+    <button class="nav-item" onclick="showPanel('insights',this)"><span class="nav-icon">🔍</span data-admin-lang="nav_insights">Einblicke</button>
     <div class="sb-section">Einstellungen</div>
-    <button class="nav-item" onclick="showPanel('settings',this)"><span class="nav-icon">⚙️</span>Einstellungen</button>
-    <button class="nav-item" onclick="showPanel('faq',this)"><span class="nav-icon">❓</span>FAQ & Wissen</button>
-    <button class="nav-item" onclick="showPanel('design',this)"><span class="nav-icon">🎨</span>Design</button>
-    <button class="nav-item" onclick="showPanel('preview',this)"><span class="nav-icon">👁️</span>Vorschau</button>
-    <button class="nav-item" onclick="showPanel('embed',this)"><span class="nav-icon">📋</span>Einbetten</button>
+    <button class="nav-item" onclick="showPanel('settings',this)"><span class="nav-icon">⚙️</span data-admin-lang="nav_settings">Einstellungen</button>
+    <button class="nav-item" onclick="showPanel('faq',this)"><span class="nav-icon">❓</span data-admin-lang="nav_faq">FAQ & Wissen</button>
+    <button class="nav-item" onclick="showPanel('design',this)"><span class="nav-icon">🎨</span data-admin-lang="nav_design">Design</button>
+    <button class="nav-item" onclick="showPanel('preview',this)"><span class="nav-icon">👁️</span data-admin-lang="nav_preview">Vorschau</button>
+    <button class="nav-item" onclick="showPanel('embed',this)"><span class="nav-icon">📋</span data-admin-lang="nav_embed">Einbetten</button>
     <div class="sb-bottom">
       <button class="logout-btn" onclick="doLogout()">🚪 Abmelden</button>
     </div>
@@ -425,7 +425,7 @@
           </div>
         </div>
 
-        <button class="save-btn" onclick="saveDesign()">Design speichern</button>
+        <button class="save-btn" onclick="saveDesign()" data-admin-lang="save_design">Design speichern</button>
         <span class="toast" id="t-design">✓ Gespeichert</span>
       </div>
     </div>
@@ -1195,6 +1195,79 @@ document.getElementById('l-pw').addEventListener('keydown',e=>{if(e.key==='Enter
 setTimeout(()=>{
   document.getElementById('test-input')?.addEventListener('keydown',e=>{if(e.key==='Enter')sendTestMsg();});
 },500);
+
+// ── ADMIN TRANSLATIONS ─────────────────────────────────────
+const ADMIN_LANG = {
+  de: {
+    nav_dashboard: "Dashboard",
+    nav_test: "Bot testen",
+    nav_analyse: "Analyse",
+    nav_settings: "Einstellungen",
+    nav_faq: "FAQ & Wissen",
+    nav_design: "Design",
+    nav_preview: "Vorschau",
+    nav_embed: "Einbetten",
+    nav_insights: "Einblicke",
+    dash_title: "Dashboard",
+    dash_sub: "Übersicht & Schnellzugriff",
+    dash_online: "Online",
+    dash_offline: "Offline",
+    dash_chats: "Gespräche",
+    dash_messages: "Nachrichten",
+    dash_faqs: "FAQ-Einträge",
+    dash_monthly: "Diesen Monat",
+    save_design: "Design speichern",
+    save_settings: "Einstellungen speichern",
+    faq_add: "+ FAQ hinzufügen",
+    embed_title: "Einbetten",
+    embed_sub: "Fügen Sie diesen Code in Ihre Website ein",
+    insights_title: "Einblicke",
+    unanswered_title: "Unbeantwortete Fragen",
+    logout: "Abmelden",
+  },
+  en: {
+    nav_dashboard: "Dashboard",
+    nav_test: "Test Bot",
+    nav_analyse: "Analytics",
+    nav_settings: "Settings",
+    nav_faq: "FAQ & Knowledge",
+    nav_design: "Design",
+    nav_preview: "Preview",
+    nav_embed: "Embed",
+    nav_insights: "Insights",
+    dash_title: "Dashboard",
+    dash_sub: "Overview & Quick Access",
+    dash_online: "Online",
+    dash_offline: "Offline",
+    dash_chats: "Conversations",
+    dash_messages: "Messages",
+    dash_faqs: "FAQ Entries",
+    dash_monthly: "This Month",
+    save_design: "Save Design",
+    save_settings: "Save Settings",
+    faq_add: "+ Add FAQ",
+    embed_title: "Embed",
+    embed_sub: "Add this code to your website",
+    insights_title: "Insights",
+    unanswered_title: "Unanswered Questions",
+    logout: "Sign Out",
+  }
+};
+
+let adminLang = 'de';
+
+function toggleAdminLang() {
+  adminLang = adminLang === 'de' ? 'en' : 'de';
+  const t = ADMIN_LANG[adminLang];
+  document.querySelectorAll('[data-admin-lang]').forEach(el => {
+    const key = el.getAttribute('data-admin-lang');
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+  const btn = document.getElementById('admin-lang-btn');
+  if (btn) btn.innerHTML = adminLang === 'de' ? '🇬🇧 EN' : '🇩🇪 DE';
+  try { localStorage.setItem('chatbot24_admin_lang', adminLang); } catch(e) {}
+}
+
 </script>
 </body>
 </html>
