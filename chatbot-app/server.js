@@ -310,10 +310,11 @@ app.post('/api/dismiss-question', async (req, res) => {
 // ── TOPICS ANALYSIS ──────────────────────────────────────
 app.get('/api/topics/:clientId', async (req, res) => {
   try {
+    const cutoff90 = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000);
     const convs = await db.collection('conversations')
-      .find({ clientId: req.params.clientId })
+      .find({ clientId: req.params.clientId, createdAt: { $gte: cutoff90 } })
       .sort({ createdAt: -1 })
-      .limit(100)
+      .limit(200)
       .toArray();
 
     if (convs.length === 0) {
