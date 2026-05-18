@@ -402,11 +402,7 @@
               <div style="font-size:12px;font-weight:600;color:var(--ink)">Pill-Button</div>
               <div style="font-size:10px;color:var(--muted);margin-top:2px">Mit Text & Puls-Dot</div>
             </div>
-            <div id="ws-tab" onclick="selectWidgetStyle('tab')" style="border:1.5px solid var(--border);border-radius:12px;padding:14px;cursor:pointer;text-align:center">
-              <div style="background:var(--g);color:#fff;border-radius:8px 0 0 8px;padding:7px 10px;font-size:11px;font-weight:500;display:inline-flex;align-items:center;gap:5px;margin-bottom:8px">💬 <span>Chat</span></div>
-              <div style="font-size:12px;font-weight:600;color:var(--ink)">Tab</div>
-              <div style="font-size:10px;color:var(--muted);margin-top:2px">Seitlicher Tab</div>
-            </div>
+
           </div>
 
           <div class="fl">
@@ -991,58 +987,47 @@ function handleLogoUpload(event){
 function updateAllPreviews(){
   const wStyle = clientData.widgetStyle || 'round';
   const btnText = (document.getElementById('cfg-widget-text')?.value || 'Wie kann ich helfen?').slice(0,20);
+  const tabRaw = document.getElementById('cfg-widget-text')?.value?.trim() || clientData.widgetButtonText || 'Chat';
+  const tabText = tabRaw.length > 14 ? tabRaw.slice(0,14)+'…' : tabRaw;
 
-  // Logo: max 32px contained in circle, never overflow
-  const logoHTML = selectedLogoBase64
+  const iconHTML = selectedIcon==='__logo__' && selectedLogoBase64
     ? `<img src="${selectedLogoBase64}" style="width:32px;height:32px;object-fit:cover;border-radius:50%;display:block;flex-shrink:0" />`
-    : null;
-  const iconHTML = selectedIcon==='__logo__' && logoHTML
-    ? logoHTML
     : `<span style="font-size:18px;line-height:1">${selectedIcon==='__logo__'?'💬':selectedIcon}</span>`;
 
-  // Small logo for pill/tab (20px)
-  const logoSmall = selectedLogoBase64
-    ? `<img src="${selectedLogoBase64}" style="width:20px;height:20px;object-fit:cover;border-radius:50%;display:block;flex-shrink:0" />`
-    : null;
-  const iconSmall = selectedIcon==='__logo__' && logoSmall
-    ? logoSmall
-    : `<span style="font-size:14px;line-height:1">${selectedIcon==='__logo__'?'💬':selectedIcon}</span>`;
+  const iconSmall = selectedIcon==='__logo__' && selectedLogoBase64
+    ? `<img src="${selectedLogoBase64}" style="width:18px;height:18px;object-fit:cover;border-radius:50%;display:block;flex-shrink:0" />`
+    : `<span style="font-size:14px;line-height:1;flex-shrink:0">${selectedIcon==='__logo__'?'💬':selectedIcon}</span>`;
 
-  ['phone','tablet','desktop'].forEach(d=>{
+  ['phone','tablet','desktop'].forEach(function(d){
     const container = document.getElementById('prev-container-'+d);
     if(!container) return;
-    // Clean up any existing tab buttons
-  ['phone','tablet','desktop'].forEach(function(dev){
-    const s=document.querySelector('#prev-container-'+dev)?.closest('.screen');
-    if(s){ const t=s.querySelector('.prev-tab-btn'); if(t) t.remove(); }
-    const c=document.getElementById('prev-container-'+dev);
-    if(c){ c.style.display='block'; }
-  });
+
+    // Always fully reset container first
+    container.innerHTML = '';
+    container.style.display = 'block';
+    container.style.pointerEvents = 'auto';
+    container.style.zIndex = '15';
+    container.style.cursor = 'pointer';
 
     if(wStyle==='round'){
-      container.innerHTML=`<div style="position:absolute;bottom:12px;right:12px;width:42px;height:42px;border-radius:50%;background:${selectedColor};display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,0.2);overflow:hidden;flex-shrink:0">${iconHTML}</div>`;
+      container.innerHTML = `<div style="position:absolute;bottom:12px;right:12px;width:42px;height:42px;border-radius:50%;background:${selectedColor};display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,0.25);overflow:hidden;cursor:pointer">${iconHTML}</div>`;
     } else if(wStyle==='pill'){
-      container.innerHTML=`<div style="position:absolute;bottom:12px;right:12px;background:${selectedColor};border-radius:100px;padding:8px 12px;display:flex;align-items:center;gap:6px;box-shadow:0 4px 14px rgba(0,0,0,0.2);max-width:88%;overflow:hidden">${iconSmall}<span style="color:#fff;font-size:10px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${btnText}</span><span style="width:6px;height:6px;border-radius:50%;background:#4ade80;flex-shrink:0"></span></div>`;
-    } else if(wStyle==='tab'){
-      const tabRaw = document.getElementById('cfg-widget-text')?.value?.trim() || clientData.widgetButtonText || 'Chat';
-      const tabText = tabRaw.length > 14 ? tabRaw.slice(0,14)+'…' : tabRaw;
-      const tabIcon = selectedIcon==='__logo__'&&selectedLogoBase64
-        ? `<img src="${selectedLogoBase64}" style="width:18px;height:18px;object-fit:cover;border-radius:50%;display:block;flex-shrink:0" />`
-        : `<span style="font-size:14px;line-height:1;flex-shrink:0">${selectedIcon==='__logo__'?'💬':selectedIcon}</span>`;
-      // For tab: hide full-screen click overlay, show only the tab button itself
-      container.style.display='none';
-      container.innerHTML='';
-      // Find screen parent and add tab directly
-      const screen=container.closest('.screen');
-      if(screen){
-        const existingTab=screen.querySelector('.prev-tab-btn');
-        if(existingTab) existingTab.remove();
-        const tabEl=document.createElement('div');
-        tabEl.className='prev-tab-btn';
-        tabEl.style.cssText=`position:absolute;bottom:60px;right:0;background:${selectedColor};border-radius:10px 0 0 10px;padding:10px 16px 10px 12px;display:flex;align-items:center;gap:7px;box-shadow:-3px 2px 14px rgba(0,0,0,0.22);cursor:pointer;z-index:10`;
-        tabEl.innerHTML=`${tabIcon}<span style="color:#fff;font-size:10px;font-weight:600;white-space:nowrap">${tabText}</span>`;
-        tabEl.onclick=function(){ container.style.display='block'; openPrevChat(d); tabEl.style.display='none'; };
-        screen.appendChild(tabEl);
+      container.innerHTML = `<div style="position:absolute;bottom:12px;right:12px;background:${selectedColor};border-radius:100px;padding:8px 14px;display:flex;align-items:center;gap:6px;box-shadow:0 4px 14px rgba(0,0,0,0.25);cursor:pointer;max-width:85%;overflow:hidden">${iconSmall}<span style="color:#fff;font-size:10px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${btnText}</span><span style="width:6px;height:6px;border-radius:50%;background:#4ade80;flex-shrink:0"></span></div>`;
+    } else if(wStyle==='tab_disabled'){
+      // For tab: hide the full-overlay container, add a real tab element
+      container.style.display = 'none';
+      if(parentEl){
+        const tabEl = document.createElement('div');
+        tabEl.className = 'prev-tab-btn';
+        tabEl.style.cssText = `position:absolute;bottom:70px;right:0;background:${selectedColor};border-radius:10px 0 0 10px;padding:10px 14px 10px 10px;display:flex;align-items:center;gap:7px;box-shadow:-3px 2px 14px rgba(0,0,0,0.22);cursor:pointer;z-index:15`;
+        tabEl.innerHTML = `${iconSmall}<span style="color:#fff;font-size:10px;font-weight:600;white-space:nowrap">${tabText}</span>`;
+        const devId = d;
+        tabEl.onclick = function(){
+          tabEl.style.display = 'none';
+          container.style.display = 'block';
+          openPrevChat(devId);
+        };
+        parentEl.appendChild(tabEl);
       }
     }
   });
@@ -1333,8 +1318,21 @@ function openPrevChat(d) {
 function closePrevChat(d) {
   const chat = document.getElementById('prev-chat-'+d);
   if (chat) chat.style.display = 'none';
-  const container = document.getElementById('prev-container-'+d);
-  if (container) container.style.display = 'block';
+  const wStyle = clientData.widgetStyle || 'round';
+  if(wStyle === 'tab'){
+    // Restore tab button
+    const container = document.getElementById('prev-container-'+d);
+    if(container){
+      const parent = container.parentElement;
+      if(parent){
+        const tab = parent.querySelector('.prev-tab-btn');
+        if(tab) tab.style.display = 'flex';
+      }
+    }
+  } else {
+    const container = document.getElementById('prev-container-'+d);
+    if (container) container.style.display = 'block';
+  }
 }
 
 function addPrevMsg(d, text, type) {
