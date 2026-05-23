@@ -633,14 +633,14 @@ footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: fle
   <div style="max-width:800px;margin:0 auto">
     <div style="font-size:12px;font-weight:600;color:var(--g);text-transform:uppercase;letter-spacing:0.15em;margin-bottom:1.5rem" class="fade-up">Preisversprechen</div>
     <div style="font-family:'DM Serif Display',serif;font-size:clamp(32px,5vw,58px);color:#fff;line-height:1.1;letter-spacing:-1.5px;margin-bottom:1.5rem" class="fade-up">
-      Volle KI. Volle Features.<br><span style="color:var(--g)">Ab 14,99€ im Monat.</span>
+      Volle KI. Volle Features.<br><span style="color:var(--g)">Ab 49,99€ im Monat.</span>
     </div>
     <p style="font-size:16px;color:rgba(255,255,255,0.45);font-weight:300;line-height:1.8;max-width:520px;margin:0 auto 2.5rem" class="fade-up">
       Tidio verlangt 29€ – ohne KI. Crisp startet bei 45€ – KI erst ab 95€. Intercom kostet 74€ pro Person. <strong style="color:rgba(255,255,255,0.75);font-weight:400">Wir machen das anders:</strong> alles inklusive, vollständig eingerichtet, für jeden der ein kleines Unternehmen betreibt.
     </p>
     <div style="display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap" class="fade-up">
       <div style="text-align:center">
-        <div style="font-size:38px;font-weight:700;color:var(--g);letter-spacing:-1px">14,99€</div>
+        <div style="font-size:38px;font-weight:700;color:var(--g);letter-spacing:-1px">49,99€</div>
         <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:4px;font-weight:300">statt 29–95€ bei der Konkurrenz</div>
       </div>
       <div style="width:1px;background:rgba(255,255,255,0.1)"></div>
@@ -665,7 +665,25 @@ footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: fle
 
     <div class="price-card fade-up">
       <div class="price-label">Paket Start</div>
-      <div class="price-num"><sup>€</sup>14,99<sub>/Mo</sub></div>
+      <div class="price-num"><sup>€</sup>24,99<sub>/Mo</sub></div>
+      <div class="price-setup">+ einmalig 100€ Einrichtung</div>
+      <ul class="price-features">
+        <li>200 Nachrichten/Monat</li>
+        <li>Alle Features enthalten</li>
+        <li>Admin-Dashboard</li>
+        <li>Eigenes Branding &amp; Farbe</li>
+        <li>Mehrsprachig</li>
+        <li>Gesprächsanalyse &amp; Einblicke</li>
+        <li>E-Mail-Support</li>
+        <li>In 48h live</li>
+      </ul>
+      <button class="price-btn" onclick="openModal('Start (49,99€/Monat)')">Jetzt bestellen →</button>
+    </div>
+
+    <div class="price-card featured fade-up">
+      <div class="featured-badge">⭐ Beliebtestes Paket</div>
+      <div class="price-label">Paket Wachstum</div>
+      <div class="price-num"><sup>€</sup>49,99<sub>/Mo</sub></div>
       <div class="price-setup">+ einmalig 100€ Einrichtung</div>
       <ul class="price-features">
         <li>500 Nachrichten/Monat</li>
@@ -677,34 +695,16 @@ footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: fle
         <li>E-Mail-Support</li>
         <li>In 48h live</li>
       </ul>
-      <button class="price-btn" onclick="openModal('Start (14,99€/Monat)')">Jetzt bestellen →</button>
-    </div>
-
-    <div class="price-card featured fade-up">
-      <div class="featured-badge">⭐ Beliebtestes Paket</div>
-      <div class="price-label">Paket Wachstum</div>
-      <div class="price-num"><sup>€</sup>24,99<sub>/Mo</sub></div>
-      <div class="price-setup">+ einmalig 100€ Einrichtung</div>
-      <ul class="price-features">
-        <li>2.000 Nachrichten/Monat</li>
-        <li>Alle Features enthalten</li>
-        <li>Admin-Dashboard</li>
-        <li>Eigenes Branding &amp; Farbe</li>
-        <li>Mehrsprachig</li>
-        <li>Gesprächsanalyse &amp; Einblicke</li>
-        <li>E-Mail-Support</li>
-        <li>In 48h live</li>
-      </ul>
-      <button class="price-btn" onclick="openModal('Wachstum (24,99€/Monat)')">Jetzt bestellen →</button>
+      <button class="price-btn" onclick="openModal('Wachstum (49,99€/Monat)')">Jetzt bestellen →</button>
       <div class="price-note" data-lang="form_note">Zahlung erst nach Einrichtung</div>
     </div>
 
     <div class="price-card fade-up">
       <div class="price-label">Paket Pro</div>
-      <div class="price-num"><sup>€</sup>39,99<sub>/Mo</sub></div>
+      <div class="price-num"><sup>€</sup>89,99<sub>/Mo</sub></div>
       <div class="price-setup">+ einmalig 100€ Einrichtung</div>
       <ul class="price-features">
-        <li>10.000 Nachrichten/Monat</li>
+        <li>1.000 Nachrichten/Monat</li>
         <li>Alle Features enthalten</li>
         <li>Admin-Dashboard</li>
         <li>Eigenes Branding &amp; Farbe</li>
@@ -713,7 +713,7 @@ footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: fle
         <li>E-Mail-Support</li>
         <li>In 48h live</li>
       </ul>
-      <button class="price-btn" onclick="openModal('Pro (39,99€/Monat)')">Jetzt bestellen →</button>
+      <button class="price-btn" onclick="openModal('Pro (89,99€/Monat)')">Jetzt bestellen →</button>
     </div>
 
   </div>
@@ -787,16 +787,16 @@ footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: fle
       <p style="font-size:15px;color:rgba(255,255,255,0.8);line-height:1.9;max-width:540px;margin:0 auto 40px">Wir haben eine klare Lücke gesehen: Große Unternehmen nutzen KI längst – kleine noch nicht, weil es zu teuer, zu komplex oder zu technisch war. Das wollten wir ändern. Wir sind zwei 17-Jährige aus Düsseldorf und Chatbot24 ist unsere Antwort darauf: professionell, einfach, für jeden zugänglich.</p>
       <div style="display:flex;justify-content:center;gap:48px;flex-wrap:wrap">
         <div style="text-align:center">
-          <div style="font-size:32px;font-weight:700;color:#fff">17</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:5px">Jahre alt – und trotzdem</div>
+          <div style="font-size:32px;font-weight:700;color:#fff">49,99€</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:5px">ab / Monat</div>
         </div>
         <div style="text-align:center">
-          <div style="font-size:32px;font-weight:700;color:#fff">1 Idee</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:5px">die wirklich hilft</div>
+          <div style="font-size:32px;font-weight:700;color:#fff">48h</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:5px">bis live</div>
         </div>
         <div style="text-align:center">
-          <div style="font-size:32px;font-weight:700;color:#fff">∞</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:5px">Motivation</div>
+          <div style="font-size:32px;font-weight:700;color:#fff">24/7</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:5px">immer erreichbar</div>
         </div>
       </div>
     </div>
@@ -823,11 +823,11 @@ footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: fle
       <div class="modal-title">Jetzt bestellen</div>
       <p class="modal-sub">Wir melden uns innerhalb von 24 Stunden mit der Rechnung!</p>
       <div class="pkg-grid">
-        <div class="pkg-card" id="pkg-start" onclick="selectPkg('start')"><div class="pkg-name">Start</div><div class="pkg-price">14,99€</div><div class="pkg-msgs">500 Nachrichten</div></div>
-        <div class="pkg-card selected" id="pkg-wachstum" onclick="selectPkg('wachstum')"><div class="pkg-name">Wachstum ⭐</div><div class="pkg-price">24,99€</div><div class="pkg-msgs">2.000 Nachrichten</div></div>
-        <div class="pkg-card" id="pkg-pro" onclick="selectPkg('pro')"><div class="pkg-name">Pro</div><div class="pkg-price">39,99€</div><div class="pkg-msgs">10.000 Nachrichten</div></div>
+        <div class="pkg-card" id="pkg-start" onclick="selectPkg('start')"><div class="pkg-name">Start</div><div class="pkg-price">49,99€</div><div class="pkg-msgs">200 Nachrichten</div></div>
+        <div class="pkg-card selected" id="pkg-wachstum" onclick="selectPkg('wachstum')"><div class="pkg-name">Wachstum ⭐</div><div class="pkg-price">49,99€</div><div class="pkg-msgs">500 Nachrichten</div></div>
+        <div class="pkg-card" id="pkg-pro" onclick="selectPkg('pro')"><div class="pkg-name">Pro</div><div class="pkg-price">89,99€</div><div class="pkg-msgs">1.000 Nachrichten</div></div>
       </div>
-      <input type="hidden" id="f-paket" value="Wachstum (24,99€/Monat)" />
+      <input type="hidden" id="f-paket" value="Wachstum (49,99€/Monat)" />
       <div class="form-grid">
         <div class="fg"><label>Ihr Name *</label><input id="f-name" placeholder="Max Mustermann" data-lang="form_name" /></div>
         <div class="fg"><label>E-Mail *</label><input id="f-email" type="email" placeholder="max@firma.de" data-lang="form_email" /></div>
@@ -879,7 +879,7 @@ document.getElementById('contact-modal').addEventListener('click',function(e){if
 function selectPkg(pkg){
   ['start','wachstum','pro'].forEach(p=>document.getElementById('pkg-'+p).classList.remove('selected'));
   document.getElementById('pkg-'+pkg).classList.add('selected');
-  const names={start:'Start (14,99€/Monat)',wachstum:'Wachstum (24,99€/Monat)',pro:'Pro (39,99€/Monat)'};
+  const names={start:'Start (49,99€/Monat)',wachstum:'Wachstum (49,99€/Monat)',pro:'Pro (89,99€/Monat)'};
   document.getElementById('f-paket').value=names[pkg];
 }
 
