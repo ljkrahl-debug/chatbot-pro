@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Chatbot24 Business – Enterprise KI-Kommunikation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:    #0A0C0F;
+  --white:  #FAFAF8;
+  --g:      #1D9E75;
+  --gd:     #0F6E56;
+  --gl:     rgba(29,158,117,0.1);
+  --muted:  #6B7280;
+  --border: rgba(255,255,255,0.08);
+  --card:   rgba(255,255,255,0.04);
+  --serif:  'Instrument Serif', Georgia, serif;
+  --sans:   'DM Sans', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--ink);
+  color: var(--white);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NOISE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 4rem;
+  height: 72px;
+  background: rgba(10,12,15,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  display: flex; align-items: baseline; gap: 2px;
+  font-family: var(--serif); font-size: 20px; color: var(--white);
+  text-decoration: none;
+}
+.nav-logo sup { font-family: var(--sans); font-size: 10px; color: var(--g); letter-spacing: 0.1em; font-weight: 500; margin-left: 6px; }
+
+.nav-links { display: flex; gap: 2rem; align-items: center; }
+.nav-links a { font-size: 13px; color: rgba(255,255,255,0.5); text-decoration: none; letter-spacing: 0.02em; transition: color 0.2s; }
+.nav-links a:hover { color: var(--white); }
+
+.nav-cta {
+  background: var(--g); color: #fff; border: none;
+  padding: 9px 22px; border-radius: 6px;
+  font-size: 13px; font-weight: 500; font-family: var(--sans);
+  cursor: pointer; transition: background 0.2s; letter-spacing: 0.01em;
+}
+.nav-cta:hover { background: var(--gd); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 120px 4rem 80px;
+  position: relative; overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(29,158,117,0.12) 0%, transparent 70%),
+              radial-gradient(ellipse 40% 40% at 20% 80%, rgba(29,158,117,0.06) 0%, transparent 60%);
+}
+
+.hero-inner { position: relative; z-index: 1; max-width: 900px; }
+
+.hero-label {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--g);
+  margin-bottom: 2.5rem;
+}
+.hero-label::before {
+  content: ''; width: 24px; height: 1px; background: var(--g);
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(48px, 7vw, 88px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+  font-weight: 400;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--g);
+}
+
+.hero-sub {
+  font-size: 17px; font-weight: 300;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.75;
+  max-width: 520px;
+  margin-bottom: 3rem;
+}
+
+.hero-actions { display: flex; gap: 1rem; align-items: center; }
+
+.btn-primary {
+  background: var(--g); color: #fff; border: none;
+  padding: 14px 32px; border-radius: 6px;
+  font-size: 14px; font-weight: 500; font-family: var(--sans);
+  cursor: pointer; transition: all 0.2s; letter-spacing: 0.01em;
+}
+.btn-primary:hover { background: var(--gd); transform: translateY(-1px); }
+
+.btn-ghost {
+  background: transparent; color: rgba(255,255,255,0.6);
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 14px 32px; border-radius: 6px;
+  font-size: 14px; font-weight: 400; font-family: var(--sans);
+  cursor: pointer; transition: all 0.2s;
+}
+.btn-ghost:hover { border-color: rgba(255,255,255,0.3); color: var(--white); }
+
+.hero-metrics {
+  display: flex; gap: 4rem;
+  margin-top: 5rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--border);
+}
+
+.metric-val {
+  font-family: var(--serif); font-size: 40px;
+  color: var(--white); line-height: 1;
+  margin-bottom: 6px;
+}
+.metric-lbl {
+  font-size: 12px; color: var(--muted);
+  font-weight: 300; letter-spacing: 0.04em;
+}
+
+/* ── LOGOS STRIP ── */
+.logos-strip {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 2rem 4rem;
+  display: flex; align-items: center; gap: 3rem;
+  overflow: hidden;
+}
+.logos-label { font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
+.logos-items { display: flex; gap: 3.5rem; align-items: center; opacity: 0.35; }
+.logos-items span { font-size: 14px; font-weight: 500; letter-spacing: 0.05em; color: var(--white); }
+
+/* ── SECTION ── */
+section { padding: 100px 4rem; position: relative; z-index: 1; }
+
+.sec-label {
+  font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--g); margin-bottom: 1.2rem; font-weight: 500;
+  display: flex; align-items: center; gap: 10px;
+}
+.sec-label::before { content: ''; width: 20px; height: 1px; background: var(--g); }
+
+.sec-title {
+  font-family: var(--serif);
+  font-size: clamp(36px, 4vw, 54px);
+  line-height: 1.1; letter-spacing: -0.02em;
+  font-weight: 400; margin-bottom: 1rem;
+}
+
+.sec-title em { font-style: italic; color: var(--g); }
+
+.sec-sub {
+  font-size: 16px; color: rgba(255,255,255,0.5);
+  line-height: 1.75; font-weight: 300; max-width: 520px;
+}
+
+/* ── PROBLEM ── */
+.problem-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 16px; overflow: hidden;
+  margin-top: 4rem;
+}
+
+.problem-cell {
+  background: var(--ink);
+  padding: 3rem;
+  transition: background 0.3s;
+}
+.problem-cell:hover { background: var(--card); }
+
+.problem-num {
+  font-family: var(--serif); font-size: 56px;
+  color: rgba(255,255,255,0.08); line-height: 1;
+  margin-bottom: 1.5rem;
+}
+
+.problem-title {
+  font-size: 17px; font-weight: 500;
+  color: var(--white); margin-bottom: 0.75rem;
+}
+
+.problem-desc {
+  font-size: 14px; color: var(--muted);
+  line-height: 1.7; font-weight: 300;
+}
+
+/* ── SOLUTION ── */
+.solution-layout {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: start;
+  margin-top: 4rem;
+}
+
+.feature-list { display: flex; flex-direction: column; gap: 0; }
+
+.feature-item {
+  display: flex; gap: 1.5rem; align-items: flex-start;
+  padding: 1.75rem 0;
+  border-bottom: 1px solid var(--border);
+  cursor: default;
+  transition: all 0.2s;
+}
+.feature-item:first-child { border-top: 1px solid var(--border); }
+.feature-item:hover .feature-icon { background: var(--g); }
+
+.feature-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: rgba(29,158,117,0.15);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: background 0.2s;
+  font-size: 15px;
+}
+
+.feature-title { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+.feature-desc { font-size: 13px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+
+.solution-showcase {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2.5rem;
+  position: sticky; top: 100px;
+}
+
+.showcase-header {
+  background: var(--g); border-radius: 10px;
+  padding: 14px 18px;
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 1.5rem;
+}
+.showcase-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+}
+.showcase-name { font-size: 13px; font-weight: 500; }
+.showcase-status { font-size: 11px; color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 4px; }
+.online-dot { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; }
+
+.chat-bubble {
+  padding: 10px 14px; border-radius: 12px;
+  font-size: 13px; line-height: 1.5; margin-bottom: 8px;
+  max-width: 85%;
+}
+.chat-bot { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.85); border-radius: 4px 12px 12px 12px; }
+.chat-user { background: var(--g); color: #fff; margin-left: auto; border-radius: 12px 4px 12px 12px; }
+
+.showcase-stats {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden; margin-top: 1.5rem;
+}
+.s-stat { background: rgba(255,255,255,0.03); padding: 1rem; text-align: center; }
+.s-stat-val { font-family: var(--serif); font-size: 24px; color: var(--g); }
+.s-stat-lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* ── PRICING ── */
+.pricing-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem; margin-top: 4rem;
+}
+
+.price-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px; padding: 2.5rem;
+  position: relative; overflow: hidden;
+  transition: border-color 0.3s;
+}
+.price-card:hover { border-color: rgba(29,158,117,0.4); }
+
+.price-card.featured {
+  border-color: var(--g);
+  background: rgba(29,158,117,0.07);
+}
+.price-card.featured::before {
+  content: 'EMPFOHLEN';
+  position: absolute; top: 1.5rem; right: 1.5rem;
+  font-size: 9px; font-weight: 600; letter-spacing: 0.12em;
+  color: var(--g); background: var(--gl);
+  padding: 4px 10px; border-radius: 100px;
+}
+
+.price-tier { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; }
+.price-amount { font-family: var(--serif); font-size: 52px; line-height: 1; color: var(--white); margin-bottom: 4px; }
+.price-amount span { font-family: var(--sans); font-size: 16px; color: var(--muted); font-weight: 300; }
+.price-setup { font-size: 12px; color: var(--muted); margin-bottom: 2rem; }
+.price-divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+
+.price-feature {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 13px; color: rgba(255,255,255,0.7);
+  padding: 5px 0; font-weight: 300;
+}
+.price-feature::before { content: '→'; color: var(--g); flex-shrink: 0; font-size: 12px; margin-top: 1px; }
+
+.price-btn {
+  width: 100%; margin-top: 2rem;
+  padding: 12px; border-radius: 8px;
+  font-size: 13px; font-weight: 500;
+  font-family: var(--sans); cursor: pointer;
+  transition: all 0.2s; letter-spacing: 0.01em;
+}
+.price-btn-green { background: var(--g); color: #fff; border: none; }
+.price-btn-green:hover { background: var(--gd); }
+.price-btn-outline { background: transparent; color: rgba(255,255,255,0.7); border: 1px solid var(--border); }
+.price-btn-outline:hover { border-color: rgba(255,255,255,0.3); color: var(--white); }
+
+/* ── RESELLER ── */
+.reseller-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 16px; overflow: hidden;
+  margin-top: 4rem;
+}
+
+.reseller-step {
+  background: var(--ink); padding: 2.5rem;
+  transition: background 0.3s;
+}
+.reseller-step:hover { background: var(--card); }
+
+.step-num {
+  font-family: var(--serif); font-size: 14px;
+  color: var(--g); margin-bottom: 1.2rem;
+}
+.step-title { font-size: 16px; font-weight: 500; margin-bottom: 0.75rem; }
+.step-desc { font-size: 13px; color: var(--muted); line-height: 1.7; font-weight: 300; }
+
+/* ── CONTACT ── */
+.contact-box {
+  background: linear-gradient(135deg, rgba(29,158,117,0.15) 0%, rgba(29,158,117,0.05) 100%);
+  border: 1px solid rgba(29,158,117,0.3);
+  border-radius: 20px;
+  padding: 5rem;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+
+.contact-box::before {
+  content: '';
+  position: absolute; top: -80px; right: -80px;
+  width: 300px; height: 300px; border-radius: 50%;
+  background: rgba(29,158,117,0.08);
+}
+
+.contact-title {
+  font-family: var(--serif); font-size: 48px;
+  line-height: 1.1; margin-bottom: 1.5rem;
+}
+.contact-sub { font-size: 16px; color: rgba(255,255,255,0.5); font-weight: 300; line-height: 1.7; max-width: 480px; margin: 0 auto 2.5rem; }
+
+.contact-info {
+  display: flex; justify-content: center; gap: 3rem;
+  margin-top: 2rem;
+}
+.contact-item { text-align: left; }
+.contact-label { font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+.contact-val { font-size: 15px; color: var(--g); font-weight: 500; }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 4rem;
+  display: flex; align-items: center; justify-content: space-between;
+  position: relative; z-index: 1;
+}
+.footer-logo { font-family: var(--serif); font-size: 16px; color: rgba(255,255,255,0.4); }
+.footer-links { display: flex; gap: 2rem; }
+.footer-links a { font-size: 12px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--white); }
+
+/* ── FADE IN ── */
+.fade { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.fade.visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 900px) {
+  nav { padding: 0 1.5rem; }
+  section { padding: 60px 1.5rem; }
+  .hero { padding: 100px 1.5rem 60px; }
+  .hero-metrics { gap: 2rem; flex-wrap: wrap; }
+  .problem-grid { grid-template-columns: 1fr; }
+  .solution-layout { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .reseller-grid { grid-template-columns: 1fr; }
+  .contact-box { padding: 3rem 1.5rem; }
+  .contact-info { flex-direction: column; gap: 1.5rem; align-items: center; }
+  footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">Chatbot24 <sup>BUSINESS</sup></a>
+  <div class="nav-links">
+    <a href="#problem">Das Problem</a>
+    <a href="#loesung">Lösung</a>
+    <a href="#preise">Preise</a>
+    </div>
+  <button class="nav-cta" onclick="document.getElementById('kontakt').scrollIntoView({behavior:'smooth'})">Gespräch anfragen</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-label fade">Enterprise KI-Kommunikation</div>
+    <h1 class="fade">Ihr Unternehmen.<br>Immer <em>erreichbar.</em><br>Immer professionell.</h1>
+    <p class="hero-sub fade">KI-gestützte Kundenkommunikation für mittelständische Unternehmen. Maßgeschneidert. DSGVO-konform. In 48 Stunden live.</p>
+    <div class="hero-actions fade">
+      <button class="btn-primary" onclick="document.getElementById('kontakt').scrollIntoView({behavior:'smooth'})">Beratungsgespräch anfragen</button>
+      <button class="btn-ghost" onclick="document.getElementById('loesung').scrollIntoView({behavior:'smooth'})">Mehr erfahren</button>
+    </div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- LOGOS -->
+<div class="logos-strip fade">
+  <span class="logos-label">Einsetzbar auf allen Plattformen</span>
+  <div class="logos-items">
+    <span>WordPress</span>
+    <span>Shopify</span>
+    <span>Webflow</span>
+    <span>Wix</span>
+    <span>Squarespace</span>
+    <span>Custom HTML</span>
+  </div>
+</div>
+
+<!-- LÖSUNG -->
+<section id="loesung" style="border-top:1px solid var(--border)">
+  <div class="sec-label fade">Die Lösung</div>
+  <h2 class="sec-title fade">Chatbot24 Business –<br><em>Entwickelt für den Mittelstand.</em></h2>
+
+  <div class="solution-layout">
+    <div class="feature-list fade">
+      <div class="feature-item">
+        <div class="feature-icon">⚡</div>
+        <div>
+          <div class="feature-title">48 Stunden bis live</div>
+          <div class="feature-desc">Wir richten Ihren individuell konfigurierten Chatbot ein und integrieren ihn in Ihre bestehende Website – ohne Unterbrechung Ihres Betriebs.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🎯</div>
+        <div>
+          <div class="feature-title">Maßgeschneidert auf Ihr Unternehmen</div>
+          <div class="feature-desc">FAQ-Import aus bestehenden Dokumenten, individuelle Persönlichkeit, Ton und Kommunikationsstil passend zu Ihrer Marke.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🌍</div>
+        <div>
+          <div class="feature-title">Mehrsprachig ohne Aufpreis</div>
+          <div class="feature-desc">Deutsch, Englisch, Türkisch, Französisch, Spanisch und mehr – der Bot erkennt die Sprache des Kunden automatisch.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">📊</div>
+        <div>
+          <div class="feature-title">Echtzeit-Analyse & Reporting</div>
+          <div class="feature-desc">Vollständiges Dashboard mit Gesprächsanalyse, Tageszeit-Auswertung, unbeantworteten Fragen und KI-generierten Themenberichten.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🔒</div>
+        <div>
+          <div class="feature-title">DSGVO-konform · Hosting in Deutschland</div>
+          <div class="feature-desc">Alle Daten werden auf Servern in Frankfurt am Main verarbeitet. Vollständige Datenschutzerklärung, AVV und Löschkonzept inklusive.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">👤</div>
+        <div>
+          <div class="feature-title">Persönlicher Ansprechpartner</div>
+          <div class="feature-desc">Kein Ticketsystem, kein Callcenter. Direkter Kontakt zu Ihrem persönlichen Betreuer – per Telefon, E-Mail oder WhatsApp.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="solution-showcase fade">
+      <div class="showcase-header">
+        <div class="showcase-avatar">💼</div>
+        <div>
+          <div class="showcase-name">Ihr Unternehmens-Assistent</div>
+          <div class="showcase-status"><span class="online-dot"></span>Online · antwortet sofort</div>
+        </div>
+      </div>
+
+      <div class="chat-bubble chat-bot">Guten Tag! Wie kann ich Ihnen behilflich sein?</div>
+      <div class="chat-bubble chat-user">Was sind Ihre Leistungen und Preise?</div>
+      <div class="chat-bubble chat-bot">Gerne stelle ich Ihnen unser Portfolio vor. Wir bieten [individuell konfiguriert] an. Für ein persönliches Angebot können Sie direkt einen Termin buchen oder ich verbinde Sie mit unserem Team.</div>
+      <div class="chat-bubble chat-user">Können Sie mir einen Rückruf organisieren?</div>
+      <div class="chat-bubble chat-bot">Selbstverständlich. Hinterlassen Sie mir Ihre Nummer – unser Team meldet sich innerhalb von 2 Stunden bei Ihnen.</div>
+
+      <div class="showcase-stats">
+        <div class="s-stat">
+          <div class="s-stat-val">↑ 94%</div>
+          <div class="s-stat-lbl">Anfragen beantwortet</div>
+        </div>
+        <div class="s-stat">
+          <div class="s-stat-val">&lt; 1s</div>
+          <div class="s-stat-lbl">Reaktionszeit</div>
+        </div>
+        <div class="s-stat">
+          <div class="s-stat-val">24/7</div>
+          <div class="s-stat-lbl">Verfügbar</div>
+        </div>
+        <div class="s-stat">
+          <div class="s-stat-val">6+</div>
+          <div class="s-stat-lbl">Sprachen</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PREISE -->
+<section id="preise" style="border-top:1px solid var(--border)">
+  <div class="sec-label fade">Preise</div>
+  <h2 class="sec-title fade">Investition die sich<br><em>sofort auszahlt.</em></h2>
+  <p class="sec-sub fade">Transparent. Ohne versteckte Kosten. Monatlich kündbar.</p>
+
+  <div class="pricing-grid fade">
+
+    <div class="price-card">
+      <div class="price-tier">Professional</div>
+      <div class="price-amount">199€<span> /Mo</span></div>
+      <div class="price-setup">+ einmalig 299€ Einrichtung</div>
+      <hr class="price-divider">
+      <div class="price-feature">5.000 Nachrichten / Monat</div>
+      <div class="price-feature">Alle Standard-Features</div>
+      <div class="price-feature">Admin-Dashboard</div>
+      <div class="price-feature">E-Mail-Support</div>
+      <div class="price-feature">DSGVO-konform inkl. AVV</div>
+      <button class="price-btn price-btn-outline" onclick="document.getElementById('kontakt').scrollIntoView({behavior:'smooth'})">Gespräch anfragen</button>
+    </div>
+
+    <div class="price-card featured">
+      <div class="price-tier">Business</div>
+      <div class="price-amount">399€<span> /Mo</span></div>
+      <div class="price-setup">+ einmalig 499€ Einrichtung</div>
+      <hr class="price-divider">
+      <div class="price-feature">20.000 Nachrichten / Monat</div>
+      <div class="price-feature">Persönlicher Ansprechpartner</div>
+      <div class="price-feature">Prioritäts-Support (24h)</div>
+      <div class="price-feature">Quartals-Review-Gespräch</div>
+      <div class="price-feature">DSGVO-konform inkl. AVV</div>
+      <button class="price-btn price-btn-green" onclick="document.getElementById('kontakt').scrollIntoView({behavior:'smooth'})">Gespräch anfragen</button>
+    </div>
+
+    <div class="price-card">
+      <div class="price-tier">Enterprise</div>
+      <div class="price-amount" style="font-size:38px">Individuell</div>
+      <div class="price-setup">auf Anfrage</div>
+      <hr class="price-divider">
+      <div class="price-feature">Unbegrenzte Nachrichten</div>
+      <div class="price-feature">Dedizierter Account Manager</div>
+      <div class="price-feature">Custom Integrationen</div>
+      <div class="price-feature">SLA mit Verfügbarkeitsgarantie</div>
+      <div class="price-feature">Monatliche Business-Reviews</div>
+      <div class="price-feature">White-Label auf Anfrage</div>
+      <button class="price-btn price-btn-outline" onclick="document.getElementById('kontakt').scrollIntoView({behavior:'smooth'})">Angebot anfragen</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- KONTAKT -->
+<section id="kontakt" style="border-top:1px solid var(--border)">
+  <div class="contact-box fade">
+    <div class="sec-label" style="justify-content:center">Erstgespräch</div>
+    <h2 class="contact-title">Bereit für den nächsten Schritt?</h2>
+    <p class="contact-sub">Vereinbaren Sie ein unverbindliches Beratungsgespräch. Wir analysieren Ihre aktuelle Kundenkommunikation und zeigen Ihnen konkret wie Chatbot24 helfen kann.</p>
+
+    <div style="display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-top:1rem">
+      <a href="mailto:chatbot24service@gmail.com" style="display:inline-flex;align-items:center;gap:10px;background:var(--g);color:#fff;text-decoration:none;padding:16px 32px;border-radius:8px;font-size:15px;font-weight:500;transition:background 0.2s" onmouseover="this.style.background='#0F6E56'" onmouseout="this.style.background='#1D9E75'">
+        <span style="font-size:18px">✉</span> chatbot24service@gmail.com
+      </a>
+      <a href="tel:+4917672455402" style="display:inline-flex;align-items:center;gap:10px;background:transparent;color:var(--white);text-decoration:none;padding:16px 32px;border-radius:8px;font-size:15px;font-weight:500;border:1px solid rgba(255,255,255,0.2);transition:all 0.2s" onmouseover="this.style.borderColor='rgba(255,255,255,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.2)'">
+        <span style="font-size:18px">📞</span> +49 (0) 176 72455402
+      </a>
+    </div>
+    <p style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:1.5rem">Auch per WhatsApp erreichbar · Antwort in der Regel innerhalb weniger Stunden</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Chatbot24 Business</div>
+  <div class="footer-links">
+    <a href="/rechtliches">Impressum</a>
+    <a href="/rechtliches">Datenschutz</a>
+    <a href="/rechtliches">AGB</a>
+    <a href="/rechtliches">AVV</a>
+    <a href="/">Für kleine Unternehmen →</a>
+  </div>
+</footer>
+
+<script>
+// Fade in on scroll
+const fades = document.querySelectorAll('.fade');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 60);
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+fades.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
