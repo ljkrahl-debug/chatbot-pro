@@ -52,7 +52,9 @@ app.post('/api/chat/:clientId', async (req, res) => {
   if (!client) return res.status(404).json({ error: 'Client not found' });
 
   const faqText = (client.faqs || []).map(f => `F: ${f.q}\nA: ${f.a}`).join('\n\n');
-  const systemPrompt = `${client.systemPrompt}\n\nFirma: ${client.name} (${client.industry})\nÖffnungszeiten: ${client.hours}\nKontakt: ${client.email}\n\nHäufige Fragen:\n${faqText}`;
+  const leadInstruction = client.leadCapture === false ? '' :
+    `\n\nWICHTIG – Kontakterfassung: Wenn ein Besucher echtes Interesse zeigt (z.B. nach einem Angebot, Rückruf, Termin oder Preis fragt, oder konkret Interesse an einer Leistung äußert), biete ihm freundlich an seine Kontaktdaten zu hinterlassen, damit sich das Team persönlich meldet. Frage flexibel nach dem was der Kunde geben möchte (Name, Telefonnummer oder E-Mail) und worum es geht. Dränge nicht – wenn der Kunde nicht möchte, ist das völlig in Ordnung. Sobald der Kunde Kontaktdaten genannt hat, bestätige freundlich dass sich das Team zeitnah meldet.`;
+  const systemPrompt = `${client.systemPrompt}\n\nFirma: ${client.name} (${client.industry})\nÖffnungszeiten: ${client.hours}\nKontakt: ${client.email}\n\nHäufige Fragen:\n${faqText}${leadInstruction}`;
 
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -160,6 +162,26 @@ app.post('/api/chat/:clientId', async (req, res) => {
         date: today,
         timeOfDay,
         unanswered: false,
+        createdAt: new Date()
+      });
+    }
+
+    // ── LEAD-ERKENNUNG ──────────────────────────────────────
+    const fullMsg = messages[messages.length - 1].content;
+    const phoneMatch = fullMsg.match(/(\+?\d[\d\s\/().-]{7,}\d)/);
+    const emailMatch = fullMsg.match(/[\w.+-]+@[\w-]+\.[\w.-]+/);
+    if ((phoneMatch || emailMatch) && client.leadCapture !== false) {
+      const firstUserMsg = messages.find(m => m.role === 'user')?.content || '';
+      const topic = firstUserMsg.substring(0, 120);
+      await db.collection('leads').insertOne({
+        clientId,
+        phone: phoneMatch ? phoneMatch[0].trim() : null,
+        email: emailMatch ? emailMatch[0].trim() : null,
+        message: fullMsg.substring(0, 300),
+        topic,
+        status: 'offen',
+        date: today,
+        timeOfDay,
         createdAt: new Date()
       });
     }
@@ -287,6 +309,54 @@ app.get('/api/unanswered/:clientId', async (req, res) => {
       .limit(20)
       .toArray();
     res.json({ questions: convs.map(c => ({ q: c.userMessage, date: c.date })) });
+  } catch(err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ── LEADS (Rückruf-Anfragen) ─────────────────────────────
+app.get('/api/leads/:clientId', async (req, res) => {
+  try {
+    const leads = await db.collection('leads')
+      .find({ clientId: req.params.clientId })
+      .sort({ createdAt: -1 })
+      .limit(100)
+      .toArray();
+    res.json({ leads: leads.map(l => ({
+      id: l._id.toString(),
+      phone: l.phone,
+      email: l.email,
+      topic: l.topic,
+      message: l.message,
+      status: l.status || 'offen',
+      date: l.date,
+      timeOfDay: l.timeOfDay,
+      createdAt: l.createdAt
+    })) });
+  } catch(err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/leads/:clientId/status', async (req, res) => {
+  try {
+    const { ObjectId } = require('mongodb');
+    const { leadId, status } = req.body;
+    await db.collection('leads').updateOne(
+      { _id: new ObjectId(leadId) },
+      { $set: { status } }
+    );
+    res.json({ success: true });
+  } catch(err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete('/api/leads/:clientId/:leadId', async (req, res) => {
+  try {
+    const { ObjectId } = require('mongodb');
+    await db.collection('leads').deleteOne({ _id: new ObjectId(req.params.leadId) });
+    res.json({ success: true });
   } catch(err) {
     res.status(500).json({ error: err.message });
   }
