@@ -410,6 +410,26 @@
             <input class="fi" id="cfg-widget-text" placeholder="z.B. Wie kann ich helfen?" value="Wie kann ich helfen?" />
           </div>
 
+          <div class="fl" style="margin-bottom:1rem">
+            <label>Position auf der Website</label>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px">
+              <div id="wp-right" onclick="selectWidgetPosition('right')" style="border:2px solid var(--g);border-radius:10px;padding:12px;cursor:pointer;text-align:center;background:var(--gl)">
+                <div style="height:36px;background:#f0f0f0;border-radius:6px;position:relative;margin-bottom:8px">
+                  <div style="position:absolute;bottom:4px;right:4px;width:20px;height:20px;border-radius:50%;background:var(--g)"></div>
+                </div>
+                <div style="font-size:12px;font-weight:600;color:var(--gd)">Rechts</div>
+                <div style="font-size:10px;color:var(--muted);margin-top:2px">Standard</div>
+              </div>
+              <div id="wp-left" onclick="selectWidgetPosition('left')" style="border:1.5px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;text-align:center">
+                <div style="height:36px;background:#f0f0f0;border-radius:6px;position:relative;margin-bottom:8px">
+                  <div style="position:absolute;bottom:4px;left:4px;width:20px;height:20px;border-radius:50%;background:var(--g)"></div>
+                </div>
+                <div style="font-size:12px;font-weight:600;color:var(--ink)">Links</div>
+                <div style="font-size:10px;color:var(--muted);margin-top:2px">Für volle rechte Seite</div>
+              </div>
+            </div>
+          </div>
+
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem">
             <input type="checkbox" id="cfg-auto-popup" style="width:18px;height:18px;cursor:pointer;accent-color:var(--g)" />
             <div>
@@ -766,6 +786,8 @@ function loadApp(){
   selectWidgetStyle(clientData.widgetStyle||'round');
   document.getElementById('cfg-widget-text').value=clientData.widgetButtonText||'Wie kann ich helfen?';
   document.getElementById('cfg-widget-text').addEventListener('input', updateAllPreviews);
+  selectedPosition = clientData.widgetPosition || 'right';
+  selectWidgetPosition(selectedPosition);
   const autoPopup=clientData.widgetAutoPopup===true;
   document.getElementById('cfg-auto-popup').checked=autoPopup;
   document.getElementById('auto-delay-wrap').style.display=autoPopup?'block':'none';
@@ -1010,9 +1032,11 @@ function updateAllPreviews(){
     container.style.cursor = 'pointer';
 
     if(wStyle==='round'){
-      container.innerHTML = `<div style="position:absolute;bottom:12px;right:12px;width:42px;height:42px;border-radius:50%;background:${selectedColor};display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,0.25);overflow:hidden;cursor:pointer">${iconHTML}</div>`;
+      const pos = selectedPosition === 'left' ? 'left:12px' : 'right:12px';
+      container.innerHTML = `<div style="position:absolute;bottom:12px;${pos};width:42px;height:42px;border-radius:50%;background:${selectedColor};display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,0.25);overflow:hidden;cursor:pointer">${iconHTML}</div>`;
     } else if(wStyle==='pill'){
-      container.innerHTML = `<div style="position:absolute;bottom:12px;right:12px;background:${selectedColor};border-radius:100px;padding:8px 14px;display:flex;align-items:center;gap:6px;box-shadow:0 4px 14px rgba(0,0,0,0.25);cursor:pointer;max-width:85%;overflow:hidden">${iconSmall}<span style="color:#fff;font-size:10px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${btnText}</span><span style="width:6px;height:6px;border-radius:50%;background:#4ade80;flex-shrink:0"></span></div>`;
+      const pos = selectedPosition === 'left' ? 'left:12px' : 'right:12px';
+      container.innerHTML = `<div style="position:absolute;bottom:12px;${pos};background:${selectedColor};border-radius:100px;padding:8px 14px;display:flex;align-items:center;gap:6px;box-shadow:0 4px 14px rgba(0,0,0,0.25);cursor:pointer;max-width:85%;overflow:hidden">${iconSmall}<span style="color:#fff;font-size:10px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${btnText}</span><span style="width:6px;height:6px;border-radius:50%;background:#4ade80;flex-shrink:0"></span></div>`;
     } else if(wStyle==='tab_disabled'){
       // For tab: hide the full-overlay container, add a real tab element
       container.style.display = 'none';
@@ -1036,6 +1060,7 @@ async function saveDesign(){
   clientData.color=selectedColor;
   clientData.widgetStyle=clientData.widgetStyle||'round';
   clientData.widgetButtonText=document.getElementById('cfg-widget-text').value||'Wie kann ich helfen?';
+  clientData.widgetPosition=selectedPosition;
   clientData.widgetAutoPopup=document.getElementById('cfg-auto-popup').checked===true;
   clientData.widgetAutoDelay=parseInt(document.getElementById('cfg-auto-delay').value)||3;
   clientData.botName=document.getElementById('cfg-botname').value;
@@ -1371,6 +1396,19 @@ async function sendPrevMsg(d) {
     typing.textContent = 'Verbindungsfehler.';
   }
   sendBtn.disabled = false;
+}
+
+// Widget position
+let selectedPosition = 'right';
+
+function selectWidgetPosition(pos) {
+  selectedPosition = pos;
+  clientData.widgetPosition = pos;
+  document.getElementById('wp-right').style.border = pos==='right' ? '2px solid var(--g)' : '1.5px solid var(--border)';
+  document.getElementById('wp-right').style.background = pos==='right' ? 'var(--gl)' : '';
+  document.getElementById('wp-left').style.border = pos==='left' ? '2px solid var(--g)' : '1.5px solid var(--border)';
+  document.getElementById('wp-left').style.background = pos==='left' ? 'var(--gl)' : '';
+  updateAllPreviews();
 }
 
 function doLogout(){location.reload();}
