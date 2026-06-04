@@ -184,6 +184,11 @@ app.post('/api/admin/login', async (req, res) => {
   if (!client || client.password !== password) {
     return res.status(401).json({ error: 'Ungültige Zugangsdaten' });
   }
+  // Track last login for retention monitoring
+  await db.collection('clients').updateOne(
+    { id: clientId },
+    { $set: { lastLogin: new Date() } }
+  );
   const { password: _, ...safe } = client;
   res.json({ success: true, client: safe });
 });
@@ -363,18 +368,26 @@ app.get('/api/superadmin/clients', async (req, res) => {
   const { password } = req.query;
   if (password !== SUPER_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
   const clients = await db.collection('clients').find({}).toArray();
-  res.json(clients.map(c => ({
-    id: c.id,
-    name: c.name,
-    industry: c.industry,
-    plan: c.plan || 'start',
-    password: c.password || '–',
-    rechnungsnr: c.rechnungsnr || '–',
-    chats: c.stats?.chats || 0,
-    messages: c.stats?.messages || 0,
-    monthlyMessages: c.stats?.monthlyMessages || 0,
-    color: c.color,
-  })));
+  const now = Date.now();
+  res.json(clients.map(c => {
+    const lastLogin = c.lastLogin ? new Date(c.lastLogin) : null;
+    const daysSinceLogin = lastLogin ? Math.floor((now - lastLogin.getTime()) / (1000*60*60*24)) : null;
+    return {
+      id: c.id,
+      name: c.name,
+      industry: c.industry,
+      plan: c.plan || 'start',
+      password: c.password || '–',
+      rechnungsnr: c.rechnungsnr || '–',
+      chats: c.stats?.chats || 0,
+      messages: c.stats?.messages || 0,
+      monthlyMessages: c.stats?.monthlyMessages || 0,
+      color: c.color,
+      lastLogin: lastLogin ? lastLogin.toISOString() : null,
+      daysSinceLogin: daysSinceLogin,
+      inactive: daysSinceLogin !== null && daysSinceLogin >= 30,
+    };
+  }));
 });
 
 app.put('/api/superadmin/client/:clientId', async (req, res) => {
@@ -416,6 +429,45 @@ app.delete('/api/superadmin/client/:clientId', async (req, res) => {
     await db.collection('clients').deleteOne({ id: req.params.clientId });
     await db.collection('conversations').deleteMany({ clientId: req.params.clientId });
     res.json({ success: true });
+  } catch(err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ── MONATS-REPORT (Retention) ─────────────────────────────
+// Liefert aufbereitete Statistiken für die monatliche Kunden-Mail
+app.get('/api/superadmin/monthly-report/:clientId', async (req, res) => {
+  const { password } = req.query;
+  if (password !== SUPER_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
+  try {
+    const client = await db.collection('clients').findOne({ id: req.params.clientId });
+    if (!client) return res.status(404).json({ error: 'Not found' });
+
+    // Gespräche der letzten 30 Tage
+    const cutoff30 = new Date(Date.now() - 30*24*60*60*1000);
+    const convs = await db.collection('conversations')
+      .find({ clientId: req.params.clientId, createdAt: { $gte: cutoff30 } })
+      .toArray();
+
+    // Nachrichten zählen + ausserhalb Geschäftszeiten (vor 9h / nach 18h)
+    let totalMessages = 0;
+    let afterHours = 0;
+    convs.forEach(c => {
+      const msgs = c.messages || [];
+      totalMessages += msgs.length;
+      const h = new Date(c.createdAt).getHours();
+      if (h < 9 || h >= 18) afterHours += msgs.length;
+    });
+
+    const report = {
+      clientName: client.name || client.id,
+      month: new Date().toLocaleDateString('de-DE', { month: 'long', year: 'numeric' }),
+      conversations: convs.length,
+      messages: totalMessages,
+      afterHours: afterHours,
+      afterHoursPercent: totalMessages > 0 ? Math.round(afterHours/totalMessages*100) : 0,
+    };
+    res.json(report);
   } catch(err) {
     res.status(500).json({ error: err.message });
   }
