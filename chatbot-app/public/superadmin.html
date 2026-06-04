@@ -226,7 +226,9 @@ async function loadClients() {
       const pct = Math.min(100, Math.round((used / limit) * 100));
       const barClass = pct >= 90 ? 'danger' : pct >= 70 ? 'warn' : '';
       return '<tr>' +
-        '<td><div style="font-weight:500">' + (c.name||c.id) + '</div><div style="font-size:11px;color:var(--muted)">' + c.id + '</div><div style="font-size:11px;color:var(--g)">' + (c.industry||'') + '</div></td>' +
+        '<td><div style="font-weight:500">' + (c.name||c.id) + '</div><div style="font-size:11px;color:var(--muted)">' + c.id + '</div><div style="font-size:11px;color:var(--g)">' + (c.industry||'') + '</div>' +
+          (c.inactive ? '<div style="display:inline-block;font-size:10px;font-weight:600;color:#DC2626;background:#FEF2F2;border:1px solid #FCA5A5;border-radius:4px;padding:2px 7px;margin-top:5px">Inaktiv seit ' + c.daysSinceLogin + ' Tagen — Anruf empfohlen</div>' : (c.daysSinceLogin !== null ? '<div style="font-size:10px;color:var(--muted);margin-top:4px">Zuletzt aktiv vor ' + c.daysSinceLogin + ' Tagen</div>' : '<div style="font-size:10px;color:var(--muted);margin-top:4px">Noch kein Login</div>')) +
+        '</td>' +
         '<td><div style="font-size:12px;font-weight:500">' + (c.rechnungsnr||'–') + '</div></td>' +
         '<td><code>' + (c.password||'–') + '</code> <button onclick="navigator.clipboard.writeText(\'' + (c.password||'') + '\');this.textContent=\'OK\';setTimeout(function(){this.textContent=\'Kopieren\';}.bind(this),1500)" style="background:none;border:1px solid var(--border);border-radius:4px;cursor:pointer;font-size:11px;padding:2px 7px;color:var(--muted)">Kopieren</button></td>' +
         '<td>' +
@@ -247,6 +249,7 @@ async function loadClients() {
         '<td><div style="display:flex;align-items:center;gap:8px"><div class="progress-wrap"><div class="progress-bar ' + barClass + '" style="width:' + pct + '%"></div></div><span style="font-size:12px;color:var(--soft)">' + used + '/' + limit + '</span></div></td>' +
         '<td style="font-size:12px;color:var(--soft)">' + (c.messages||0) + '</td>' +
         '<td style="display:flex;gap:6px;flex-wrap:wrap">' +
+          '<button class="reset-btn" onclick="genReport(\'' + c.id + '\')" style="background:#E8F8F2;color:#0F6E56;border:1px solid #1D9E75">Report</button>' +
           '<button class="reset-btn" onclick="resetMonthly(\'' + c.id + '\')">Reset</button>' +
           '<button class="del-btn" onclick="deleteClient(\'' + c.id + '\',\'' + (c.name||c.id).replace(/'/g,"\\'") + '\')">Löschen</button>' +
         '</td>' +
@@ -268,7 +271,58 @@ async function setPlan(clientId, plan) {
 }
 
 // ── RESET MONTHLY ──────────────────────────────────────────
+// ── MONATS-REPORT GENERIEREN ───────────────────────────────
+async function genReport(clientId) {
+  try {
+    const res = await fetch('/api/superadmin/monthly-report/' + clientId + '?password=' + pw);
+    const r = await res.json();
+    if (r.error) { alert('Fehler: ' + r.error); return; }
+
+    const mailText =
+'Betreff: Ihr Chatbot24 Monatsbericht – ' + r.month + '\n\n' +
+'Hallo,\n\n' +
+'hier ist Ihr persönlicher Monatsbericht für ' + r.month + ':\n\n' +
+'• ' + r.conversations + ' Gespräche geführt\n' +
+'• ' + r.messages + ' Nachrichten automatisch beantwortet\n' +
+'• ' + r.afterHours + ' davon ausserhalb Ihrer Öffnungszeiten (' + r.afterHoursPercent + '%)\n\n' +
+'Das bedeutet: Ihr Chatbot hat ' + r.afterHours + ' Anfragen beantwortet, die Sie sonst möglicherweise ' +
+'verpasst hätten – rund um die Uhr, ohne dass Sie etwas tun mussten.\n\n' +
+'Bei Fragen sind wir jederzeit für Sie da.\n\n' +
+'Beste Grüße\nLuis Krahl & Can Gündogan\nChatbot24\nchatbot24service@gmail.com\n+49 (0) 176 72455402';
+
+    // Modal anzeigen
+    let modal = document.getElementById('report-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'report-modal';
+      modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px';
+      document.body.appendChild(modal);
+    }
+    modal.innerHTML =
+      '<div style="background:#fff;border-radius:14px;padding:28px;max-width:560px;width:100%;max-height:85vh;overflow-y:auto">' +
+        '<div style="font-size:18px;font-weight:600;color:#0D1117;margin-bottom:6px">Monatsbericht – ' + r.clientName + '</div>' +
+        '<div style="font-size:13px;color:#8B95A1;margin-bottom:16px">Kopieren Sie diesen Text und senden Sie ihn per Brevo oder Gmail an den Kunden.</div>' +
+        '<textarea id="report-text" style="width:100%;height:320px;padding:14px;border:1px solid #E5E7EB;border-radius:10px;font-size:13px;font-family:monospace;line-height:1.5;resize:vertical">' + mailText + '</textarea>' +
+        '<div style="display:flex;gap:10px;margin-top:16px">' +
+          '<button onclick="copyReport()" style="flex:1;background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:500;cursor:pointer">Text kopieren</button>' +
+          '<button onclick="document.getElementById(\'report-modal\').remove()" style="background:#fff;color:#4A5568;border:1px solid #E5E7EB;border-radius:8px;padding:12px 20px;font-size:14px;cursor:pointer">Schließen</button>' +
+        '</div>' +
+      '</div>';
+  } catch(e) {
+    alert('Fehler beim Laden des Reports: ' + e.message);
+  }
+}
+
+function copyReport() {
+  const ta = document.getElementById('report-text');
+  ta.select();
+  navigator.clipboard.writeText(ta.value);
+  event.target.textContent = 'Kopiert!';
+  setTimeout(function(){ event.target.textContent = 'Text kopieren'; }, 1500);
+}
+
 async function resetMonthly(clientId) {
+  if (!confirm('Monatliche Nachrichten für ' + clientId + ' zurücksetzen?')) return;
   if (!confirm('Monatliche Nachrichten für ' + clientId + ' zurücksetzen?')) return;
   await fetch('/api/superadmin/client/' + clientId + '?password=' + pw, {
     method: 'PUT',
