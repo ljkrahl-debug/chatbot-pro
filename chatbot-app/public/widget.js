@@ -154,6 +154,9 @@
     if (activeBtn && currentStyle === 'round' && clientConfig) activeBtn.innerHTML = getIconContent(clientConfig);
   }
 
+  // Button SOFORT bauen, damit er immer erscheint (auch wenn Config-Fetch hängt/fehlschlägt)
+  buildButton(null);
+
   // Load config
   fetch(BASE + '/api/admin/' + clientId)
     .then(function(r){ return r.ok ? r.json() : {}; })
@@ -175,7 +178,6 @@
       document.getElementById('cbp-hname').textContent = 'Assistent';
       document.getElementById('cbp-avatar').textContent = 'CB';
       addMsg('Hallo! 👋 Wie kann ich Ihnen helfen?', 'bot');
-      buildButton(null);
     });
 
   function addMsg(text, type) {
