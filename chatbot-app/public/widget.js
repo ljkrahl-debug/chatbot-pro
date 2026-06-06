@@ -12,13 +12,13 @@
 
   const style = document.createElement('style');
   style.textContent = `
-    #cbp-btn-round { position:fixed; bottom:24px; ${pos}:${posVal}; width:58px; height:58px; border-radius:50%; background:${color}; border:none; cursor:pointer; box-shadow:0 4px 20px rgba(0,0,0,0.2); display:flex; align-items:center; justify-content:center; z-index:99998; transition:transform 0.2s,box-shadow 0.2s; overflow:hidden; }
+    #cbp-btn-round { position:fixed; bottom:24px; right:24px; width:58px; height:58px; border-radius:50%; background:${color}; border:none; cursor:pointer; box-shadow:0 4px 20px rgba(0,0,0,0.2); display:flex; align-items:center; justify-content:center; z-index:99998; transition:transform 0.2s,box-shadow 0.2s; overflow:hidden; }
     #cbp-btn-round:hover { transform:scale(1.1); box-shadow:0 6px 28px rgba(0,0,0,0.25); }
     #cbp-btn-round svg { width:26px; height:26px; fill:#fff; }
     #cbp-btn-round img { width:38px; height:38px; border-radius:50%; object-fit:cover; }
     #cbp-btn-round .cbp-emoji { font-size:26px; line-height:1; }
 
-    #cbp-btn-pill { position:fixed; bottom:24px; ${pos}:${posVal}; background:${color}; border:none; cursor:pointer; box-shadow:0 4px 20px rgba(0,0,0,0.2); display:flex; align-items:center; gap:10px; padding:12px 20px; border-radius:100px; z-index:99998; transition:transform 0.2s,box-shadow 0.2s; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; animation:cbp-in 0.4s ease; }
+    #cbp-btn-pill { position:fixed; bottom:24px; right:24px; background:${color}; border:none; cursor:pointer; box-shadow:0 4px 20px rgba(0,0,0,0.2); display:flex; align-items:center; gap:10px; padding:12px 20px; border-radius:100px; z-index:99998; transition:transform 0.2s,box-shadow 0.2s; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; animation:cbp-in 0.4s ease; }
     #cbp-btn-pill:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(0,0,0,0.25); }
     #cbp-btn-pill .cbp-pill-icon { font-size:20px; flex-shrink:0; display:flex; align-items:center; }
     #cbp-btn-pill .cbp-pill-icon svg { width:20px; height:20px; fill:#fff; }
@@ -34,7 +34,7 @@
     @keyframes cbp-in { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
     @keyframes cbp-pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
-    #cbp-box { position:fixed; bottom:92px; ${pos}:24px; width:360px; max-width:calc(100vw - 32px); height:520px; background:#fff; border-radius:18px; box-shadow:0 8px 40px rgba(0,0,0,0.16); display:none; flex-direction:column; z-index:99999; overflow:hidden; border:1px solid #e8e8e8; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; }
+    #cbp-box { position:fixed; bottom:92px; right:24px; width:360px; max-width:calc(100vw - 32px); height:520px; background:#fff; border-radius:18px; box-shadow:0 8px 40px rgba(0,0,0,0.16); display:none; flex-direction:column; z-index:99999; overflow:hidden; border:1px solid #e8e8e8; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; }
     #cbp-box.open { display:flex; animation:cbp-slide 0.25s ease; }
     @keyframes cbp-slide { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
     #cbp-header { background:${color}; padding:14px 16px; display:flex; align-items:center; gap:10px; }
@@ -59,7 +59,7 @@
     #cbp-send svg { width:16px; height:16px; fill:#fff; }
     #cbp-powered { text-align:center; font-size:10px; color:#ccc; padding:4px 0 6px; background:#fff; }
 
-    #cbp-bubble { position:fixed; bottom:92px; ${pos}:24px; background:#fff; border-radius:14px; box-shadow:0 4px 20px rgba(0,0,0,0.15); padding:14px 36px 14px 16px; max-width:260px; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:14px; color:#1a1a1a; line-height:1.5; z-index:99997; border:1px solid #e8e8e8; animation:cbp-slide 0.3s ease; display:none; cursor:pointer; }
+    #cbp-bubble { position:fixed; bottom:92px; right:24px; background:#fff; border-radius:14px; box-shadow:0 4px 20px rgba(0,0,0,0.15); padding:14px 36px 14px 16px; max-width:260px; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:14px; color:#1a1a1a; line-height:1.5; z-index:99997; border:1px solid #e8e8e8; animation:cbp-slide 0.3s ease; display:none; cursor:pointer; }
     #cbp-bubble-close { position:absolute; top:8px; right:10px; background:none; border:none; cursor:pointer; color:#ccc; font-size:16px; line-height:1; }
 
     @media(max-width:480px) {
@@ -74,7 +74,7 @@
       #cbp-input-row { padding:10px 12px calc(10px + env(safe-area-inset-bottom)) 12px; }
       #cbp-input { padding:11px 16px; font-size:16px; }
       #cbp-send { width:42px; height:42px; }
-      #cbp-btn-pill, #cbp-btn-round { bottom:16px; ${pos}:16px; }
+      #cbp-btn-pill, #cbp-btn-round { bottom:16px; right:16px; }
     }
     @keyframes cbp-slideup { from{opacity:0;transform:translateY(100%)} to{opacity:1;transform:translateY(0)} }
   `;
