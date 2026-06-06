@@ -1,8 +1,14 @@
 (function () {
-  const script = document.currentScript;
-  const clientId = script.getAttribute('data-id') || 'demo';
-  const color = script.getAttribute('data-color') || '#1D9E75';
-  const BASE = script.src.replace('/widget.js', '');
+  const script = document.currentScript || (function(){
+    const scripts = document.getElementsByTagName('script');
+    for (let i = scripts.length - 1; i >= 0; i--) {
+      if (scripts[i].src && scripts[i].src.indexOf('widget.js') !== -1) return scripts[i];
+    }
+    return scripts[scripts.length - 1];
+  })();
+  const clientId = (script && script.getAttribute('data-id')) || 'demo';
+  const color = (script && script.getAttribute('data-color')) || '#1D9E75';
+  const BASE = (script && script.src) ? script.src.replace('/widget.js', '') : 'https://chatbot-pro-4yx9.onrender.com';
 
   const style = document.createElement('style');
   style.textContent = `
